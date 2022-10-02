@@ -1,61 +1,47 @@
-<mat-toolbar color="primary">
-  <span>3d Printing Quoting Sheet</span>
-  <button mat-raised-button>Quote</button>
-  <button mat-raised-button>Printers</button>
-  <button mat-raised-button>Material</button>
-  <button mat-raised-button>General</button>
-</mat-toolbar>
+<header class="p-3 text-bg-dark">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
-<div class="content" role="main">
+      <span class="fs-4 me-3">3d Printing Quoting Website</span>
 
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav col-12 col-lg-auto me-auto mb-2 justify-content-center mb-md-0">
+        <li [ngbNavItem]="1" class="active">
+          <a ngbNavLink class="nav-link px-2">Home</a>
+          <ng-template ngbNavContent>
+            <home-page (currencySelectedEvent)="onCurrencySelected($event)"></home-page>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2">
+          <a ngbNavLink class="nav-link px-2">Printers</a>
+          <ng-template ngbNavContent>
+            <printer-page [selectedCurrency]="selectedCurrency"></printer-page>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3">
+          <a ngbNavLink class="nav-link px-2">Material</a>
+          <ng-template ngbNavContent>
+            <filament-page [selectedCurrency]="selectedCurrency"></filament-page>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="4">
+          <a ngbNavLink class="nav-link px-2">About</a>
+          <ng-template ngbNavContent>Fourth content</ng-template>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
 
+<div [ngbNavOutlet]="nav" class="container mt-5 mb-5 main"></div>
 
-  <mat-grid-list cols="2" rowHeight="600px">
-    <mat-grid-tile>
-      <div class="form">
-        <mat-form-field appearance="fill" >
-          <mat-label>Customer</mat-label>
-          <input matInput>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker">
-          <mat-hint>DD/MM/YYYY</mat-hint>
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Description</mat-label>
-          <input matInput>
-        </mat-form-field>
-      </div>
-
-
-    </mat-grid-tile>
-    <mat-grid-tile>
-
-      <div>
-        <h1>Part costs</h1>
-          <div>
-            <ngx-charts-pie-chart
-              [results]="saleData"
-              [legend]="false"
-              [legendTitle]="'Part costs'"
-              [labels]="true"
-              [trimLabels]="false"
-              [labelFormatting]="labelFormatting">
-            </ngx-charts-pie-chart>
-          </div>
-
-        </div>
-
-
-    </mat-grid-tile>
-  </mat-grid-list>
-
-
-
+<div class="container">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-1 mb-1">
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Printers</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Material</a></li>
+      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2022 CheeseMcBaguette, Inc</p>
+  </footer>
 </div>
-

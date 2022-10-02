@@ -12,10 +12,20 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from '@angular/material/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {FormsModule} from "@angular/forms";
+import { HomePageComponent } from './home-page/home-page.component';
+import {NgbdSortableHeader, PrinterPageComponent} from './printer-page/printer-page.component';
+import {FilamentPageComponent, FilamentSortableHeader} from './filament-page/filament-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomePageComponent,
+    PrinterPageComponent,
+    NgbdSortableHeader,
+    FilamentPageComponent,
+    FilamentSortableHeader,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +38,9 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgbModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

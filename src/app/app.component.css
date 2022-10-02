@@ -1,0 +1,13 @@
+.main {
+  min-height: 1000px;
+}
+
+.nav-link{
+  --bs-text-opacity:1;
+  color:rgba(var(--bs-white-rgb),var(--bs-text-opacity));
+}
+
+.nav-link.active {
+  --bs-text-opacity:1;
+  color:rgba(var(--bs-secondary-rgb),var(--bs-text-opacity));
+}
