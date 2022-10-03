@@ -5,4 +5,5 @@ export interface Printer {
   depreciationTime: number;
   serviceCostPerLife: number;
   energyConsumption: number;
+  depreciation: number;
 }

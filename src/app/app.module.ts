@@ -15,15 +15,17 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule} from "@angular/forms";
 import { HomePageComponent } from './home-page/home-page.component';
-import {NgbdSortableHeader, PrinterPageComponent} from './printer-page/printer-page.component';
 import {FilamentPageComponent, FilamentSortableHeader} from './filament-page/filament-page.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+import {PrinterPageComponent} from "./printer-page/printer-page.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
     PrinterPageComponent,
-    NgbdSortableHeader,
     FilamentPageComponent,
     FilamentSortableHeader,
   ],
@@ -40,7 +42,10 @@ import {FilamentPageComponent, FilamentSortableHeader} from './filament-page/fil
     MatDatepickerModule,
     MatNativeDateModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

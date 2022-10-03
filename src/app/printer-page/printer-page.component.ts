@@ -1,76 +1,29 @@
-import {Component, Directive, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
 import {Printer} from "../model/printer";
 import {PRINTERS} from "../../assets/printers-data";
-
-export type PrinterSortColumn = keyof Printer | '';
-export type PrinterSortDirection = 'asc' | 'desc' | '';
-const rotate: {[key: string]: PrinterSortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
-
-const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
-
-export interface PrinterSortEvent {
-  column: PrinterSortColumn;
-  direction: PrinterSortDirection;
-}
-
-@Directive({
-  selector: 'th[sortable]',
-  host: {
-    '[class.asc]': 'direction === "asc"',
-    '[class.desc]': 'direction === "desc"',
-    '(click)': 'rotate()'
-  }
-})
-export class NgbdSortableHeader {
-
-  @Input() sortable: PrinterSortColumn = '';
-  @Input() direction: PrinterSortDirection = '';
-  @Output() sort = new EventEmitter<PrinterSortEvent>();
-
-  rotate() {
-    this.direction = rotate[this.direction];
-    this.sort.emit({column: this.sortable, direction: this.direction});
-  }
-}
+import {MatTableDataSource} from "@angular/material/table";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'printer-page',
   templateUrl: './printer-page.component.html',
   styleUrls: ['./printer-page.component.css']
 })
-export class PrinterPageComponent implements OnInit {
-
-  printers = PRINTERS
+export class PrinterPageComponent implements AfterViewInit {
+  dataSource: MatTableDataSource<Printer>;
+  displayedColumns: string[] = ['name', 'materialDiameter', 'price', 'depreciationTime', 'serviceCostPerLife', 'energyConsumption', 'depreciation'];
 
   @Input()
   selectedCurrency: string | undefined;
 
-  @ViewChildren(NgbdSortableHeader)
-  headers!: QueryList<NgbdSortableHeader>;
+  @ViewChild(MatSort) sort = new MatSort ;
 
-  onSort({column, direction}: PrinterSortEvent) {
-
-    // resetting other headers
-    this.headers.forEach(header => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-
-    // sorting printers
-    if (direction === '' || column === '') {
-      this.printers = PRINTERS;
-    } else {
-      this.printers = [...PRINTERS].sort((a, b) => {
-        const res = compare(a[column], b[column]);
-        return direction === 'asc' ? res : -res;
-      });
-    }
+  constructor() {
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(PRINTERS);
   }
 
-  constructor() { }
-
-  ngOnInit(): void {
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
   }
-
 }
