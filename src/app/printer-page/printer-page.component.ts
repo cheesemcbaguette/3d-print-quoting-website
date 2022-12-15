@@ -3,6 +3,7 @@ import {Printer} from "../model/printer";
 import {PRINTERS} from "../../assets/printers-data";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'printer-page',
@@ -18,12 +19,23 @@ export class PrinterPageComponent implements AfterViewInit {
 
   @ViewChild(MatSort) sort = new MatSort ;
 
-  constructor() {
+  constructor(private modalService: NgbModal) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(PRINTERS);
   }
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+  }
+
+  open(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+      (result) => {
+
+      },
+      (reason) => {
+
+      },
+    );
   }
 }

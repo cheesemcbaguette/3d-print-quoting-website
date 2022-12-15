@@ -112,6 +112,8 @@ export class HomePageComponent implements OnInit {
   }
 
 
+
+
   labelFormatting(name: string) { // this name will contain the name you defined in chartData[]
     let self: any = this; // this "this" will refer to the chart component (pun intented :))
 
