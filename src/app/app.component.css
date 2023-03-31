@@ -11,3 +11,9 @@
   --bs-text-opacity:1;
   color:rgba(var(--bs-secondary-rgb),var(--bs-text-opacity));
 }
+
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}

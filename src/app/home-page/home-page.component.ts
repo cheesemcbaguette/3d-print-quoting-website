@@ -96,6 +96,9 @@ export class HomePageComponent implements OnInit {
 
   selectedCurrency = "€";
 
+  labelClass = "col-sm-6 col-form-label"
+  inputDivClass = "col-sm-6"
+
   constructor(private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) {}
 
   ngOnInit(): void {

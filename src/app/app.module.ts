@@ -20,6 +20,11 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {PrinterPageComponent} from "./printer-page/printer-page.component";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatIconModule} from "@angular/material/icon";
+import {MatListModule} from "@angular/material/list";
+import {RouterLinkWithHref} from "@angular/router";
+import {MatMenuModule} from "@angular/material/menu";
 
 @NgModule({
   declarations: [
@@ -45,7 +50,12 @@ import {PrinterPageComponent} from "./printer-page/printer-page.component";
     FormsModule,
     MatPaginatorModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    RouterLinkWithHref,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

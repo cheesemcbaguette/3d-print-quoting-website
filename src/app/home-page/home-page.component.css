@@ -7,3 +7,15 @@ button.calendar, button.calendar:active {
   background-size: 23px;
   background-position: center;
 }
+
+.preparation-miscellaneous-height {
+  height: 270px;
+}
+
+.costs-quote-height {
+  height: 580px;
+}
+
+.customer-general-print-details-height {
+  height: 180px;
+}
