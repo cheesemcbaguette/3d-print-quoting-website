@@ -12,7 +12,9 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class PrinterPageComponent implements AfterViewInit {
   dataSource: MatTableDataSource<Printer>;
-  displayedColumns: string[] = ['name', 'materialDiameter', 'price', 'depreciationTime', 'serviceCostPerLife', 'energyConsumption', 'depreciation'];
+  displayedColumns: string[] = ['name', 'materialDiameter', 'price', 'depreciationTime', 'serviceCostPerLife', 'energyConsumption', 'depreciation', 'actions'];
+
+  rowToDeleteIndex: number | undefined;
 
   @Input()
   selectedCurrency: string | undefined;
@@ -32,8 +34,20 @@ export class PrinterPageComponent implements AfterViewInit {
     this.printerAddedEvent.emit(this.dataSource.data)
   }
 
-  open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
+  open(content: any, title: string) {
+    this.modalService.open(content, { ariaLabelledBy: title }).result.then(
+      (result) => {
+
+      },
+      (reason) => {
+
+      },
+    );
+  }
+
+  openDeleteModal(content: any, index: number, title: string) {
+    this.rowToDeleteIndex = index;
+    this.modalService.open(content, { ariaLabelledBy: title }).result.then(
       (result) => {
 
       },
@@ -57,6 +71,14 @@ export class PrinterPageComponent implements AfterViewInit {
     const newData = [ ...this.dataSource.data ];
     newData.push(newPrinter);
     this.dataSource.data = newData;
+
+    this.printerAddedEvent.emit(this.dataSource.data)
+
+    this.modalService.dismissAll();
+  }
+
+  deletePrinterToTable() {
+    this.dataSource.data = this.dataSource.data.filter((item, index) => index !== this.rowToDeleteIndex);
 
     this.printerAddedEvent.emit(this.dataSource.data)
 
