@@ -47,14 +47,7 @@ export class PrinterPageComponent implements AfterViewInit {
 
   openDeleteModal(content: any, index: number, title: string) {
     this.rowToDeleteIndex = index;
-    this.modalService.open(content, { ariaLabelledBy: title }).result.then(
-      (result) => {
-
-      },
-      (reason) => {
-
-      },
-    );
+    open(content, title);
   }
 
   addNewPrinterToTable(printerName: string, filamentDiameterSelect: string, printerPrice: string,
