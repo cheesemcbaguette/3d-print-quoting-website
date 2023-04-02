@@ -11,7 +11,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./printer-page.component.css']
 })
 export class PrinterPageComponent implements AfterViewInit {
-  dataSource: MatTableDataSource<Printer>;
+  dataSource: MatTableDataSource<Printer> | undefined;
   displayedColumns: string[] = ['name', 'materialDiameter', 'price', 'depreciationTime', 'serviceCostPerLife', 'energyConsumption', 'depreciation', 'actions'];
 
   rowToDeleteIndex: number | undefined;
@@ -29,12 +29,12 @@ export class PrinterPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-
-    this.printerAddedEvent.emit(this.dataSource.data)
+    if(this.dataSource) {
+      this.dataSource.sort = this.sort;
+    }
   }
 
-  open(content: any, title: string) {
+  openModal(content: any, title: string) {
     this.modalService.open(content, { ariaLabelledBy: title }).result.then(
       (result) => {
 
@@ -47,7 +47,7 @@ export class PrinterPageComponent implements AfterViewInit {
 
   openDeleteModal(content: any, index: number, title: string) {
     this.rowToDeleteIndex = index;
-    open(content, title);
+    this.openModal(content, title);
   }
 
   addNewPrinterToTable(printerName: string, filamentDiameterSelect: string, printerPrice: string,
@@ -61,19 +61,24 @@ export class PrinterPageComponent implements AfterViewInit {
 
     let newPrinter : Printer = {name: printerName, materialDiameter: filamentDiameter, price: price, depreciationTime: depreciationTime, serviceCostPerLife: serviceCost, energyConsumption, depreciation};
 
-    const newData = [ ...this.dataSource.data ];
-    newData.push(newPrinter);
-    this.dataSource.data = newData;
+    if(this.dataSource) {
+      const newData = [ ...this.dataSource.data ];
+      newData.push(newPrinter);
+      this.dataSource.data = newData;
 
-    this.printerAddedEvent.emit(this.dataSource.data)
+      this.printerAddedEvent.emit(this.dataSource.data)
+    }
+
 
     this.modalService.dismissAll();
   }
 
   deletePrinterToTable() {
-    this.dataSource.data = this.dataSource.data.filter((item, index) => index !== this.rowToDeleteIndex);
+    if(this.dataSource) {
+      this.dataSource.data = this.dataSource.data.filter((item, index) => index !== this.rowToDeleteIndex);
 
-    this.printerAddedEvent.emit(this.dataSource.data)
+      this.printerAddedEvent.emit(this.dataSource.data)
+    }
 
     this.modalService.dismissAll();
   }

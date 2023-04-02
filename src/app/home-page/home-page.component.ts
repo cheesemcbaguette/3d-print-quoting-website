@@ -1,4 +1,15 @@
-import {Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterViewInit, ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Injectable,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 import {Printer} from "../model/printer";
 
@@ -69,7 +80,6 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css'],
 
-
   // NOTE: For this example we are only providing current component, but probably
   // NOTE: you will want to provide your main App Module
   providers: [
@@ -77,14 +87,14 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter}
   ]
 })
-export class HomePageComponent implements OnInit {
+export class HomePageComponent implements OnInit, AfterViewInit  {
 
   @ViewChild('currencySelect') currencySelect!: ElementRef;
 
   @Output() currencySelectedEvent = new EventEmitter<string>();
 
   @Input()
-  printers: Printer[];
+  printers: Printer[] | undefined;
 
   saleData = [
     { name: "Preparation", value: 21.4 },
@@ -103,12 +113,15 @@ export class HomePageComponent implements OnInit {
   labelClass = "col-sm-6 col-form-label"
   inputDivClass = "col-sm-6"
 
-  constructor(private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) {
-    this.printers = [];
+  constructor(private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>, private ref: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
     this.currencySelectedEvent.emit(this.selectedCurrency)
+  }
+
+  ngAfterViewInit(): void {
+    this.ref.detectChanges();
   }
 
   get today() {
@@ -119,9 +132,6 @@ export class HomePageComponent implements OnInit {
     this.currencySelectedEvent.emit(this.selectedCurrency)
     console.log(this.selectedCurrency);
   }
-
-
-
 
   labelFormatting(name: string) { // this name will contain the name you defined in chartData[]
     let self: any = this; // this "this" will refer to the chart component (pun intented :))

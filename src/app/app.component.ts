@@ -15,7 +15,7 @@ export class AppComponent {
 
   selectedCurrency = "";
 
-  printers: Printer[] = [];
+  printers: Printer[] = PRINTERS;
 
   constructor() { }
 
