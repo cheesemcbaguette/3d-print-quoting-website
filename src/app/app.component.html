@@ -8,13 +8,13 @@
         <li [ngbNavItem]="1" class="active">
           <a ngbNavLink class="nav-link px-2">Home</a>
           <ng-template ngbNavContent>
-            <home-page (currencySelectedEvent)="onCurrencySelected($event)"></home-page>
+            <home-page (currencySelectedEvent)="onCurrencySelected($event)" [printers]="printers"></home-page>
           </ng-template>
         </li>
         <li [ngbNavItem]="2">
           <a ngbNavLink class="nav-link px-2">Printers</a>
           <ng-template ngbNavContent>
-            <printer-page [selectedCurrency]="selectedCurrency"></printer-page>
+            <printer-page (printerAddedEvent)="onPrinterAdded($event)"  [selectedCurrency]="selectedCurrency"></printer-page>
           </ng-template>
         </li>
         <li [ngbNavItem]="3">

@@ -9,43 +9,43 @@
 
         <!-- Name Column -->
         <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="name"> Name </th>
           <td mat-cell *matCellDef="let row"> {{row.name}} </td>
         </ng-container>
 
         <!-- Material Diameter Column -->
         <ng-container matColumnDef="materialDiameter">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Material Diameter [mm] </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="materialDiameter"> Material Diameter [mm] </th>
           <td mat-cell *matCellDef="let row"> {{row.materialDiameter}} </td>
         </ng-container>
 
         <!-- Printer Price Column -->
         <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Price [{{selectedCurrency}}] </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="price"> Price [{{selectedCurrency}}] </th>
           <td mat-cell *matCellDef="let row"> {{row.price}} </td>
         </ng-container>
 
         <!-- Depreciation Time Column -->
         <ng-container matColumnDef="depreciationTime">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Depreciation Time [h] </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="depreciationTime"> Depreciation Time [h] </th>
           <td mat-cell *matCellDef="let row"> {{row.depreciationTime}} </td>
         </ng-container>
 
         <!-- Service costs per life Column -->
         <ng-container matColumnDef="serviceCostPerLife">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Service costs per life [{{selectedCurrency}}] </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="serviceCostPerLife"> Service costs per life [{{selectedCurrency}}] </th>
           <td mat-cell *matCellDef="let row"> {{row.serviceCostPerLife}} </td>
         </ng-container>
 
         <!-- Energy consumption Column -->
         <ng-container matColumnDef="energyConsumption">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Energy Consumption [kWh/h] </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="energyConsumption"> Energy Consumption [kWh/h] </th>
           <td mat-cell *matCellDef="let row"> {{row.energyConsumption | number : '1.3-3'}} </td>
         </ng-container>
 
         <!-- Depreciation Column {{(row.price + row.serviceCostPerLife) / row.depreciationTime | number  }}-->
         <ng-container matColumnDef="depreciation">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Depreciation [{{selectedCurrency}}/h]</th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="depreciation"> Depreciation [{{selectedCurrency}}/h]</th>
           <td mat-cell *matCellDef="let row"> {{row.depreciation | number : '1.3-3' }} </td>
         </ng-container>
 
@@ -72,7 +72,7 @@
         <label for="printerName" class="col-sm-5 col-form-label">Name</label>
 
         <div class="col-sm-7">
-          <input type="text" class="form-control" id="printerName" placeholder="Steve" data-form-type="name" maxlength="50">
+          <input type="text" class="form-control" id="printerName" placeholder="Steve" data-form-type="name" maxlength="50" #printerName>
         </div>
       </div>
 
@@ -93,7 +93,7 @@
 
         <div class="col-sm-7">
           <div class="input-group">
-            <input type="number" class="form-control" id="printerPrice" placeholder="0" data-form-type="printerPrice">
+            <input type="number" class="form-control" id="printerPrice" placeholder="0" data-form-type="printerPrice" #printerPrice>
             <span class="input-group-text" id="basic-addon-printerPrice" [innerText]="selectedCurrency"></span>
           </div>
         </div>
@@ -104,7 +104,7 @@
 
         <div class="col-sm-7">
           <div class="input-group">
-            <input type="number" class="form-control" id="printerDepreciationTime" placeholder="0" data-form-type="printerDepreciationTime">
+            <input type="number" class="form-control" id="printerDepreciationTime" placeholder="0" data-form-type="printerDepreciationTime" #printerDepreciationTime>
             <span class="input-group-text" id="basic-addon-printerDepreciationTime">hours</span>
           </div>
         </div>
@@ -115,7 +115,7 @@
 
         <div class="col-sm-7">
           <div class="input-group">
-            <input type="number" class="form-control" id="printerServiceCost" placeholder="0" data-form-type="printerServiceCost">
+            <input type="number" class="form-control" id="printerServiceCost" placeholder="0" data-form-type="printerServiceCost" #printerServiceCost>
             <span class="input-group-text" id="basic-addon-printerServiceCost" [innerText]="selectedCurrency"></span>
           </div>
         </div>
@@ -126,7 +126,7 @@
 
         <div class="col-sm-7">
           <div class="input-group">
-            <input type="number" class="form-control" id="printerEnergyConsumption" placeholder="0" data-form-type="printerServiceCost">
+            <input type="number" class="form-control" id="printerEnergyConsumption" placeholder="0" data-form-type="printerEnergyConsumption" #printerEnergyConsumption>
             <span class="input-group-text" id="basic-addon-printerEnergyConsumption">kWh/h</span>
           </div>
         </div>
@@ -134,7 +134,12 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Cancel</button>
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Add</button>
+    <button mat-raised-button class="demo-button m-1" (click)="modal.close('Save click')">
+      Cancel
+    </button>
+    <button mat-raised-button class="demo-button m-1" (click)="addNewPrinterToTable(printerName.value, filamentDiameterSelect.value, printerPrice.value,
+    printerDepreciationTime.value, printerServiceCost.value, printerEnergyConsumption.value)">
+      Add
+    </button>
   </div>
 </ng-template>

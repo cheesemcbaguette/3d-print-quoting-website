@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {Printer} from "../model/printer";
 import {PRINTERS} from "../../assets/printers-data";
 import {MatTableDataSource} from "@angular/material/table";
@@ -17,6 +17,8 @@ export class PrinterPageComponent implements AfterViewInit {
   @Input()
   selectedCurrency: string | undefined;
 
+  @Output() printerAddedEvent = new EventEmitter<Printer[]>();
+
   @ViewChild(MatSort) sort = new MatSort ;
 
   constructor(private modalService: NgbModal) {
@@ -26,6 +28,8 @@ export class PrinterPageComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+
+    this.printerAddedEvent.emit(this.dataSource.data)
   }
 
   open(content: any) {
@@ -37,5 +41,25 @@ export class PrinterPageComponent implements AfterViewInit {
 
       },
     );
+  }
+
+  addNewPrinterToTable(printerName: string, filamentDiameterSelect: string, printerPrice: string,
+                       printerDepreciationTime: string, printerServiceCost: string, printerEnergyConsumption: string) {
+    const price = Number(printerPrice);
+    const serviceCost = Number(printerServiceCost);
+    const depreciationTime = Number(printerDepreciationTime);
+    const filamentDiameter = Number(filamentDiameterSelect);
+    const energyConsumption = Number(printerEnergyConsumption);
+    const depreciation = (price + serviceCost) / depreciationTime;
+
+    let newPrinter : Printer = {name: printerName, materialDiameter: filamentDiameter, price: price, depreciationTime: depreciationTime, serviceCostPerLife: serviceCost, energyConsumption, depreciation};
+
+    const newData = [ ...this.dataSource.data ];
+    newData.push(newPrinter);
+    this.dataSource.data = newData;
+
+    this.printerAddedEvent.emit(this.dataSource.data)
+
+    this.modalService.dismissAll();
   }
 }

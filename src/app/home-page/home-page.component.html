@@ -194,7 +194,14 @@
                   <label for="selectPrinter" class={{labelClass}}>Printer</label>
 
                   <div class={{inputDivClass}}>
-                    <input type="text" class="form-control" id="selectPrinter" placeholder="Prusa i3 MK3S" data-form-type="printer">
+                    <select class="form-select" id="selectPrinter"
+                            aria-label="Printer select" name="first">
+                      <option value="">Please select a printer</option>
+                      <option *ngFor="let printer of printers; let i = index" [value]="printers[i].name">
+                        {{printers[i].name}}
+                      </option>
+                    </select>
+<!--                    <input type="text" class="form-control" id="selectPrinter" placeholder="Prusa i3 MK3S" data-form-type="printer">-->
                   </div>
                 </div>
                 <div class="row mb-2">

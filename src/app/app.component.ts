@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {PRINTERS} from "../assets/printers-data";
+import {Printer} from "./model/printer";
 
 
 @Component({
@@ -13,10 +15,16 @@ export class AppComponent {
 
   selectedCurrency = "";
 
+  printers: Printer[] = [];
+
   constructor() { }
 
   onCurrencySelected(currency: string) {
     this.selectedCurrency = currency;
     console.log(currency);
+  }
+
+  onPrinterAdded(newPrinters: Printer[]) {
+    this.printers = newPrinters;
   }
 }

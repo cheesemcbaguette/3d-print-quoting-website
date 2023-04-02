@@ -1,5 +1,6 @@
-import {Component, ElementRef, EventEmitter, Injectable, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
+import {Printer} from "../model/printer";
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -82,6 +83,9 @@ export class HomePageComponent implements OnInit {
 
   @Output() currencySelectedEvent = new EventEmitter<string>();
 
+  @Input()
+  printers: Printer[];
+
   saleData = [
     { name: "Preparation", value: 21.4 },
     { name: "Filament", value: 34.5 },
@@ -99,7 +103,9 @@ export class HomePageComponent implements OnInit {
   labelClass = "col-sm-6 col-form-label"
   inputDivClass = "col-sm-6"
 
-  constructor(private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) {}
+  constructor(private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>) {
+    this.printers = [];
+  }
 
   ngOnInit(): void {
     this.currencySelectedEvent.emit(this.selectedCurrency)
