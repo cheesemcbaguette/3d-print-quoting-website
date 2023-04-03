@@ -11,9 +11,9 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatNativeDateModule} from '@angular/material/core';
+import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HomePageComponent } from './home-page/home-page.component';
 import {FilamentPageComponent, FilamentSortableHeader} from './filament-page/filament-page.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -25,6 +25,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
 import {RouterLinkWithHref} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
+import { AddPrinterDialogComponent } from './dialogs/add-printer-dialog/add-printer-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import {MatMenuModule} from "@angular/material/menu";
     PrinterPageComponent,
     FilamentPageComponent,
     FilamentSortableHeader,
+    AddPrinterDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +59,11 @@ import {MatMenuModule} from "@angular/material/menu";
     MatIconModule,
     MatListModule,
     RouterLinkWithHref,
-    MatMenuModule
+    MatMenuModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
