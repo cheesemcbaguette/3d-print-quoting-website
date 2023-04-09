@@ -40,6 +40,7 @@
       <mat-label>Depreciation time</mat-label>
       <input type="number" matInput [formControl]="addPrinterForm.controls.depreciationTimeFormControl" [errorStateMatcher]="matcher" required maxlength="10">
       <span matSuffix>hours</span>
+      <mat-hint> How many hours the printer should run before being unusable </mat-hint>
       <mat-error *ngIf="addPrinterForm.controls.depreciationTimeFormControl.hasError('required')">
         Depreciation time is <strong>required</strong>
       </mat-error>
@@ -51,6 +52,7 @@
       <mat-label>Service cost per life</mat-label>
       <input type="number" matInput [formControl]="addPrinterForm.controls.serviceCostPerLifeFormControl" [errorStateMatcher]="matcher" required maxlength="10">
       <span matSuffix>{{data.currency}}</span>
+      <mat-hint> How much it would cost to fix the printer (spare parts and labor, 10-25% of the printer price is usually a good estimation) </mat-hint>
       <mat-error *ngIf="addPrinterForm.controls.serviceCostPerLifeFormControl.hasError('required')">
         Service cost per life is <strong>required</strong>
       </mat-error>
@@ -62,7 +64,7 @@
       <mat-label>Energy consumption</mat-label>
       <input type="number" matInput [formControl]="addPrinterForm.controls.energyConsumptionFormControl" [errorStateMatcher]="matcher" required maxlength="10" placeholder="0">
       <span matSuffix>kWh/h</span>
-      <mat-hint> Hint </mat-hint>
+      <mat-hint> How much energy does the printer consume during printing </mat-hint>
       <mat-error *ngIf="addPrinterForm.controls.energyConsumptionFormControl.hasError('required')">
         Energy consumption is <strong>required</strong>
       </mat-error>
