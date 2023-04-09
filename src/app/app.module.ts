@@ -15,7 +15,7 @@ import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { HomePageComponent } from './home-page/home-page.component';
-import {FilamentPageComponent, FilamentSortableHeader} from './filament-page/filament-page.component';
+import {FilamentPageComponent} from './filament-page/filament-page.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
@@ -37,7 +37,6 @@ import { DeletePrinterDialogComponent } from './dialogs/delete-printer-dialog/de
     HomePageComponent,
     PrinterPageComponent,
     FilamentPageComponent,
-    FilamentSortableHeader,
     AddPrinterDialogComponent,
     EditPrinterDialogComponent,
     DeletePrinterDialogComponent,

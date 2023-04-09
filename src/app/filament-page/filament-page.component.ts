@@ -1,77 +1,35 @@
-import {Component, Directive, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 
 import {Filament} from "../model/filament";
 import {FILAMENTS} from "../../assets/filaments-data";
-
-export type FilamentSortColumn = keyof Filament | '';
-export type FilamentSortDirection = 'asc' | 'desc' | '';
-const rotate: {[key: string]: FilamentSortDirection} = { 'asc': 'desc', 'desc': '', '': 'asc' };
-
-const compare = (v1: string | number, v2: string | number) => v1 < v2 ? -1 : v1 > v2 ? 1 : 0;
-
-export interface FilamentSortEvent {
-  column: FilamentSortColumn;
-  direction: FilamentSortDirection;
-}
-
-@Directive({
-  selector: 'th[sortableF]',
-  host: {
-    '[class.asc]': 'directionF === "asc"',
-    '[class.desc]': 'directionF === "desc"',
-    '(click)': 'rotate()'
-  }
-})
-export class FilamentSortableHeader {
-
-  @Input() sortableF: FilamentSortColumn = '';
-  @Input() directionF: FilamentSortDirection = '';
-  @Output() sortFilament = new EventEmitter<FilamentSortEvent>();
-
-  rotate() {
-    this.directionF = rotate[this.directionF];
-    this.sortFilament.emit({column: this.sortableF, direction: this.directionF});
-  }
-}
+import {MatTableDataSource} from "@angular/material/table";
+import {MatSort} from "@angular/material/sort";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'filament-page',
   templateUrl: './filament-page.component.html',
   styleUrls: ['./filament-page.component.css']
 })
-export class FilamentPageComponent implements OnInit {
-
-  filaments = FILAMENTS
-
-  @ViewChildren(FilamentSortableHeader)
-  headers!: QueryList<FilamentSortableHeader>;
+export class FilamentPageComponent implements AfterViewInit {
+  dataSource!: MatTableDataSource<Filament>;
+  displayedColumns: string[] = ['manufacturer', 'materialDiameter', 'spoolPrice', 'spoolSize', 'density', 'nozzleTemp', 'bedTemp', 'actions'];
 
   @Input()
   selectedCurrency: string | undefined;
 
-  onSortFilament({column, direction}: FilamentSortEvent) {
+  @Output() filamentAddedEvent = new EventEmitter<Filament[]>();
 
-    // resetting other headers
-    this.headers.forEach(header => {
-      if (header.sortableF !== column) {
-        header.directionF = '';
-      }
-    });
+  @ViewChild(MatSort) sort = new MatSort ;
 
-    // sorting filaments
-    if (direction === '' || column === '') {
-      this.filaments = FILAMENTS;
-    } else {
-      this.filaments = [...FILAMENTS].sort((a, b) => {
-        const res = compare(a[column], b[column]);
-        return direction === 'asc' ? res : -res;
-      });
+  constructor(private dialog: MatDialog) {
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(FILAMENTS);
+  }
+
+  ngAfterViewInit(): void {
+    if(this.dataSource) {
+      this.dataSource.sort = this.sort;
     }
   }
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

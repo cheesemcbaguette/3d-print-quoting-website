@@ -3,7 +3,6 @@ import {Printer} from "../model/printer";
 import {PRINTERS} from "../../assets/printers-data";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {MatDialog} from "@angular/material/dialog";
 import {AddPrinterDialogComponent} from "../dialogs/add-printer-dialog/add-printer-dialog.component";
 import {EditPrinterDialogComponent} from "../dialogs/edit-printer-dialog/edit-printer-dialog.component";
@@ -25,7 +24,7 @@ export class PrinterPageComponent implements AfterViewInit {
 
   @ViewChild(MatSort) sort = new MatSort ;
 
-  constructor(private modalService: NgbModal, private dialog: MatDialog) {
+  constructor(private dialog: MatDialog) {
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(PRINTERS);
   }
