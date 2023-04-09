@@ -59,9 +59,13 @@ export class PrinterPageComponent implements AfterViewInit {
       data: { currency: this.selectedCurrency },
     });
     dialog.afterClosed()
-      .subscribe(selection => {
-        if (selection) {
-          // this.selectedEmoji = selection;
+      .subscribe(newPrinter => {
+        if (newPrinter && this.dataSource) {
+            const newData = [ ...this.dataSource.data ];
+            newData.push(newPrinter);
+            this.dataSource.data = newData;
+
+            this.printerAddedEvent.emit(this.dataSource.data)
         } else {
           // User clicked 'Cancel' or clicked outside the dialog
         }
@@ -97,29 +101,6 @@ export class PrinterPageComponent implements AfterViewInit {
     this.editPrinterDepreciationTime.nativeElement.value = printer.depreciationTime;
     this.editPrinterServiceCost.nativeElement.value = printer.serviceCostPerLife;
     this.editPrinterEnergyConsumption.nativeElement.value = printer.energyConsumption;
-  }
-
-  addNewPrinterToTable(printerName: string, filamentDiameterSelect: string, printerPrice: string,
-                       printerDepreciationTime: string, printerServiceCost: string, printerEnergyConsumption: string) {
-    const price = Number(printerPrice);
-    const serviceCost = Number(printerServiceCost);
-    const depreciationTime = Number(printerDepreciationTime);
-    const filamentDiameter = Number(filamentDiameterSelect);
-    const energyConsumption = Number(printerEnergyConsumption);
-    const depreciation = (price + serviceCost) / depreciationTime;
-
-    let newPrinter : Printer = {name: printerName, materialDiameter: filamentDiameter, price: price, depreciationTime: depreciationTime, serviceCostPerLife: serviceCost, energyConsumption, depreciation};
-
-    if(this.dataSource) {
-      const newData = [ ...this.dataSource.data ];
-      newData.push(newPrinter);
-      this.dataSource.data = newData;
-
-      this.printerAddedEvent.emit(this.dataSource.data)
-    }
-
-
-    this.modalService.dismissAll();
   }
 
   deletePrinterToTable() {

@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 .main {
   min-height: 1000px;
 }
@@ -7,9 +9,10 @@
   color:rgba(var(--bs-white-rgb),var(--bs-text-opacity));
 }
 
-.nav-link.active {
+.header-nav .nav-link.active {
   --bs-text-opacity:1;
-  color:rgba(var(--bs-secondary-rgb),var(--bs-text-opacity));
+  //color:rgba(var(--bs-secondary-rgb),var(--bs-text-opacity));
+  background: rgba(0,0,0,.2);
 }
 
 .fill-remaining-space {

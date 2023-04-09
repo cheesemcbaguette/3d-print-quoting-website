@@ -1,6 +1,6 @@
 <div class="row g-5">
   <div class="col-lg-12">
-    <button mat-raised-button class="demo-button mb-2 col-md-2" (click)="openAddPrinterDialog()">
+    <button mat-raised-button color="primary" class="demo-button mb-2 col-md-2" (click)="openAddPrinterDialog()">
       Add printer
     </button>
 
@@ -73,89 +73,6 @@
     </div>
   </div>
 </div>
-
-<ng-template #addPrinterTemplate let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-addPrinter-title">Add printer</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="row mb-2">
-        <label for="addPrinterName" class="col-sm-5 col-form-label">Name</label>
-
-        <div class="col-sm-7">
-          <input type="text" class="form-control" id="addPrinterName" placeholder="Steve" data-form-type="name" maxlength="50" #addPrinterName>
-        </div>
-      </div>
-
-      <div class="row mb-2">
-        <label for="addPrinterFilamentDiameterSelect" class="col-sm-5 col-form-label">Filament diameter</label>
-
-        <div class="col-sm-7">
-          <select class="form-select" #addPrinterFilamentDiameterSelect id="addPrinterFilamentDiameterSelect"
-                  aria-label="Filament diameter select" name="first">
-            <option value="1.75">1.75mm</option>
-            <option value="2.85">2.85mm</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="row mb-2">
-        <label for="addPrinterPrice" class="col-sm-5 col-form-label">Price</label>
-
-        <div class="col-sm-7">
-          <div class="input-group">
-            <input type="number" class="form-control" id="addPrinterPrice" placeholder="0" data-form-type="printerPrice" #addPrinterPrice>
-            <span class="input-group-text" id="basic-addon-addPrinterPrice" [innerText]="selectedCurrency"></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mb-2">
-        <label for="addPrinterDepreciationTime" class="col-sm-5 col-form-label">Depreciation time</label>
-
-        <div class="col-sm-7">
-          <div class="input-group">
-            <input type="number" class="form-control" id="addPrinterDepreciationTime" placeholder="0" data-form-type="printerDepreciationTime" #addPrinterDepreciationTime>
-            <span class="input-group-text" id="basic-addon-addPrinterDepreciationTime">hours</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mb-2">
-        <label for="addPrinterServiceCost" class="col-sm-5 col-form-label">Service cost per life</label>
-
-        <div class="col-sm-7">
-          <div class="input-group">
-            <input type="number" class="form-control" id="addPrinterServiceCost" placeholder="0" data-form-type="printerServiceCost" #addPrinterServiceCost>
-            <span class="input-group-text" id="basic-addon-addPrinterServiceCost" [innerText]="selectedCurrency"></span>
-          </div>
-        </div>
-      </div>
-
-      <div class="row mb-2">
-        <label for="addPrinterEnergyConsumption" class="col-sm-5 col-form-label">Energy consumption</label>
-
-        <div class="col-sm-7">
-          <div class="input-group">
-            <input type="number" class="form-control" id="addPrinterEnergyConsumption" placeholder="0" data-form-type="printerEnergyConsumption" #addPrinterEnergyConsumption>
-            <span class="input-group-text" id="basic-addon-addPrinterEnergyConsumption">kWh/h</span>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button mat-raised-button class="demo-button m-1" (click)="modal.close('Save click')">
-      Cancel
-    </button>
-    <button mat-raised-button class="demo-button m-1" (click)="addNewPrinterToTable(addPrinterName.value, addPrinterFilamentDiameterSelect.value, addPrinterPrice.value,
-    addPrinterDepreciationTime.value, addPrinterServiceCost.value, addPrinterEnergyConsumption.value)">
-      Add
-    </button>
-  </div>
-</ng-template>
 
 <ng-template #editPrinterTemplate let-modal>
   <div class="modal-header">
@@ -233,8 +150,7 @@
     <button mat-raised-button class="demo-button m-1" (click)="modal.close('Save click')">
       Cancel
     </button>
-    <button mat-raised-button class="demo-button m-1" (click)="addNewPrinterToTable(editPrinterName.value, editPrinterFilamentDiameterSelect.value, editPrinterPrice.value,
-    editPrinterDepreciationTime.value, editPrinterServiceCost.value, editPrinterEnergyConsumption.value)">
+    <button mat-raised-button class="demo-button m-1">
       Add
     </button>
   </div>
