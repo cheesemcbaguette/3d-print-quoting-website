@@ -1,21 +1,13 @@
-import {
-  AfterViewInit,
-  Component,
-  ContentChild,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild
-} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {Printer} from "../model/printer";
 import {PRINTERS} from "../../assets/printers-data";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {DialogPosition, MatDialog} from "@angular/material/dialog";
+import {MatDialog} from "@angular/material/dialog";
 import {AddPrinterDialogComponent} from "../dialogs/add-printer-dialog/add-printer-dialog.component";
 import {EditPrinterDialogComponent} from "../dialogs/edit-printer-dialog/edit-printer-dialog.component";
+import {DeletePrinterDialogComponent} from "../dialogs/delete-printer-dialog/delete-printer-dialog.component";
 
 @Component({
   selector: 'printer-page',
@@ -25,8 +17,6 @@ import {EditPrinterDialogComponent} from "../dialogs/edit-printer-dialog/edit-pr
 export class PrinterPageComponent implements AfterViewInit {
   dataSource!: MatTableDataSource<Printer>;
   displayedColumns: string[] = ['name', 'materialDiameter', 'price', 'depreciationTime', 'serviceCostPerLife', 'energyConsumption', 'depreciation', 'actions'];
-
-  rowToDeleteIndex: number | undefined;
 
   @Input()
   selectedCurrency: string | undefined;
@@ -86,29 +76,18 @@ export class PrinterPageComponent implements AfterViewInit {
       });
   }
 
-  openModal(content: any, title: string) {
-    this.modalService.open(content, { ariaLabelledBy: title }).result.then(
-      (result) => {
+  openDeletePrinterDialog(index: number) {
 
-      },
-      (reason) => {
+    let dialog = this.dialog.open(DeletePrinterDialogComponent, {data: {printerName: this.dataSource.data[index].name}});
+    dialog.afterClosed()
+      .subscribe(doDelete => {
+        if (doDelete) {
+          this.dataSource.data = this.dataSource.data.filter((item, datasourceIndex) => datasourceIndex !== index);
 
-      },
-    );
-  }
-
-  openDeleteModal(content: any, index: number, title: string) {
-    this.rowToDeleteIndex = index;
-    this.openModal(content, title);
-  }
-
-  deletePrinterToTable() {
-    if(this.dataSource) {
-      this.dataSource.data = this.dataSource.data.filter((item, index) => index !== this.rowToDeleteIndex);
-
-      this.printerAddedEvent.emit(this.dataSource.data)
-    }
-
-    this.modalService.dismissAll();
+          this.printerAddedEvent.emit(this.dataSource.data)
+        } else {
+          // User clicked 'Cancel' or clicked outside the dialog
+        }
+      });
   }
 }

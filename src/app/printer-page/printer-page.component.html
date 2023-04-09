@@ -56,7 +56,7 @@
             <button mat-icon-button (click)="openEditPrinterDialog(i)">
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button (click)="openDeleteModal(deletePrinterTemplate, i, 'modal-deletePrinter-title')">
+            <button mat-icon-button (click)="openDeletePrinterDialog(i)">
               <mat-icon color="warn">delete</mat-icon>
             </button>
           </td>
@@ -73,25 +73,3 @@
     </div>
   </div>
 </div>
-
-<ng-template #deletePrinterTemplate let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-deletePrinter-title">Are you sure ?</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="row mb-12">
-        <label class="col-sm-12 col-form-label">Are you sure you want to delete this printer?</label>
-      </div>
-    </form>
-  </div>
-  <div class="modal-footer">
-    <button mat-raised-button class="demo-button m-1" (click)="modal.close('Save click')">
-      Cancel
-    </button>
-    <button mat-raised-button class="demo-button m-1" color="warn" (click)="deletePrinterToTable()">
-      Delete
-    </button>
-  </div>
-</ng-template>

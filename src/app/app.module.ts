@@ -29,6 +29,7 @@ import { AddPrinterDialogComponent } from './dialogs/add-printer-dialog/add-prin
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
 import { EditPrinterDialogComponent } from './dialogs/edit-printer-dialog/edit-printer-dialog.component';
+import { DeletePrinterDialogComponent } from './dialogs/delete-printer-dialog/delete-printer-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { EditPrinterDialogComponent } from './dialogs/edit-printer-dialog/edit-p
     FilamentSortableHeader,
     AddPrinterDialogComponent,
     EditPrinterDialogComponent,
+    DeletePrinterDialogComponent,
   ],
   imports: [
     BrowserModule,
