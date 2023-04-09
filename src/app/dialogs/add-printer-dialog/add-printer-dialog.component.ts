@@ -11,8 +11,6 @@ import {Printer} from "../../model/printer";
 })
 export class AddPrinterDialogComponent implements OnInit {
 
-  selectedCurrency: string | undefined;
-
   /*Form validations*/
   addPrinterForm = new FormGroup({
     nameFormControl: new FormControl('', [Validators.required,]),
@@ -26,7 +24,7 @@ export class AddPrinterDialogComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
   constructor(public dialogRef: MatDialogRef<AddPrinterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: {currency: string}) {
-    this.selectedCurrency = data.currency;
+
   }
 
   ngOnInit(): void {

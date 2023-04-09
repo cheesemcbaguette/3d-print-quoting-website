@@ -15,6 +15,7 @@ import {MatSort} from "@angular/material/sort";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DialogPosition, MatDialog} from "@angular/material/dialog";
 import {AddPrinterDialogComponent} from "../dialogs/add-printer-dialog/add-printer-dialog.component";
+import {EditPrinterDialogComponent} from "../dialogs/edit-printer-dialog/edit-printer-dialog.component";
 
 @Component({
   selector: 'printer-page',
@@ -26,7 +27,6 @@ export class PrinterPageComponent implements AfterViewInit {
   displayedColumns: string[] = ['name', 'materialDiameter', 'price', 'depreciationTime', 'serviceCostPerLife', 'energyConsumption', 'depreciation', 'actions'];
 
   rowToDeleteIndex: number | undefined;
-  rowToEditIndex: number | undefined;
 
   @Input()
   selectedCurrency: string | undefined;
@@ -34,13 +34,6 @@ export class PrinterPageComponent implements AfterViewInit {
   @Output() printerAddedEvent = new EventEmitter<Printer[]>();
 
   @ViewChild(MatSort) sort = new MatSort ;
-
-  @ContentChild('editPrinterName') editPrinterName!: ElementRef;
-  @ContentChild('editPrinterFilamentDiameterSelect') editPrinterFilamentDiameterSelect!: HTMLSelectElement;
-  @ContentChild('editPrinterPrice') editPrinterPrice!: ElementRef;
-  @ContentChild('editPrinterDepreciationTime') editPrinterDepreciationTime!: ElementRef;
-  @ContentChild('editPrinterServiceCost') editPrinterServiceCost!: ElementRef;
-  @ContentChild('editPrinterEnergyConsumption') editPrinterEnergyConsumption!: ElementRef;
 
   constructor(private modalService: NgbModal, private dialog: MatDialog) {
     // Assign the data to the data source for the table to render
@@ -72,6 +65,27 @@ export class PrinterPageComponent implements AfterViewInit {
       });
   }
 
+  openEditPrinterDialog(index: number) {
+    let printer : Printer = this.dataSource.data[index];
+    let dialog = this.dialog.open(EditPrinterDialogComponent, {
+
+      data: { currency: this.selectedCurrency, printer: printer },
+    });
+    dialog.afterClosed()
+      .subscribe(newPrinter => {
+        if (newPrinter && this.dataSource) {
+          const newData = [ ...this.dataSource.data ];
+          newData[index] = newPrinter;
+
+          this.dataSource.data = newData;
+
+          this.printerAddedEvent.emit(this.dataSource.data)
+        } else {
+          // User clicked 'Cancel' or clicked outside the dialog
+        }
+      });
+  }
+
   openModal(content: any, title: string) {
     this.modalService.open(content, { ariaLabelledBy: title }).result.then(
       (result) => {
@@ -86,21 +100,6 @@ export class PrinterPageComponent implements AfterViewInit {
   openDeleteModal(content: any, index: number, title: string) {
     this.rowToDeleteIndex = index;
     this.openModal(content, title);
-  }
-
-  openEditModal(content: any, index: number, title: string) {
-    this.rowToEditIndex = index;
-
-    let printer : Printer = this.dataSource.data[index];
-
-    this.openModal(content, title);
-
-    this.editPrinterName.nativeElement.value = printer.name;
-    this.editPrinterFilamentDiameterSelect.value = String(printer.materialDiameter)
-    this.editPrinterPrice.nativeElement.value = printer.price;
-    this.editPrinterDepreciationTime.nativeElement.value = printer.depreciationTime;
-    this.editPrinterServiceCost.nativeElement.value = printer.serviceCostPerLife;
-    this.editPrinterEnergyConsumption.nativeElement.value = printer.energyConsumption;
   }
 
   deletePrinterToTable() {

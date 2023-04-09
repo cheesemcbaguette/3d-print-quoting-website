@@ -1,11 +1,11 @@
-<h1 mat-dialog-title>Add a new printer</h1>
+<h1 mat-dialog-title>Edit printer</h1>
 
-<form [formGroup]="addPrinterForm" class="example-form" (ngSubmit)="addPrinter()">
+<form [formGroup]="editPrinterForm" class="example-form" (ngSubmit)="editPrinter()">
   <mat-dialog-content class="mat-typography">
     <mat-form-field appearance="standard" class="mat-form-field-full-width" floatLabel="always">
       <mat-label>Name</mat-label>
-      <input type="text" matInput [formControl]="addPrinterForm.controls.nameFormControl" [errorStateMatcher]="matcher" required maxlength="50">
-      <mat-error *ngIf="addPrinterForm.controls.nameFormControl.hasError('required')">
+      <input type="text" matInput [formControl]="editPrinterForm.controls.nameFormControl" [errorStateMatcher]="matcher" required maxlength="50">
+      <mat-error *ngIf="editPrinterForm.controls.nameFormControl.hasError('required')">
         Name is <strong>required</strong>
       </mat-error>
     </mat-form-field>
@@ -14,11 +14,11 @@
 
     <mat-form-field appearance="standard" class="mat-form-field-full-width" floatLabel="always">
       <mat-label>Filament diameter</mat-label>
-      <mat-select [formControl]="addPrinterForm.controls.filamentDiameterFormControl" [errorStateMatcher]="matcher" required>
+      <mat-select [formControl]="editPrinterForm.controls.filamentDiameterFormControl" [errorStateMatcher]="matcher" required>
         <mat-option [value]="1.75">1.75mm</mat-option>
         <mat-option [value]="2.85">2.85mm</mat-option>
       </mat-select>
-      <mat-error *ngIf="addPrinterForm.controls.filamentDiameterFormControl.hasError('required')">
+      <mat-error *ngIf="editPrinterForm.controls.filamentDiameterFormControl.hasError('required')">
         Filament diameter is <strong>required</strong>
       </mat-error>
     </mat-form-field>
@@ -27,9 +27,9 @@
 
     <mat-form-field appearance="standard" class="mat-form-field-full-width" floatLabel="always">
       <mat-label>Price</mat-label>
-      <input type="number" matInput [formControl]="addPrinterForm.controls.priceFormControl" [errorStateMatcher]="matcher" required maxlength="10" min="0">
+      <input type="number" matInput [formControl]="editPrinterForm.controls.priceFormControl" [errorStateMatcher]="matcher" required maxlength="10" min="0">
       <span matSuffix>{{data.currency}}</span>
-      <mat-error *ngIf="addPrinterForm.controls.priceFormControl.hasError('required')">
+      <mat-error *ngIf="editPrinterForm.controls.priceFormControl.hasError('required')">
         Price is <strong>required</strong>
       </mat-error>
     </mat-form-field>
@@ -38,9 +38,9 @@
 
     <mat-form-field appearance="standard" class="mat-form-field-full-width" floatLabel="always">
       <mat-label>Depreciation time</mat-label>
-      <input type="number" matInput [formControl]="addPrinterForm.controls.depreciationTimeFormControl" [errorStateMatcher]="matcher" required maxlength="10">
+      <input type="number" matInput [formControl]="editPrinterForm.controls.depreciationTimeFormControl" [errorStateMatcher]="matcher" required maxlength="10">
       <span matSuffix>hours</span>
-      <mat-error *ngIf="addPrinterForm.controls.depreciationTimeFormControl.hasError('required')">
+      <mat-error *ngIf="editPrinterForm.controls.depreciationTimeFormControl.hasError('required')">
         Depreciation time is <strong>required</strong>
       </mat-error>
     </mat-form-field>
@@ -49,9 +49,9 @@
 
     <mat-form-field appearance="standard" class="mat-form-field-full-width" floatLabel="always">
       <mat-label>Service cost per life</mat-label>
-      <input type="number" matInput [formControl]="addPrinterForm.controls.serviceCostPerLifeFormControl" [errorStateMatcher]="matcher" required maxlength="10">
+      <input type="number" matInput [formControl]="editPrinterForm.controls.serviceCostPerLifeFormControl" [errorStateMatcher]="matcher" required maxlength="10">
       <span matSuffix>{{data.currency}}</span>
-      <mat-error *ngIf="addPrinterForm.controls.serviceCostPerLifeFormControl.hasError('required')">
+      <mat-error *ngIf="editPrinterForm.controls.serviceCostPerLifeFormControl.hasError('required')">
         Service cost per life is <strong>required</strong>
       </mat-error>
     </mat-form-field>
@@ -60,10 +60,10 @@
 
     <mat-form-field appearance="standard" class="mat-form-field-full-width" floatLabel="always">
       <mat-label>Energy consumption</mat-label>
-      <input type="number" matInput [formControl]="addPrinterForm.controls.energyConsumptionFormControl" [errorStateMatcher]="matcher" required maxlength="10" placeholder="0">
+      <input type="number" matInput [formControl]="editPrinterForm.controls.energyConsumptionFormControl" [errorStateMatcher]="matcher" required maxlength="10" placeholder="0">
       <span matSuffix>kWh/h</span>
       <mat-hint> Hint </mat-hint>
-      <mat-error *ngIf="addPrinterForm.controls.energyConsumptionFormControl.hasError('required')">
+      <mat-error *ngIf="editPrinterForm.controls.energyConsumptionFormControl.hasError('required')">
         Energy consumption is <strong>required</strong>
       </mat-error>
     </mat-form-field>
@@ -73,7 +73,7 @@
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close (click)="dialogRef.close()">Cancel</button>
 
-    <button type="submit" mat-raised-button color="primary" [disabled]="!addPrinterForm.valid">Add new printer</button>
+    <button type="submit" mat-raised-button color="primary" [disabled]="!editPrinterForm.valid">Confirm</button>
   </mat-dialog-actions>
 
 </form>

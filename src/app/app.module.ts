@@ -28,6 +28,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import { AddPrinterDialogComponent } from './dialogs/add-printer-dialog/add-printer-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
+import { EditPrinterDialogComponent } from './dialogs/edit-printer-dialog/edit-printer-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {MatSelectModule} from "@angular/material/select";
     FilamentPageComponent,
     FilamentSortableHeader,
     AddPrinterDialogComponent,
+    EditPrinterDialogComponent,
   ],
   imports: [
     BrowserModule,
