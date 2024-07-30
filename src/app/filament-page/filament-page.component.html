@@ -28,25 +28,25 @@
 
         <!-- Spool Size Column -->
         <ng-container matColumnDef="spoolSize">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="price"> Spool Size [kg] </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="spoolSize"> Spool Size [kg] </th>
           <td mat-cell *matCellDef="let row"> {{row.spoolSize}} </td>
         </ng-container>
 
         <!-- Density Column -->
         <ng-container matColumnDef="density">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="price"> Density [g/cm³] </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="density"> Density [g/cm³] </th>
           <td mat-cell *matCellDef="let row"> {{row.density}} </td>
         </ng-container>
 
         <!-- Nozzle Temp Column -->
         <ng-container matColumnDef="nozzleTemp">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="price"> Nozzle Temp [°C] </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="nozzleTemp"> Nozzle Temp [°C] </th>
           <td mat-cell *matCellDef="let row"> {{row.nozzleTemp}} </td>
         </ng-container>
 
         <!-- Bed Temp Column -->
         <ng-container matColumnDef="bedTemp">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="price"> Bed Temp [°C] </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="bedTemp"> Bed Temp [°C] </th>
           <td mat-cell *matCellDef="let row"> {{row.bedTemp}} </td>
         </ng-container>
 
@@ -54,16 +54,10 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="action"> Actions </th>
           <td mat-cell *matCellDef="let row;  let i = index;">
-<!--            <button mat-icon-button (click)="openEditPrinterDialog(i)">-->
-<!--              <mat-icon>edit</mat-icon>-->
-<!--            </button>-->
-<!--            <button mat-icon-button (click)="openDeletePrinterDialog(i)">-->
-<!--              <mat-icon color="warn">delete</mat-icon>-->
-<!--            </button>-->
-            <button mat-icon-button>
+            <button mat-icon-button mat-medium-icon-button>
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button>
+            <button mat-icon-button mat-medium-icon-button>
               <mat-icon color="warn">delete</mat-icon>
             </button>
           </td>
