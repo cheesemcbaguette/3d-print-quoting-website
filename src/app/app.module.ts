@@ -23,13 +23,23 @@ import {PrinterPageComponent} from "./printer-page/printer-page.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
-import {RouterLinkWithHref} from "@angular/router";
+import {RouterLinkWithHref, RouterModule, RouterOutlet} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
 import { AddPrinterDialogComponent } from './dialogs/add-printer-dialog/add-printer-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
 import { EditPrinterDialogComponent } from './dialogs/edit-printer-dialog/edit-printer-dialog.component';
 import { DeletePrinterDialogComponent } from './dialogs/delete-printer-dialog/delete-printer-dialog.component';
+import { AddFilamentDialogComponent } from './dialogs/add-filament-dialog/add-filament-dialog.component';
+
+import { routes } from './app.routes';
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelDescription, MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from "@angular/material/expansion";
+import {AboutPageComponent} from "./about-page/about-page.component";
 
 @NgModule({
   declarations: [
@@ -40,6 +50,7 @@ import { DeletePrinterDialogComponent } from './dialogs/delete-printer-dialog/de
     AddPrinterDialogComponent,
     EditPrinterDialogComponent,
     DeletePrinterDialogComponent,
+    AddFilamentDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,7 +77,15 @@ import { DeletePrinterDialogComponent } from './dialogs/delete-printer-dialog/de
     MatDialogModule,
     ReactiveFormsModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription,
+    MatExpansionPanelHeader,
+    AboutPageComponent,
+    RouterOutlet,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

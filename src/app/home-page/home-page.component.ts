@@ -104,8 +104,6 @@ export class HomePageComponent implements OnInit, AfterViewInit  {
     { name: "Post processing", value: 17.9 }
   ];
 
-  activePanels = ["panel-1", "panel-2", "panel-3", "panel-4", "panel-5", "panel-6"];
-
   model: string | undefined;
 
   selectedCurrency = "€";

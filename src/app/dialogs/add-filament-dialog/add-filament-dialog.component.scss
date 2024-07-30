@@ -1,0 +1,34 @@
+.mat-form-field-full-width {
+  width: 100%;
+}
+
+.example-form {
+  min-width: 600px;
+  max-width: 700px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.mat-form-field-infix {
+  top: 0 !important;
+}
+.mat-form-field-suffix {
+  top: 0 !important;
+}
+
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}

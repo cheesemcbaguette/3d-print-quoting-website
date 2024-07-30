@@ -2,363 +2,396 @@
   <div class="row">
     <div class="col-lg-6">
       <form>
-        <ngb-accordion [activeIds]="activePanels">
-          <ngb-panel title="Customer details" id="panel-1">
-            <ng-template ngbPanelContent class="col-md-6">
-              <div class="customer-general-print-details-height">
-                <div class="row mb-2">
-                  <label for="customerName" class={{labelClass}}>Customer</label>
+        <mat-accordion multi>
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Customer details </mat-panel-title>
+              <mat-panel-description>
 
-                  <div class={{inputDivClass}}>
-                    <input type="text" class="form-control" id="customerName" placeholder="Steve" data-form-type="name">
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="datePicker" class={{labelClass}}>Date</label>
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input class="form-control" placeholder="dd/mm/yyyy" id="datePicker"
-                             name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
-                      <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label for="description" class={{labelClass}}>Description</label>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-                  <div class={{inputDivClass}}>
-                    <textarea  rows="3" class="form-control" id="description" placeholder="Insert description" data-form-type="description"></textarea>
+            <div class="customer-general-print-details-height">
+              <div class="row mb-2">
+                <label for="customerName" class={{labelClass}}>Customer</label>
+
+                <div class={{inputDivClass}}>
+                  <input type="text" class="form-control" id="customerName" placeholder="Steve" data-form-type="name">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="datePicker" class={{labelClass}}>Date</label>
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input class="form-control" placeholder="dd/mm/yyyy" id="datePicker"
+                           name="dp" [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker">
+
+                    <span class="input-group-text">
+                      <i class="bi bi-calendar-event" type="button" (click)="d.toggle()"></i>
+                    </span>
                   </div>
                 </div>
               </div>
-            </ng-template>
-          </ngb-panel>
+              <div class="row">
+                <label for="description" class={{labelClass}}>Description</label>
 
-          <ngb-panel title="Preparation" id="panel-3">
-            <ng-template ngbPanelContent>
-              <div class="preparation-miscellaneous-height">
-                <div class="row mb-2">
-                  <label for="modelPreparation" class={{labelClass}}>Model preparation (Fixing, CAD…)</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="modelPreparation" placeholder="0" data-form-type="modelPreparation">
-                      <span class="input-group-text" id="basic-addon-preparation">min</span>
-                    </div>
-                  </div>
+                <div class={{inputDivClass}}>
+                  <textarea  rows="3" class="form-control" id="description" placeholder="Insert description" data-form-type="description"></textarea>
                 </div>
-                <div class="row mb-2">
-                  <label for="slicing" class={{labelClass}}>Slicing (Supports, Parameters…)</label>
+              </div>
+            </div>
 
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="slicing" placeholder="0" data-form-type="slicing">
-                      <span class="input-group-text" id="basic-addon-slicing">min</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="materialChange" class={{labelClass}}>Material change</label>
+          </mat-expansion-panel>
 
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="materialChange" placeholder="0" data-form-type="materialChange">
-                      <span class="input-group-text" id="basic-addon-materialChange">min</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="transferAndStart" class={{labelClass}}>Transfer & Start</label>
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Preparation </mat-panel-title>
+              <mat-panel-description>
 
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="transferAndStart" placeholder="0" data-form-type="transferAndStart">
-                      <span class="input-group-text" id="basic-addon-transferAndStart">min</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="sum" class={{labelClass}}>Sum</label>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" disabled id="sum" placeholder="0" data-form-type="sum">
-                      <span class="input-group-text" id="basic-addon-sum">min</span>
-                    </div>
+            <div class="preparation-miscellaneous-height">
+              <div class="row mb-2">
+                <label for="modelPreparation" class={{labelClass}}>Model preparation (Fixing, CAD…)</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="modelPreparation" placeholder="0" data-form-type="modelPreparation">
+                    <span class="input-group-text" id="basic-addon-preparation">min</span>
                   </div>
                 </div>
               </div>
-            </ng-template>
-          </ngb-panel>
+              <div class="row mb-2">
+                <label for="slicing" class={{labelClass}}>Slicing (Supports, Parameters…)</label>
 
-
-          <ngb-panel title="Costs summary" id="panel-5">
-            <ng-template ngbPanelContent>
-              <div class="costs-quote-height">
-                <div class="row mb-2">
-                  <label for="sum" class={{labelClass}}>Filament</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" disabled class="form-control" id="filament" placeholder="0" data-form-type="filament">
-                      <span class="input-group-text" id="basic-addon-filament" [innerText]="selectedCurrency"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="sum" class={{labelClass}}>Electricity</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" disabled class="form-control" id="electricity" placeholder="0" data-form-type="electricity">
-                      <span class="input-group-text" id="basic-addon-electricity" [innerText]="selectedCurrency"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="sum" class={{labelClass}}>Printer depreciation</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" disabled class="form-control" id="printerDepreciation" placeholder="0" data-form-type="printerDepreciation">
-                      <span class="input-group-text" id="basic-addon-printerDepreciation" [innerText]="selectedCurrency"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="sum" class={{labelClass}}>Preparation</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" disabled class="form-control" id="preparationTotal" placeholder="0" data-form-type="preparationTotal">
-                      <span class="input-group-text" id="basic-addon-preparationTotal" [innerText]="selectedCurrency"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="sum" class={{labelClass}}>Post-processing</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" disabled class="form-control" id="postProcessing" placeholder="0" data-form-type="postProcessing">
-                      <span class="input-group-text" id="basic-addon-postProcessing" [innerText]="selectedCurrency"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="sum" class={{labelClass}}>Consumables</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" disabled class="form-control" id="consumablesTotal" placeholder="0" data-form-type="consumablesTotal">
-                      <span class="input-group-text" id="basic-addon-consumablesTotal" [innerText]="selectedCurrency"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="sum" class={{labelClass}}>Subtotal</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" disabled class="form-control" id="subTotal" placeholder="0" data-form-type="subTotal">
-                      <span class="input-group-text" id="basic-addon-subTotal" [innerText]="selectedCurrency"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="sum" class={{labelClass}}>Including failures</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" disabled class="form-control" id="failureTotal" placeholder="0" data-form-type="failureTotal">
-                      <span class="input-group-text" id="basic-addon-failureTotal" [innerText]="selectedCurrency"></span>
-                    </div>
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="slicing" placeholder="0" data-form-type="slicing">
+                    <span class="input-group-text" id="basic-addon-slicing">min</span>
                   </div>
                 </div>
               </div>
+              <div class="row mb-2">
+                <label for="materialChange" class={{labelClass}}>Material change</label>
 
-            </ng-template>
-          </ngb-panel>
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="materialChange" placeholder="0" data-form-type="materialChange">
+                    <span class="input-group-text" id="basic-addon-materialChange">min</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="transferAndStart" class={{labelClass}}>Transfer & Start</label>
 
-        </ngb-accordion>
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="transferAndStart" placeholder="0" data-form-type="transferAndStart">
+                    <span class="input-group-text" id="basic-addon-transferAndStart">min</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="sum" class={{labelClass}}>Sum</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" disabled id="sum" placeholder="0" data-form-type="sum">
+                    <span class="input-group-text" id="basic-addon-sum">min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Costs summary </mat-panel-title>
+              <mat-panel-description>
+
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="costs-quote-height">
+              <div class="row mb-2">
+                <label for="sum" class={{labelClass}}>Filament</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" disabled class="form-control" id="filament" placeholder="0" data-form-type="filament">
+                    <span class="input-group-text" id="basic-addon-filament" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="sum" class={{labelClass}}>Electricity</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" disabled class="form-control" id="electricity" placeholder="0" data-form-type="electricity">
+                    <span class="input-group-text" id="basic-addon-electricity" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="sum" class={{labelClass}}>Printer depreciation</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" disabled class="form-control" id="printerDepreciation" placeholder="0" data-form-type="printerDepreciation">
+                    <span class="input-group-text" id="basic-addon-printerDepreciation" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="sum" class={{labelClass}}>Preparation</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" disabled class="form-control" id="preparationTotal" placeholder="0" data-form-type="preparationTotal">
+                    <span class="input-group-text" id="basic-addon-preparationTotal" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="sum" class={{labelClass}}>Post-processing</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" disabled class="form-control" id="postProcessing" placeholder="0" data-form-type="postProcessing">
+                    <span class="input-group-text" id="basic-addon-postProcessing" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="sum" class={{labelClass}}>Consumables</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" disabled class="form-control" id="consumablesTotal" placeholder="0" data-form-type="consumablesTotal">
+                    <span class="input-group-text" id="basic-addon-consumablesTotal" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="sum" class={{labelClass}}>Subtotal</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" disabled class="form-control" id="subTotal" placeholder="0" data-form-type="subTotal">
+                    <span class="input-group-text" id="basic-addon-subTotal" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="sum" class={{labelClass}}>Including failures</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" disabled class="form-control" id="failureTotal" placeholder="0" data-form-type="failureTotal">
+                    <span class="input-group-text" id="basic-addon-failureTotal" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
       </form>
     </div>
 
     <div class="col-lg-6">
       <form>
-        <ngb-accordion [activeIds]="activePanels">
-          <ngb-panel title="General print details" id="panel-2">
-            <ng-template ngbPanelContent>
-              <div class="customer-general-print-details-height">
-                <div class="row mb-2">
-                  <label for="selectPrinter" class={{labelClass}}>Printer</label>
+        <mat-accordion multi>
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title> General print details </mat-panel-title>
+              <mat-panel-description>
 
-                  <div class={{inputDivClass}}>
-                    <select class="form-select" id="selectPrinter"
-                            aria-label="Printer select" name="first">
-                      <option value="">Please select a printer</option>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-                      <ng-container *ngIf="printers && printers.length > 0">
-                        <option *ngFor="let printer of printers; let i = index" [value]="printers[i].name">
-                          {{printers[i].name}}
-                        </option>
-                      </ng-container>
+            <div class="customer-general-print-details-height">
+              <div class="row mb-2">
+                <label for="selectPrinter" class={{labelClass}}>Printer</label>
 
-                    </select>
-                  </div>
+                <div class={{inputDivClass}}>
+                  <select class="form-select" id="selectPrinter"
+                          aria-label="Printer select" name="first">
+                    <option value="">Please select a printer</option>
+
+                    <ng-container *ngIf="printers && printers.length > 0">
+                      <option *ngFor="let printer of printers; let i = index" [value]="printers[i].name">
+                        {{printers[i].name}}
+                      </option>
+                    </ng-container>
+
+                  </select>
                 </div>
-                <div class="row mb-2">
-                  <label for="selectFilament" class={{labelClass}}>Filament</label>
+              </div>
+              <div class="row mb-2">
+                <label for="selectFilament" class={{labelClass}}>Filament</label>
 
-                  <div class={{inputDivClass}}>
-                    <input type="text" class="form-control" id="selectFilament" placeholder="Prusament PETG Black" data-form-type="filament">
-                  </div>
+                <div class={{inputDivClass}}>
+                  <input type="text" class="form-control" id="selectFilament" placeholder="Prusament PETG Black" data-form-type="filament">
                 </div>
-                <div class="row mb-2">
-                  <label for="weight" class={{labelClass}}>Weight</label>
+              </div>
+              <div class="row mb-2">
+                <label for="weight" class={{labelClass}}>Weight</label>
 
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="weight" placeholder="Insert the weight of the print" data-form-type="weight">
-                      <span class="input-group-text" id="basic-addon-weight">g</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <label for="printTimeHours" class={{labelClass}}>Printing time</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="printTimeHours" placeholder="Hours" data-form-type="printTime" min="0">
-                      <span class="input-group-text" id="basic-addon-hours">hh</span>
-                      <input type="number" class="form-control" id="printTimeMins" placeholder="Minutes" data-form-type="printTime" min="0" max="60">
-                      <span class="input-group-text" id="basic-addon-mins">mm</span>
-                    </div>
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="weight" placeholder="Insert the weight of the print" data-form-type="weight">
+                    <span class="input-group-text" id="basic-addon-weight">g</span>
                   </div>
                 </div>
               </div>
-            </ng-template>
-          </ngb-panel>
+              <div class="row">
+                <label for="printTimeHours" class={{labelClass}}>Printing time</label>
 
-          <ngb-panel title="Miscellaneous" id="panel-4">
-            <ng-template ngbPanelContent>
-              <div class="preparation-miscellaneous-height">
-                <div class="row mb-2">
-                  <label for="consumables" class={{labelClass}}>Consumables</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="consumables" placeholder="0" data-form-type="consumables">
-                      <span class="input-group-text" id="basic-addon-consumables" [innerText]="selectedCurrency"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="energyCost" class={{labelClass}}>Energy cost</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="energyCost" min="0" placeholder="0" step="0.01" data-form-type="energyCost">
-                      <span class="input-group-text" id="basic-addon-energyCost" [innerText]="selectedCurrency + '/kWh'"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="laborCost" class={{labelClass}}>Labor Costs</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="laborCost" placeholder="0" data-form-type="laborCost">
-                      <span class="input-group-text" id="basic-addon-laborCost"  [innerText]="selectedCurrency + '/h'"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="failureRate" class={{labelClass}}>Failure rate</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="failureRate" placeholder="0" min="0" max="100" data-form-type="failureRate">
-                      <span class="input-group-text" id="basic-addon-failure_rate">%</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="currencySelect" class={{labelClass}}>Currency unit</label>
-
-                  <div class={{inputDivClass}}>
-                    <select class="form-select" #currencySelect id="currencySelect" (change)="onCurrencySelected()"
-                            aria-label="Currency unit select" [value]="selectedCurrency" [(ngModel)]="selectedCurrency" name="first">
-                      <option value="€">€</option>
-                      <option value="£">£</option>
-                      <option value="$">$</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="dickFee" class={{labelClass}}>Client is a dick fee</label>
-
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="dickFee" placeholder="0" data-form-type="dickFee">
-                      <span class="input-group-text" id="basic-addon-dickFee" [innerText]="selectedCurrency"></span>
-                    </div>
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="printTimeHours" placeholder="Hours" data-form-type="printTime" min="0">
+                    <span class="input-group-text" id="basic-addon-hours">hh</span>
+                    <input type="number" class="form-control" id="printTimeMins" placeholder="Minutes" data-form-type="printTime" min="0" max="60">
+                    <span class="input-group-text" id="basic-addon-mins">mm</span>
                   </div>
                 </div>
               </div>
-            </ng-template>
-          </ngb-panel>
+            </div>
+          </mat-expansion-panel>
 
-          <ngb-panel title="Quote" id="panel-6">
-            <ng-template ngbPanelContent>
-              <div class="costs-quote-height">
-                <div class="row mb-2">
-                  <label for="markup" class={{labelClass}}>Markup</label>
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Miscellaneous </mat-panel-title>
+              <mat-panel-description>
 
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="markup" placeholder="0" data-form-type="markup">
-                      <span class="input-group-text" id="basic-addon-markup">%</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="suggestedPrice" class={{labelClass}}>Suggested prize</label>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" disabled class="form-control" id="suggestedPrice" placeholder="0" data-form-type="suggestedPrice">
-                      <span class="input-group-text" id="basic-addon-suggestedPrice" [innerText]="selectedCurrency"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label for="quotedPrice" class={{labelClass}}>Quoted price</label>
+            <div class="preparation-miscellaneous-height">
+              <div class="row mb-2">
+                <label for="consumables" class={{labelClass}}>Consumables</label>
 
-                  <div class={{inputDivClass}}>
-                    <div class="input-group">
-                      <input type="number" class="form-control" id="quotedPrice" placeholder="0" data-form-type="quotedPrice">
-                      <span class="input-group-text" id="basic-addon-quotedPrice" [innerText]="selectedCurrency"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="row mb-2">
-                  <label class="col-form-label">Part costs</label>
-                  <div>
-                    <ngx-charts-pie-chart
-                      [results]="saleData"
-                      [legend]="false"
-                      [legendTitle]="'Part costs'"
-                      [labels]="true"
-                      [trimLabels]="false"
-                      [labelFormatting]="labelFormatting">
-                    </ngx-charts-pie-chart>
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="consumables" placeholder="0" data-form-type="consumables">
+                    <span class="input-group-text" id="basic-addon-consumables" [innerText]="selectedCurrency"></span>
                   </div>
                 </div>
               </div>
-            </ng-template>
-          </ngb-panel>
-        </ngb-accordion>
+              <div class="row mb-2">
+                <label for="energyCost" class={{labelClass}}>Energy cost</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="energyCost" min="0" placeholder="0" step="0.01" data-form-type="energyCost">
+                    <span class="input-group-text" id="basic-addon-energyCost" [innerText]="selectedCurrency + '/kWh'"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="laborCost" class={{labelClass}}>Labor Costs</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="laborCost" placeholder="0" data-form-type="laborCost">
+                    <span class="input-group-text" id="basic-addon-laborCost"  [innerText]="selectedCurrency + '/h'"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="failureRate" class={{labelClass}}>Failure rate</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="failureRate" placeholder="0" min="0" max="100" data-form-type="failureRate">
+                    <span class="input-group-text" id="basic-addon-failure_rate">%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="currencySelect" class={{labelClass}}>Currency unit</label>
+
+                <div class={{inputDivClass}}>
+                  <select class="form-select" #currencySelect id="currencySelect" (change)="onCurrencySelected()"
+                          aria-label="Currency unit select" [value]="selectedCurrency" [(ngModel)]="selectedCurrency" name="first">
+                    <option value="€">€</option>
+                    <option value="£">£</option>
+                    <option value="$">$</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="dickFee" class={{labelClass}}>Client is a dick fee</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="dickFee" placeholder="0" data-form-type="dickFee">
+                    <span class="input-group-text" id="basic-addon-dickFee" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel expanded>
+            <mat-expansion-panel-header>
+              <mat-panel-title> Quote </mat-panel-title>
+              <mat-panel-description>
+
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div class="costs-quote-height">
+              <div class="row mb-2">
+                <label for="markup" class={{labelClass}}>Markup</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="markup" placeholder="0" data-form-type="markup">
+                    <span class="input-group-text" id="basic-addon-markup">%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="suggestedPrice" class={{labelClass}}>Suggested prize</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" disabled class="form-control" id="suggestedPrice" placeholder="0" data-form-type="suggestedPrice">
+                    <span class="input-group-text" id="basic-addon-suggestedPrice" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label for="quotedPrice" class={{labelClass}}>Quoted price</label>
+
+                <div class={{inputDivClass}}>
+                  <div class="input-group">
+                    <input type="number" class="form-control" id="quotedPrice" placeholder="0" data-form-type="quotedPrice">
+                    <span class="input-group-text" id="basic-addon-quotedPrice" [innerText]="selectedCurrency"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <label class="col-form-label">Part costs</label>
+                <div #containerRef id="containerRef">
+                  <ngx-charts-pie-chart
+                    [view]="[containerRef.offsetWidth, containerRef.offsetHeight]"
+                    [results]="saleData"
+                    [legend]="false"
+                    [legendTitle]="'Part costs'"
+                    [labels]="true"
+                    [trimLabels]="false"
+                    [labelFormatting]="labelFormatting">
+                  </ngx-charts-pie-chart>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+        </mat-accordion>
       </form>
     </div>
   </div>

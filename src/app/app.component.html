@@ -1,69 +1,56 @@
 <header class="pb-3">
   <mat-toolbar color="primary">
-    <mat-toolbar-row>
       <h1 class="px-3">3d Printing Quoting Website</h1>
-      <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="header-nav nav col-12 col-lg-auto me-auto mb-2 justify-content-center mb-md-0">
-        <li [ngbNavItem]="1" class="active">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="header-nav nav">
+
+        <li [ngbNavItem]="1" class="active" routerLink="/home">
           <a mat-button ngbNavLink>Home</a>
           <ng-template ngbNavContent>
             <home-page (currencySelectedEvent)="onCurrencySelected($event)"
                        [printers]="printers"></home-page>
           </ng-template>
         </li>
-        <li [ngbNavItem]="2">
+        <li [ngbNavItem]="2" routerLink="/printers">
           <a mat-button ngbNavLink>Printers</a>
           <ng-template ngbNavContent>
             <printer-page (printerAddedEvent)="onPrinterAdded($event)"  [selectedCurrency]="selectedCurrency"></printer-page>
           </ng-template>
         </li>
-        <li [ngbNavItem]="3">
+        <li [ngbNavItem]="3" routerLink="/material">
           <a mat-button ngbNavLink>Material</a>
           <ng-template ngbNavContent>
             <filament-page [selectedCurrency]="selectedCurrency"></filament-page>
           </ng-template>
         </li>
-        <li [ngbNavItem]="4">
+        <li [ngbNavItem]="4" routerLink="/about">
           <a mat-button ngbNavLink>About</a>
-          <ng-template ngbNavContent>Fourth content</ng-template>
+          <ng-template ngbNavContent>
+            <about-page></about-page>
+          </ng-template>
         </li>
       </ul>
-    </mat-toolbar-row>
+
   </mat-toolbar>
 </header>
 
-<div [ngbNavOutlet]="nav" class="container mt-5 mb-5 main"></div>
+<div class="container mt-5 mb-5 main">
+  <router-outlet></router-outlet>
+</div>
 
 <div class="container">
   <footer class="py-3 my-4">
-<!--    <ul class="nav justify-content-center border-bottom pb-1 mb-1">-->
-<!--      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>-->
-<!--      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Printers</a></li>-->
-<!--      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Material</a></li>-->
-<!--      <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>-->
-<!--    </ul>-->
-    <ul ngbNav #nav="ngbNav" [(activeId)]="active" [destroyOnHide]="false" class="nav justify-content-center border-bottom pb-1 mb-1">
-      <li [ngbNavItem]="1" >
-        <a class="nav-link px-2 text-muted" ngbNavLink>Home</a>
-        <ng-template ngbNavContent>
-          <home-page (currencySelectedEvent)="onCurrencySelected($event)"
-                     [printers]="printers"></home-page>
-        </ng-template>
+    <ul ngbNav [(activeId)]="active" [destroyOnHide]="false" class="nav justify-content-center border-bottom pb-1 mb-1">
+      <li>
+        <a class="nav-link px-2 text-muted" routerLink="/home">Home</a>
       </li>
       <li [ngbNavItem]="2">
-        <a class="nav-link px-2 text-muted" ngbNavLink>Printers</a>
-        <ng-template ngbNavContent>
-          <printer-page (printerAddedEvent)="onPrinterAdded($event)"  [selectedCurrency]="selectedCurrency"></printer-page>
-        </ng-template>
+        <a class="nav-link px-2 text-muted" routerLink="/printers">Printers</a>
       </li>
       <li [ngbNavItem]="3">
-        <a class="nav-link px-2 text-muted" ngbNavLink>Material</a>
-        <ng-template ngbNavContent>
-          <filament-page [selectedCurrency]="selectedCurrency"></filament-page>
-        </ng-template>
+        <a class="nav-link px-2 text-muted" routerLink="/material">Material</a>
       </li>
       <li [ngbNavItem]="4">
-        <a class="nav-link px-2 text-muted" ngbNavLink>About</a>
-        <ng-template ngbNavContent>Fourth content</ng-template>
+        <a class="nav-link px-2 text-muted" routerLink="/about">About</a>
       </li>
     </ul>
     <p class="text-center text-muted">© 2022 CheeseMcBaguette, Inc</p>
