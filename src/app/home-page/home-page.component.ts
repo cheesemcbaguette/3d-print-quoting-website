@@ -12,6 +12,8 @@ import {
 } from '@angular/core';
 import {NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 import {Printer} from "../model/printer";
+import {PrintersService} from "../service/printers.service";
+import {CurrencyService} from "../service/currency.service";
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -87,14 +89,11 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
     {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter}
   ]
 })
-export class HomePageComponent implements OnInit, AfterViewInit  {
+export class HomePageComponent implements AfterViewInit  {
 
   @ViewChild('currencySelect') currencySelect!: ElementRef;
 
-  @Output() currencySelectedEvent = new EventEmitter<string>();
-
-  @Input()
-  printers: Printer[] | undefined;
+  printers: Printer[];
 
   saleData = [
     { name: "Preparation", value: 21.4 },
@@ -106,16 +105,15 @@ export class HomePageComponent implements OnInit, AfterViewInit  {
 
   model: string | undefined;
 
-  selectedCurrency = "€";
+  selectedCurrency : string;
 
   labelClass = "col-sm-6 col-form-label"
   inputDivClass = "col-sm-6"
 
-  constructor(private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>, private ref: ChangeDetectorRef) {
-  }
-
-  ngOnInit(): void {
-    this.currencySelectedEvent.emit(this.selectedCurrency)
+  constructor(private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>, private ref: ChangeDetectorRef,
+              private printersService: PrintersService, private currencyService: CurrencyService) {
+    this.printers = this.printersService.getPrinters();
+    this.selectedCurrency = currencyService.getCurrency();
   }
 
   ngAfterViewInit(): void {
@@ -124,11 +122,6 @@ export class HomePageComponent implements OnInit, AfterViewInit  {
 
   get today() {
     return this.dateAdapter.toModel(this.ngbCalendar.getToday())!;
-  }
-
-  onCurrencySelected(): void {
-    this.currencySelectedEvent.emit(this.selectedCurrency)
-    console.log(this.selectedCurrency);
   }
 
   labelFormatting(name: string) { // this name will contain the name you defined in chartData[]
@@ -142,5 +135,9 @@ export class HomePageComponent implements OnInit, AfterViewInit  {
     } else {
       return name;
     }
+  }
+
+  onCurrencySelected() {
+    this.currencyService.setCurrency(this.selectedCurrency)
   }
 }

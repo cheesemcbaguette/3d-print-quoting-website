@@ -13,20 +13,13 @@ import {CommonModule} from "@angular/common";
 export class AppComponent {
   title = 'printing-quoting-sheet';
 
-  active = 1;
-
   selectedCurrency = "";
 
-  printers: Printer[] = PRINTERS;
 
   constructor() { }
 
   onCurrencySelected(currency: string) {
     this.selectedCurrency = currency;
     console.log(currency);
-  }
-
-  onPrinterAdded(newPrinters: Printer[]) {
-    this.printers = newPrinters;
   }
 }

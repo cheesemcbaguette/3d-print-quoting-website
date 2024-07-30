@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MyErrorStateMatcher} from "../../utils/MyErrorStateMatcher";
 import {Printer} from "../../model/printer";
+import {CurrencyService} from "../../service/currency.service";
 
 @Component({
   selector: 'app-add-printer-dialog',
@@ -22,9 +23,10 @@ export class AddPrinterDialogComponent implements OnInit {
   });
 
   matcher = new MyErrorStateMatcher();
+  selectedCurrency: string;
 
-  constructor(public dialogRef: MatDialogRef<AddPrinterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: {currency: string}) {
-
+  constructor(public dialogRef: MatDialogRef<AddPrinterDialogComponent>, private currencyService: CurrencyService) {
+    this.selectedCurrency = currencyService.getCurrency();
   }
 
   ngOnInit(): void {

@@ -7,6 +7,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddPrinterDialogComponent} from "../dialogs/add-printer-dialog/add-printer-dialog.component";
 import {EditPrinterDialogComponent} from "../dialogs/edit-printer-dialog/edit-printer-dialog.component";
 import {DeletePrinterDialogComponent} from "../dialogs/delete-printer-dialog/delete-printer-dialog.component";
+import {PrintersService} from "../service/printers.service";
+import {CurrencyService} from "../service/currency.service";
 
 @Component({
   selector: 'printer-page',
@@ -17,16 +19,16 @@ export class PrinterPageComponent implements AfterViewInit {
   dataSource!: MatTableDataSource<Printer>;
   displayedColumns: string[] = ['name', 'materialDiameter', 'price', 'depreciationTime', 'serviceCostPerLife', 'energyConsumption', 'depreciation', 'actions'];
 
-  @Input()
-  selectedCurrency: string | undefined;
+  selectedCurrency: string;
 
   @Output() printerAddedEvent = new EventEmitter<Printer[]>();
 
   @ViewChild(MatSort) sort = new MatSort ;
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private printersService: PrintersService, private currencyService: CurrencyService){
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(PRINTERS);
+    this.dataSource = new MatTableDataSource(printersService.getPrinters());
+    this.selectedCurrency = currencyService.getCurrency();
   }
 
   ngAfterViewInit() {
@@ -47,7 +49,7 @@ export class PrinterPageComponent implements AfterViewInit {
             newData.push(newPrinter);
             this.dataSource.data = newData;
 
-            this.printerAddedEvent.emit(this.dataSource.data)
+            this.printersService.editPrinters(newData)
         } else {
           // User clicked 'Cancel' or clicked outside the dialog
         }
@@ -68,7 +70,7 @@ export class PrinterPageComponent implements AfterViewInit {
 
           this.dataSource.data = newData;
 
-          this.printerAddedEvent.emit(this.dataSource.data)
+          this.printersService.editPrinters(newData)
         } else {
           // User clicked 'Cancel' or clicked outside the dialog
         }
@@ -83,7 +85,7 @@ export class PrinterPageComponent implements AfterViewInit {
         if (doDelete) {
           this.dataSource.data = this.dataSource.data.filter((item, datasourceIndex) => datasourceIndex !== index);
 
-          this.printerAddedEvent.emit(this.dataSource.data)
+          this.printersService.editPrinters(this.dataSource.data)
         } else {
           // User clicked 'Cancel' or clicked outside the dialog
         }
