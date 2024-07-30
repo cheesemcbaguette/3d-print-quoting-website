@@ -3,10 +3,10 @@
 <form [formGroup]="addFilamentForm" class="example-form" (ngSubmit)="addFilament()">
   <mat-dialog-content class="mat-typography">
     <mat-form-field appearance="fill" class="mat-form-field-full-width" floatLabel="always">
-      <mat-label>Name</mat-label>
+      <mat-label>Manufacturer</mat-label>
       <input type="text" matInput [formControl]="addFilamentForm.controls.nameFormControl" [errorStateMatcher]="matcher" required maxlength="50">
       <mat-error *ngIf="addFilamentForm.controls.nameFormControl.hasError('required')">
-        Name is <strong>required</strong>
+        Manufacturer is <strong>required</strong>
       </mat-error>
     </mat-form-field>
 
@@ -26,48 +26,50 @@
     <br/>
 
     <mat-form-field appearance="fill" class="mat-form-field-full-width" floatLabel="always">
-      <mat-label>Price</mat-label>
+      <mat-label>Spool Price</mat-label>
       <input type="number" matInput [formControl]="addFilamentForm.controls.priceFormControl" [errorStateMatcher]="matcher" required maxlength="10" min="0">
       <span matSuffix>{{data.currency}}</span>
       <mat-error *ngIf="addFilamentForm.controls.priceFormControl.hasError('required')">
-        Price is <strong>required</strong>
+        Spool Price is <strong>required</strong>
       </mat-error>
     </mat-form-field>
 
     <br/>
 
     <mat-form-field appearance="fill" class="mat-form-field-full-width" floatLabel="always">
-      <mat-label>Depreciation time</mat-label>
-      <input type="number" matInput [formControl]="addFilamentForm.controls.depreciationTimeFormControl" [errorStateMatcher]="matcher" required maxlength="10">
-      <span matSuffix>hours</span>
-      <mat-hint> How many hours the printer should run before being unusable </mat-hint>
-      <mat-error *ngIf="addFilamentForm.controls.depreciationTimeFormControl.hasError('required')">
-        Depreciation time is <strong>required</strong>
+      <mat-label>Filament Weight</mat-label>
+      <input type="number" matInput [formControl]="addFilamentForm.controls.filamentWeightFormControl" [errorStateMatcher]="matcher" required maxlength="10">
+      <span matSuffix>kg</span>
+      <mat-error *ngIf="addFilamentForm.controls.filamentWeightFormControl.hasError('required')">
+        Filament Weight is <strong>required</strong>
       </mat-error>
     </mat-form-field>
 
     <br/>
 
     <mat-form-field appearance="fill" class="mat-form-field-full-width" floatLabel="always">
-      <mat-label>Service cost per life</mat-label>
-      <input type="number" matInput [formControl]="addFilamentForm.controls.serviceCostPerLifeFormControl" [errorStateMatcher]="matcher" required maxlength="10">
-      <span matSuffix>{{data.currency}}</span>
-      <mat-hint> How much it would cost to fix the printer (spare parts and labor, 10-25% of the printer price is a good estimation) </mat-hint>
-      <mat-error *ngIf="addFilamentForm.controls.serviceCostPerLifeFormControl.hasError('required')">
-        Service cost per life is <strong>required</strong>
+      <mat-label>Density </mat-label>
+      <input type="number" matInput [formControl]="addFilamentForm.controls.densityFormControl" [errorStateMatcher]="matcher" required maxlength="10">
+      <span matSuffix>[g/cm³]</span>
+      <mat-error *ngIf="addFilamentForm.controls.densityFormControl.hasError('required')">
+        Density is <strong>required</strong>
       </mat-error>
     </mat-form-field>
 
     <br/>
 
     <mat-form-field appearance="fill" class="mat-form-field-full-width" floatLabel="always">
-      <mat-label>Energy consumption</mat-label>
-      <input type="number" matInput [formControl]="addFilamentForm.controls.energyConsumptionFormControl" [errorStateMatcher]="matcher" required maxlength="10" placeholder="0">
-      <span matSuffix>kWh/h</span>
-      <mat-hint> How much energy does the printer consume during printing </mat-hint>
-      <mat-error *ngIf="addFilamentForm.controls.energyConsumptionFormControl.hasError('required')">
-        Energy consumption is <strong>required</strong>
-      </mat-error>
+      <mat-label>Nozzle Temp</mat-label>
+      <input type="number" matInput [formControl]="addFilamentForm.controls.nozzleTempFormControl" [errorStateMatcher]="matcher" maxlength="10" placeholder="0">
+      <span matSuffix>°C</span>
+      <mat-hint> Optional </mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="mat-form-field-full-width" floatLabel="always">
+      <mat-label>Bed Temp</mat-label>
+      <input type="number" matInput [formControl]="addFilamentForm.controls.bedTempFormControl" [errorStateMatcher]="matcher" maxlength="10" placeholder="0">
+      <span matSuffix>°C</span>
+      <mat-hint> Optional </mat-hint>
     </mat-form-field>
 
     <br/>
@@ -75,7 +77,7 @@
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close (click)="dialogRef.close()">Cancel</button>
 
-    <button type="submit" mat-raised-button color="primary" [disabled]="!addFilamentForm.valid">Add new printer</button>
+    <button type="submit" mat-raised-button color="primary" [disabled]="!addFilamentForm.valid">Add new filament</button>
   </mat-dialog-actions>
 
 </form>

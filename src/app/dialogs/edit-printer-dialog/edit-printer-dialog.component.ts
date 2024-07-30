@@ -10,7 +10,7 @@ import {CurrencyService} from "../../service/currency.service";
   templateUrl: './edit-printer-dialog.component.html',
   styleUrls: ['./edit-printer-dialog.component.scss']
 })
-export class EditPrinterDialogComponent implements OnInit {
+export class EditPrinterDialogComponent {
 
   /*Form validations*/
   editPrinterForm = new FormGroup({
@@ -27,10 +27,6 @@ export class EditPrinterDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<EditPrinterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: {printer : Printer}, private currencyService: CurrencyService) {
     this.selectedCurrency = currencyService.getCurrency();
-  }
-
-  ngOnInit(): void {
-
   }
 
   editPrinter(): void {

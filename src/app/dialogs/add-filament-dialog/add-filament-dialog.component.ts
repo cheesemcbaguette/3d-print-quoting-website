@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {MyErrorStateMatcher} from "../../utils/MyErrorStateMatcher";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Printer} from "../../model/printer";
+import {Filament} from "../../model/filament";
 
 @Component({
   selector: 'app-add-filament-dialog',
@@ -16,9 +17,10 @@ export class AddFilamentDialogComponent implements OnInit {
     nameFormControl: new FormControl('', [Validators.required,]),
     filamentDiameterFormControl: new FormControl('', [Validators.required,]),
     priceFormControl: new FormControl('', [Validators.required,]),
-    depreciationTimeFormControl: new FormControl('', [Validators.required,]),
-    serviceCostPerLifeFormControl: new FormControl('', [Validators.required,]),
-    energyConsumptionFormControl: new FormControl('', [Validators.required,]),
+    filamentWeightFormControl: new FormControl('', [Validators.required,]),
+    densityFormControl: new FormControl('', [Validators.required,]),
+    nozzleTempFormControl: new FormControl('', []),
+    bedTempFormControl: new FormControl('', []),
   });
 
   matcher = new MyErrorStateMatcher();
@@ -32,15 +34,15 @@ export class AddFilamentDialogComponent implements OnInit {
 
   addFilament(): void {
     const name: string = this.addFilamentForm.get('nameFormControl')!.value!;
-    const price = Number(this.addFilamentForm.get('priceFormControl')?.value);
-    const serviceCost = Number(this.addFilamentForm.get('serviceCostPerLifeFormControl')?.value);
-    const depreciationTime = Number(this.addFilamentForm.get('depreciationTimeFormControl')?.value);
     const filamentDiameter = Number(this.addFilamentForm.get('filamentDiameterFormControl')?.value);
-    const energyConsumption = Number(this.addFilamentForm.get('energyConsumptionFormControl')?.value);
-    const depreciation = (price + serviceCost) / depreciationTime;
+    const price = Number(this.addFilamentForm.get('priceFormControl')?.value);
+    const filamentWeight = Number(this.addFilamentForm.get('filamentWeightFormControl')?.value);
+    const density = Number(this.addFilamentForm.get('densityFormControl')?.value);
+    const nozzleTemp = Number(this.addFilamentForm.get('nozzleTempFormControl')?.value);
+    const bedTemp = Number(this.addFilamentForm.get('bedTempFormControl')?.value);
 
-    let newPrinter : Printer = {name: name, materialDiameter: filamentDiameter, price: price, depreciationTime: depreciationTime, serviceCostPerLife: serviceCost, energyConsumption, depreciation};
+    let newFilament : Filament = {name: name, materialDiameter: filamentDiameter, spoolPrice: price, filamentWeight: filamentWeight, density: density, nozzleTemp: nozzleTemp, bedTemp: bedTemp};
 
-    this.dialogRef.close(newPrinter);
+    this.dialogRef.close(newFilament);
   }
 }
