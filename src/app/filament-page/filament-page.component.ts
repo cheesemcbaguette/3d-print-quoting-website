@@ -11,6 +11,8 @@ import {AddFilamentDialogComponent} from "../dialogs/add-filament-dialog/add-fil
 import {PrintersService} from "../service/printers.service";
 import {FilamentsService} from "../service/filaments.service";
 import {Printer} from "../model/printer";
+import {DeletePrinterDialogComponent} from "../dialogs/delete-printer-dialog/delete-printer-dialog.component";
+import {DeleteFilamentDialogComponent} from "../dialogs/delete-filament-dialog/delete-filament-dialog.component";
 
 @Component({
   selector: 'filament-page',
@@ -73,6 +75,20 @@ export class FilamentPageComponent implements AfterViewInit {
           this.dataSource.data = newData;
 
           this.filamentsService.editFilaments(newData)
+        } else {
+          // User clicked 'Cancel' or clicked outside the dialog
+        }
+      });
+  }
+
+  openDeleteFilamentDialog(index: number) {
+    let dialog = this.dialog.open(DeleteFilamentDialogComponent, {data: {filamentName: this.dataSource.data[index].name}});
+    dialog.afterClosed()
+      .subscribe(doDelete => {
+        if (doDelete) {
+          this.dataSource.data = this.dataSource.data.filter((item, datasourceIndex) => datasourceIndex !== index);
+
+          this.filamentsService.editFilaments(this.dataSource.data)
         } else {
           // User clicked 'Cancel' or clicked outside the dialog
         }

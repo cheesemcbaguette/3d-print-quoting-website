@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Delete {{data.filamentName}}?</h1>
+
+<mat-dialog-content class="mat-typography">
+  Are you sure you want to remove the filament {{data.filamentName}} from the list?
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="dialogRef.close()">Cancel</button>
+
+  <button mat-raised-button color="warn" (click)="dialogRef.close(true)">Delete</button>
+</mat-dialog-actions>

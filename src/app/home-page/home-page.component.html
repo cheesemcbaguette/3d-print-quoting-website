@@ -246,6 +246,10 @@
                       </option>
                     </ng-container>
 
+                    <ng-container *ngIf="filaments && filaments.length == 0">
+                      <option value="">No filament compatible for this printer</option>
+                    </ng-container>
+
                   </select>
                 </div>
               </div>
