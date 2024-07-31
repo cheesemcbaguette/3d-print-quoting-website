@@ -4,6 +4,8 @@ import {MyErrorStateMatcher} from "../../utils/MyErrorStateMatcher";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Printer} from "../../model/printer";
 import {Filament} from "../../model/filament";
+import {CurrencyService} from "../../service/currency.service";
+import {FilamentsService} from "../../service/filaments.service";
 
 @Component({
   selector: 'app-add-filament-dialog',
@@ -14,19 +16,20 @@ export class AddFilamentDialogComponent implements OnInit {
 
   /*Form validations*/
   addFilamentForm = new FormGroup({
-    nameFormControl: new FormControl('', [Validators.required,]),
-    filamentDiameterFormControl: new FormControl('', [Validators.required,]),
-    priceFormControl: new FormControl('', [Validators.required,]),
-    filamentWeightFormControl: new FormControl('', [Validators.required,]),
-    densityFormControl: new FormControl('', [Validators.required,]),
-    nozzleTempFormControl: new FormControl('', []),
-    bedTempFormControl: new FormControl('', []),
+    nameFormControl: new FormControl(this.data.filament ? this.data.filament.name : "", [Validators.required,]),
+    filamentDiameterFormControl: new FormControl(this.data.filament ? this.data.filament.materialDiameter : "", [Validators.required,]),
+    priceFormControl: new FormControl(this.data.filament ? this.data.filament.spoolPrice : "", [Validators.required,]),
+    filamentWeightFormControl: new FormControl(this.data.filament ? this.data.filament.filamentWeight : "", [Validators.required,]),
+    densityFormControl: new FormControl(this.data.filament ? this.data.filament.density : "", [Validators.required,]),
+    nozzleTempFormControl: new FormControl(this.data.filament ? this.data.filament.nozzleTemp : "", []),
+    bedTempFormControl: new FormControl(this.data.filament ? this.data.filament.bedTemp : "", []),
   });
 
   matcher = new MyErrorStateMatcher();
+  selectedCurrency: string;
 
-  constructor(public dialogRef: MatDialogRef<AddFilamentDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: {currency: string}) {
-
+  constructor(public dialogRef: MatDialogRef<AddFilamentDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: {filament : Filament, title: string}, private currencyService: CurrencyService) {
+    this.selectedCurrency = currencyService.getCurrency();
   }
 
   ngOnInit(): void {

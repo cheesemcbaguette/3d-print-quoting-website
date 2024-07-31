@@ -40,7 +40,7 @@ export class PrinterPageComponent implements AfterViewInit {
   openAddPrinterDialog() {
     let dialog = this.dialog.open(AddPrinterDialogComponent, {
 
-      data: { currency: this.selectedCurrency },
+      data: { title: "Add new printer" },
     });
     dialog.afterClosed()
       .subscribe(newPrinter => {
@@ -58,9 +58,9 @@ export class PrinterPageComponent implements AfterViewInit {
 
   openEditPrinterDialog(index: number) {
     let printer : Printer = this.dataSource.data[index];
-    let dialog = this.dialog.open(EditPrinterDialogComponent, {
+    let dialog = this.dialog.open(AddPrinterDialogComponent, {
 
-      data: { currency: this.selectedCurrency, printer: printer },
+      data: { printer: printer, title: "Edit printer" },
     });
     dialog.afterClosed()
       .subscribe(newPrinter => {

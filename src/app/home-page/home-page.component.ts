@@ -14,6 +14,8 @@ import {NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct} from
 import {Printer} from "../model/printer";
 import {PrintersService} from "../service/printers.service";
 import {CurrencyService} from "../service/currency.service";
+import {FilamentsService} from "../service/filaments.service";
+import {Filament} from "../model/filament";
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -93,7 +95,10 @@ export class HomePageComponent implements AfterViewInit  {
 
   @ViewChild('currencySelect') currencySelect!: ElementRef;
 
+  @ViewChild('filamentSelect') filamentSelect!: ElementRef;
+
   printers: Printer[];
+  filaments: Filament[] = [];
 
   saleData = [
     { name: "Preparation", value: 21.4 },
@@ -106,12 +111,13 @@ export class HomePageComponent implements AfterViewInit  {
   model: string | undefined;
 
   selectedCurrency : string;
+  selectedPrinter: Printer | undefined;
 
   labelClass = "col-sm-6 col-form-label"
   inputDivClass = "col-sm-6"
 
   constructor(private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>, private ref: ChangeDetectorRef,
-              private printersService: PrintersService, private currencyService: CurrencyService) {
+              private printersService: PrintersService, private currencyService: CurrencyService, public filamentsService: FilamentsService,) {
     this.printers = this.printersService.getPrinters();
     this.selectedCurrency = currencyService.getCurrency();
   }
@@ -139,5 +145,18 @@ export class HomePageComponent implements AfterViewInit  {
 
   onCurrencySelected() {
     this.currencyService.setCurrency(this.selectedCurrency)
+  }
+
+  onPrinterSelected(value: string) {
+    if(value) {
+      this.selectedPrinter = this.printers[parseInt(value)];
+
+      this.filaments = this.filamentsService.getCompatibleFilamentsForAPrinter(this.selectedPrinter)
+    } else {
+      //clear selected printer and filaments if users unselects a printer
+      this.selectedPrinter = undefined;
+      this.filaments = [];
+    }
+
   }
 }

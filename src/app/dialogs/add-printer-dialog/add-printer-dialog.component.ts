@@ -14,18 +14,18 @@ export class AddPrinterDialogComponent implements OnInit {
 
   /*Form validations*/
   addPrinterForm = new FormGroup({
-    nameFormControl: new FormControl('', [Validators.required,]),
-    filamentDiameterFormControl: new FormControl('', [Validators.required,]),
-    priceFormControl: new FormControl('', [Validators.required,]),
-    depreciationTimeFormControl: new FormControl('', [Validators.required,]),
-    serviceCostPerLifeFormControl: new FormControl('', [Validators.required,]),
-    energyConsumptionFormControl: new FormControl('', [Validators.required,]),
+    nameFormControl: new FormControl(this.data.printer ? this.data.printer.name : "", [Validators.required,]),
+    filamentDiameterFormControl: new FormControl(this.data.printer ? this.data.printer.materialDiameter : "", [Validators.required,]),
+    priceFormControl: new FormControl(this.data.printer ? this.data.printer.price : "", [Validators.required,]),
+    depreciationTimeFormControl: new FormControl(this.data.printer ? this.data.printer.depreciationTime : "", [Validators.required,]),
+    serviceCostPerLifeFormControl: new FormControl(this.data.printer ? this.data.printer.serviceCostPerLife : "", [Validators.required,]),
+    energyConsumptionFormControl: new FormControl(this.data.printer ? this.data.printer.energyConsumption : "", [Validators.required,]),
   });
 
   matcher = new MyErrorStateMatcher();
   selectedCurrency: string;
 
-  constructor(public dialogRef: MatDialogRef<AddPrinterDialogComponent>, private currencyService: CurrencyService) {
+  constructor(public dialogRef: MatDialogRef<AddPrinterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: {printer : Printer, title: string}, private currencyService: CurrencyService) {
     this.selectedCurrency = currencyService.getCurrency();
   }
 

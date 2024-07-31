@@ -212,15 +212,15 @@
 
             <div class="customer-general-print-details-height">
               <div class="row mb-2">
-                <label for="selectPrinter" class={{labelClass}}>Printer</label>
+                <label for="printerSelect" class={{labelClass}}>Printer</label>
 
                 <div class={{inputDivClass}}>
-                  <select class="form-select" id="selectPrinter"
-                          aria-label="Printer select" name="first">
+                  <select class="form-select" id="printerSelect" #printerSelect
+                          aria-label="Printer select" name="first" (change)="onPrinterSelected(printerSelect.value)">
                     <option value="">Please select a printer</option>
 
                     <ng-container *ngIf="printers && printers.length > 0">
-                      <option *ngFor="let printer of printers; let i = index" [value]="printers[i].name">
+                      <option *ngFor="let printer of printers; let i = index" [value]="i">
                         {{printers[i].name}}
                       </option>
                     </ng-container>
@@ -229,10 +229,24 @@
                 </div>
               </div>
               <div class="row mb-2">
-                <label for="selectFilament" class={{labelClass}}>Filament</label>
+                <label for="filamentSelect" class={{labelClass}}>Filament</label>
 
                 <div class={{inputDivClass}}>
-                  <input type="text" class="form-control" id="selectFilament" placeholder="Prusament PETG Black" data-form-type="filament">
+                  <select class="form-select" id="filamentSelect" #filamentSelect
+                          aria-label="Filament select" name="first">
+                    <ng-container *ngIf="!selectedPrinter">
+                      <option value="">Please select a printer first</option>
+                    </ng-container>
+
+                    <ng-container *ngIf="filaments && filaments.length > 0">
+                      <option value="">Please select a filament</option>
+
+                      <option *ngFor="let filament of filaments; let i = index" [value]="i">
+                        {{filaments[i].name}}
+                      </option>
+                    </ng-container>
+
+                  </select>
                 </div>
               </div>
               <div class="row mb-2">

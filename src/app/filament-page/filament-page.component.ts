@@ -10,6 +10,7 @@ import {AddPrinterDialogComponent} from "../dialogs/add-printer-dialog/add-print
 import {AddFilamentDialogComponent} from "../dialogs/add-filament-dialog/add-filament-dialog.component";
 import {PrintersService} from "../service/printers.service";
 import {FilamentsService} from "../service/filaments.service";
+import {Printer} from "../model/printer";
 
 @Component({
   selector: 'filament-page',
@@ -28,7 +29,7 @@ export class FilamentPageComponent implements AfterViewInit {
 
   constructor(private dialog: MatDialog, private currencyService: CurrencyService, private filamentsService: FilamentsService) {
     // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(filamentsService.getFilaments());
+    this.dataSource = new MatTableDataSource(filamentsService.getAllFilaments());
     this.selectedCurrency = currencyService.getCurrency();
   }
 
@@ -41,13 +42,34 @@ export class FilamentPageComponent implements AfterViewInit {
   openAddFilamentDialog() {
     let dialog = this.dialog.open(AddFilamentDialogComponent, {
 
-      data: { currency: this.selectedCurrency },
+      data: { title: "Add new filament" },
     });
     dialog.afterClosed()
       .subscribe(newFilament => {
         if (newFilament && this.dataSource) {
           const newData = [ ...this.dataSource.data ];
           newData.push(newFilament);
+          this.dataSource.data = newData;
+
+          this.filamentsService.editFilaments(newData)
+        } else {
+          // User clicked 'Cancel' or clicked outside the dialog
+        }
+      });
+  }
+
+  openEditFilamentDialog(index: number) {
+    let filament : Filament = this.dataSource.data[index];
+    let dialog = this.dialog.open(AddFilamentDialogComponent, {
+
+      data: { title: "Edit filament", filament: filament },
+    });
+    dialog.afterClosed()
+      .subscribe(newFilament => {
+        if (newFilament && this.dataSource) {
+          const newData = [ ...this.dataSource.data ];
+          newData[index] = newFilament;
+
           this.dataSource.data = newData;
 
           this.filamentsService.editFilaments(newData)
