@@ -197,7 +197,7 @@
       <div class="customer-general-print-details-height row">
         <mat-form-field class="col-6">
           <mat-label>Printer</mat-label>
-          <mat-select id="printerSelect" #printerSelect aria-label="Printer select"  (selectionChange)="onPrinterSelected(printerSelect.value)">
+          <mat-select id="printerSelect" #printerSelect aria-label="Printer select"  (selectionChange)="onPrinterSelected(printerSelect.value)" formControlName="printerFormControl">
             <ng-container *ngIf="printers && printers.length > 0">
               <mat-option *ngFor="let printer of printers; let i = index" [value]=[i]>
                 {{printers[i].name}}
@@ -208,9 +208,9 @@
 
         <mat-form-field class="col-6">
           <mat-label>Filament</mat-label>
-          <mat-select id="filamentSelect" #filamentSelect aria-label="Filament select">
+          <mat-select id="filamentSelect" #filamentSelect aria-label="Filament select" formControlName="filamentFormControl">
             <ng-container *ngIf="!selectedPrinter">
-              <mat-option value="">Please select a filament</mat-option>
+              <mat-option value="">Please select a printer first</mat-option>
             </ng-container>
             <ng-container *ngIf="filaments && filaments.length > 0">
               <mat-option *ngFor="let filament of filaments; let i = index" [value]="i">
@@ -230,36 +230,17 @@
           <span matTextSuffix>g</span>
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Printing time</mat-label>
-          <input type="number" min="0" matInput placeholder="Hours" formControlName="nameFormControl">
+        <mat-form-field appearance="fill" class="col-3 pe-0" floatLabel="always">
+          <mat-label>Print time in hours</mat-label>
+          <input type="number" min="0" matInput placeholder="Hours" formControlName="printTimeHoursFormControl">
           <span matTextSuffix>hh</span>
-          <input type="number" min="0" matInput placeholder="Minutes" formControlName="nameFormControl">
-          <span matTextSuffix>mm</span>
         </mat-form-field>
 
-        <div class="row mb-2">
-          <label for="weight" class={{labelClass}}>Weight</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="weight" placeholder="Insert the weight of the print" data-form-type="weight">
-              <span class="input-group-text" id="basic-addon-weight">g</span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <label for="printTimeHours" class={{labelClass}}>Printing time</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="printTimeHours" placeholder="Hours" data-form-type="printTime" min="0">
-              <span class="input-group-text" id="basic-addon-hours">hh</span>
-              <input type="number" class="form-control" id="printTimeMins" placeholder="Minutes" data-form-type="printTime" min="0" max="60">
-              <span class="input-group-text" id="basic-addon-mins">mm</span>
-            </div>
-          </div>
-        </div>
+        <mat-form-field appearance="fill" class="col-3 ps-0" floatLabel="always">
+          <mat-label>Print time in minutes</mat-label>
+          <input type="number" min="0" max="59" matInput placeholder="Minutes" formControlName="printTimeMinutesFormControl">
+          <span matTextSuffix>mm</span>
+        </mat-form-field>
       </div>
     </mat-expansion-panel>
 

@@ -114,6 +114,8 @@ export class HomePageComponent implements AfterViewInit  {
     nameFormControl: new FormControl("", []),
     dateFormControl: new FormControl("", []),
     descriptionFormControl: new FormControl("", []),
+    printTimeHoursFormControl: new FormControl("", []),
+    printTimeMinutesFormControl: new FormControl("", [])
   });
 
 
