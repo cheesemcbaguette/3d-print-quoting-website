@@ -1,9 +1,8 @@
-import {RouterModule, Routes} from '@angular/router';
-import {HomePageComponent} from "./home-page/home-page.component";
-import {PrinterPageComponent} from "./printer-page/printer-page.component";
-import {FilamentPageComponent} from "./filament-page/filament-page.component";
-import {AboutPageComponent} from "./about-page/about-page.component";
-import {NgModule} from "@angular/core";
+import {Routes} from '@angular/router';
+import {HomePageComponent} from "./pages/home-page/home-page.component";
+import {PrinterPageComponent} from "./pages/printer-page/printer-page.component";
+import {FilamentPageComponent} from "./pages/filament-page/filament-page.component";
+import {AboutPageComponent} from "./pages/about-page/about-page.component";
 
 export const routes: Routes  = [
   { path: '', component: HomePageComponent, },

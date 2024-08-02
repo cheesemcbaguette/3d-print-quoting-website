@@ -1,9 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {MyErrorStateMatcher} from "../../utils/MyErrorStateMatcher";
+import {MyErrorStateMatcher} from "../../../utils/MyErrorStateMatcher";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Printer} from "../../model/printer";
-import {CurrencyService} from "../../service/currency.service";
+import {Printer} from "../../../model/printer";
+import {CurrencyService} from "../../../service/currency.service";
 
 @Component({
   selector: 'app-edit-printer-dialog',

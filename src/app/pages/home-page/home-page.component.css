@@ -1,0 +1,19 @@
+.preparation-miscellaneous-height {
+  min-height: 270px;
+}
+
+.costs-quote-height {
+  min-height: 580px;
+}
+
+.customer-general-print-details-height {
+  min-height: 180px;
+}
+
+#containerRef {
+  height: 400px;
+}
+
+.mat-form-field-full-width {
+  width: 100%;
+}

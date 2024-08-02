@@ -1,14 +1,12 @@
-import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-import {Printer} from "../model/printer";
-import {PRINTERS} from "../../assets/printers-data";
+import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {Printer} from "../../model/printer";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
-import {AddPrinterDialogComponent} from "../dialogs/add-printer-dialog/add-printer-dialog.component";
-import {EditPrinterDialogComponent} from "../dialogs/edit-printer-dialog/edit-printer-dialog.component";
-import {DeletePrinterDialogComponent} from "../dialogs/delete-printer-dialog/delete-printer-dialog.component";
-import {PrintersService} from "../service/printers.service";
-import {CurrencyService} from "../service/currency.service";
+import {AddPrinterDialogComponent} from "../../components/dialogs/add-printer-dialog/add-printer-dialog.component";
+import {DeletePrinterDialogComponent} from "../../components/dialogs/delete-printer-dialog/delete-printer-dialog.component";
+import {PrintersService} from "../../service/printers.service";
+import {CurrencyService} from "../../service/currency.service";
 
 @Component({
   selector: 'printer-page',

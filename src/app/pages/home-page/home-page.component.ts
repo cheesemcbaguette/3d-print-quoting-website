@@ -1,21 +1,12 @@
-import {
-  AfterContentChecked,
-  AfterViewInit, ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injectable,
-  Input,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Injectable, ViewChild} from '@angular/core';
 import {NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
-import {Printer} from "../model/printer";
-import {PrintersService} from "../service/printers.service";
-import {CurrencyService} from "../service/currency.service";
-import {FilamentsService} from "../service/filaments.service";
-import {Filament} from "../model/filament";
+import {Printer} from "../../model/printer";
+import {PrintersService} from "../../service/printers.service";
+import {CurrencyService} from "../../service/currency.service";
+import {FilamentsService} from "../../service/filaments.service";
+import {Filament} from "../../model/filament";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+
 
 /**
  * This Service handles how the date is represented in scripts i.e. ngModel.
@@ -115,6 +106,16 @@ export class HomePageComponent implements AfterViewInit  {
 
   labelClass = "col-sm-6 col-form-label"
   inputDivClass = "col-sm-6"
+
+  /*Form validations*/
+  quoteForm = new FormGroup({
+    printerFormControl: new FormControl("", [Validators.required,]),
+    filamentFormControl: new FormControl("", [Validators.required,]),
+    nameFormControl: new FormControl("", []),
+    dateFormControl: new FormControl("", []),
+    descriptionFormControl: new FormControl("", []),
+  });
+
 
   constructor(private ngbCalendar: NgbCalendar, private dateAdapter: NgbDateAdapter<string>, private ref: ChangeDetectorRef,
               private printersService: PrintersService, private currencyService: CurrencyService, public filamentsService: FilamentsService,) {

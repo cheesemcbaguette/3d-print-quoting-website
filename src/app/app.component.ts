@@ -1,8 +1,4 @@
 import {Component} from '@angular/core';
-import {PRINTERS} from "../assets/printers-data";
-import {Printer} from "./model/printer";
-import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
-import {CommonModule} from "@angular/common";
 
 
 @Component({
@@ -17,9 +13,4 @@ export class AppComponent {
 
 
   constructor() { }
-
-  onCurrencySelected(currency: string) {
-    this.selectedCurrency = currency;
-    console.log(currency);
-  }
 }

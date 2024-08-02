@@ -1,18 +1,13 @@
-import {AfterViewInit, Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
 
-import {Filament} from "../model/filament";
-import {FILAMENTS} from "../../assets/filaments-data";
+import {Filament} from "../../model/filament";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatDialog} from "@angular/material/dialog";
-import {CurrencyService} from "../service/currency.service";
-import {AddPrinterDialogComponent} from "../dialogs/add-printer-dialog/add-printer-dialog.component";
-import {AddFilamentDialogComponent} from "../dialogs/add-filament-dialog/add-filament-dialog.component";
-import {PrintersService} from "../service/printers.service";
-import {FilamentsService} from "../service/filaments.service";
-import {Printer} from "../model/printer";
-import {DeletePrinterDialogComponent} from "../dialogs/delete-printer-dialog/delete-printer-dialog.component";
-import {DeleteFilamentDialogComponent} from "../dialogs/delete-filament-dialog/delete-filament-dialog.component";
+import {CurrencyService} from "../../service/currency.service";
+import {AddFilamentDialogComponent} from "../../components/dialogs/add-filament-dialog/add-filament-dialog.component";
+import {FilamentsService} from "../../service/filaments.service";
+import {DeleteFilamentDialogComponent} from "../../components/dialogs/delete-filament-dialog/delete-filament-dialog.component";
 
 @Component({
   selector: 'filament-page',

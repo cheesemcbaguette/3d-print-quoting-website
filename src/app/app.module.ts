@@ -14,23 +14,24 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { HomePageComponent } from './home-page/home-page.component';
-import {FilamentPageComponent} from './filament-page/filament-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import {FilamentPageComponent} from './pages/filament-page/filament-page.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
-import {PrinterPageComponent} from "./printer-page/printer-page.component";
+import {PrinterPageComponent} from "./pages/printer-page/printer-page.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
 import {RouterLinkWithHref, RouterModule, RouterOutlet} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
-import { AddPrinterDialogComponent } from './dialogs/add-printer-dialog/add-printer-dialog.component';
+import { AddPrinterDialogComponent } from './components/dialogs/add-printer-dialog/add-printer-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
-import { EditPrinterDialogComponent } from './dialogs/edit-printer-dialog/edit-printer-dialog.component';
-import { DeletePrinterDialogComponent } from './dialogs/delete-printer-dialog/delete-printer-dialog.component';
-import { AddFilamentDialogComponent } from './dialogs/add-filament-dialog/add-filament-dialog.component';
+import { EditPrinterDialogComponent } from './components/dialogs/edit-printer-dialog/edit-printer-dialog.component';
+import { DeletePrinterDialogComponent } from './components/dialogs/delete-printer-dialog/delete-printer-dialog.component';
+import { AddFilamentDialogComponent } from './components/dialogs/add-filament-dialog/add-filament-dialog.component';
+import {MatTimepickerModule, provideNativeDateTimeAdapter} from "@dhutaryan/ngx-mat-timepicker";
 
 import { routes } from './app.routes';
 import {
@@ -39,7 +40,7 @@ import {
   MatExpansionPanelDescription, MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
-import {AboutPageComponent} from "./about-page/about-page.component";
+import {AboutPageComponent} from "./pages/about-page/about-page.component";
 import {MatIconButtonSizesModule} from "mat-icon-button-sizes";
 
 @NgModule({
@@ -87,9 +88,10 @@ import {MatIconButtonSizesModule} from "mat-icon-button-sizes";
         AboutPageComponent,
         RouterOutlet,
         RouterModule.forRoot(routes),
-        MatIconButtonSizesModule
+        MatIconButtonSizesModule,
+        MatTimepickerModule,
     ],
-  providers: [],
+  providers: [provideNativeDateTimeAdapter()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

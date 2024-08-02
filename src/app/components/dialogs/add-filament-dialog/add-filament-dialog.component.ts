@@ -1,11 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {MyErrorStateMatcher} from "../../utils/MyErrorStateMatcher";
+import {MyErrorStateMatcher} from "../../../utils/MyErrorStateMatcher";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Printer} from "../../model/printer";
-import {Filament} from "../../model/filament";
-import {CurrencyService} from "../../service/currency.service";
-import {FilamentsService} from "../../service/filaments.service";
+import {Filament} from "../../../model/filament";
+import {CurrencyService} from "../../../service/currency.service";
 
 @Component({
   selector: 'app-add-filament-dialog',
