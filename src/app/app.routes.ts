@@ -5,7 +5,7 @@ import {FilamentPageComponent} from "./pages/filament-page/filament-page.compone
 import {AboutPageComponent} from "./pages/about-page/about-page.component";
 
 export const routes: Routes  = [
-  { path: '', component: HomePageComponent, },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   {path: 'home', component: HomePageComponent},
   {path: 'printers', component: PrinterPageComponent},
   {path: 'material', component: FilamentPageComponent},

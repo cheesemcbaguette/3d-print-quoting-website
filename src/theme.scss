@@ -28,7 +28,27 @@ body {
 .filler {
   flex: 1 1 auto;
 }
+
 .gap {
   margin-right: 10px;
+}
+
+.mdc-text-field--disabled
+{
+  fill: mat.get-theme-color($my-app-theme, primary, 100) !important;
+  color: mat.get-theme-color($my-app-theme, primary, 100) !important;
+}
+
+.mdc-text-field--filled.mdc-text-field--disabled .mdc-text-field__input {
+  fill: mat.get-theme-color($my-app-theme, primary, 100) !important;
+  color: mat.get-theme-color($my-app-theme, primary, 100) !important;
+}
+
+.border-tr-0 .mdc-text-field {
+  border-top-right-radius: 0;
+}
+
+.border-tl-0 .mdc-text-field {
+  border-top-left-radius: 0;
 }
 

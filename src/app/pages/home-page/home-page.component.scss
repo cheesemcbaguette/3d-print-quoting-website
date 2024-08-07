@@ -2,22 +2,6 @@
 @use 'sass:map';
 @import "../../../theme.scss";
 
-.preparation-miscellaneous-height {
-  min-height: 270px;
-}
-
-.costs-quote-height {
-  min-height: 580px;
-}
-
-.customer-general-print-details-height {
-  min-height: 180px;
-}
-
-#containerRef {
-  height: 400px;
-}
-
 .mat-form-field-full-width {
   width: 100%;
 }
@@ -28,3 +12,10 @@
   }
 }
 
+.border-tr-0 * {
+  border-top-right-radius: 0 !important;
+}
+
+.border-tl-0 * {
+  border-top-left-radius: 0 !important;
+}
