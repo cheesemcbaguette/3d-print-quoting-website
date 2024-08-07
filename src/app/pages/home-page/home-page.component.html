@@ -19,7 +19,7 @@
           <input matInput [matDatepicker]="picker" formControlName="dateFormControl" maxlength="50">
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <mat-datepicker #picker ></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field class="col-12" floatLabel="always" appearance="fill">
@@ -38,57 +38,32 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div class="preparation-miscellaneous-height">
-        <div class="row mb-2">
-          <label for="modelPreparation" class={{labelClass}}>Model preparation (Fixing, CAD…)</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="modelPreparation" placeholder="0" data-form-type="modelPreparation">
-              <span class="input-group-text" id="basic-addon-preparation">min</span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="slicing" class={{labelClass}}>Slicing (Supports, Parameters…)</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="slicing" placeholder="0" data-form-type="slicing">
-              <span class="input-group-text" id="basic-addon-slicing">min</span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="materialChange" class={{labelClass}}>Material change</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="materialChange" placeholder="0" data-form-type="materialChange">
-              <span class="input-group-text" id="basic-addon-materialChange">min</span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="transferAndStart" class={{labelClass}}>Transfer & Start</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="transferAndStart" placeholder="0" data-form-type="transferAndStart">
-              <span class="input-group-text" id="basic-addon-transferAndStart">min</span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="sum" class={{labelClass}}>Sum</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" disabled id="sum" placeholder="0" data-form-type="sum">
-              <span class="input-group-text" id="basic-addon-sum">min</span>
-            </div>
-          </div>
-        </div>
+      <div class="preparation-miscellaneous-height row">
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Model preparation (Fixing, CAD…)</mat-label>
+          <input #modelPreparation type="number" min="0" matInput formControlName="modelPreparationFormControl">
+          <span matTextSuffix>min</span>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Slicing (Supports, Parameters…)</mat-label>
+          <input #slicing type="number" min="0" matInput formControlName="slicingFormControl">
+          <span matTextSuffix>min</span>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Material change</mat-label>
+          <input #materialChange type="number" min="0" matInput formControlName="materialChangeFormControl">
+          <span matTextSuffix>min</span>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Transfer & Start</mat-label>
+          <input #transferAndStart type="number" min="0" matInput formControlName="transferAndStartFormControl">
+          <span matTextSuffix>min</span>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Sum</mat-label>
+          <input matInput disabled value="{{parseInt(String(+modelPreparation.value)) + parseInt(String(+slicing.value)) + parseInt(String(+materialChange.value)) + parseInt(String(+transferAndStart.value))}}">
+          <span matTextSuffix>min</span>
+        </mat-form-field>
       </div>
     </mat-expansion-panel>
 
@@ -226,7 +201,7 @@
 
         <mat-form-field appearance="fill" class="col-6" floatLabel="always">
           <mat-label>Weight</mat-label>
-          <input type="number" min="0" matInput placeholder="Insert the weight of the print" formControlName="nameFormControl">
+          <input type="number" min="0" matInput placeholder="Insert the weight of the print" formControlName="printWeightFormControl">
           <span matTextSuffix>g</span>
         </mat-form-field>
 
@@ -252,69 +227,47 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div class="preparation-miscellaneous-height">
-        <div class="row mb-2">
-          <label for="consumables" class={{labelClass}}>Consumables</label>
+      <div class="preparation-miscellaneous-height row">
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Consumables</mat-label>
+          <input type="number" min="0" matInput formControlName="consumablesFormControl">
+          <span matTextSuffix>{{selectedCurrency}}</span>
+        </mat-form-field>
 
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="consumables" placeholder="0" data-form-type="consumables">
-              <span class="input-group-text" id="basic-addon-consumables" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="energyCost" class={{labelClass}}>Energy cost</label>
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Energy cost</mat-label>
+          <input type="number" min="0" matInput formControlName="energyCostFormControl">
+          <span matTextSuffix>{{selectedCurrency + '/kWh'}}</span>
+        </mat-form-field>
 
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="energyCost" min="0" placeholder="0" step="0.01" data-form-type="energyCost">
-              <span class="input-group-text" id="basic-addon-energyCost" [innerText]="selectedCurrency + '/kWh'"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="laborCost" class={{labelClass}}>Labor Costs</label>
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Labor Costs</mat-label>
+          <input type="number" min="0" matInput formControlName="laborCostFormControl">
+          <span matTextSuffix>{{selectedCurrency + '/h'}}</span>
+        </mat-form-field>
 
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="laborCost" placeholder="0" data-form-type="laborCost">
-              <span class="input-group-text" id="basic-addon-laborCost"  [innerText]="selectedCurrency + '/h'"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="failureRate" class={{labelClass}}>Failure rate</label>
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Failure rate</mat-label>
+          <input type="number" min="0" matInput formControlName="failureRateFormControl">
+          <span matTextSuffix>%</span>
+        </mat-form-field>
 
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="failureRate" placeholder="0" min="0" max="100" data-form-type="failureRate">
-              <span class="input-group-text" id="basic-addon-failure_rate">%</span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="currencySelect" class={{labelClass}}>Currency unit</label>
+        <mat-form-field class="col-6">
+          <mat-label>Currency unit</mat-label>
+          <mat-select id="currencySelect" #currencySelect aria-label="Currency select" (selectionChange)="onCurrencySelected(currencySelect.value)" formControlName="currencyFormControl">
+            <ng-container *ngIf="currencies && currencies.length > 0">
+              <mat-option *ngFor="let currency of currencies" [value]=currency>
+                {{currency}}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
 
-          <div class={{inputDivClass}}>
-            <select class="form-select" #currencySelect id="currencySelect" (change)="onCurrencySelected()"
-                    aria-label="Currency unit select" [value]="selectedCurrency" [(ngModel)]="selectedCurrency" name="first">
-              <option value="€">€</option>
-              <option value="£">£</option>
-              <option value="$">$</option>
-            </select>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="dickFee" class={{labelClass}}>Client is very demanding fee</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="dickFee" placeholder="0" data-form-type="dickFee">
-              <span class="input-group-text" id="basic-addon-dickFee" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Client is very demanding fee</mat-label>
+          <input type="number" min="0" matInput formControlName="clientDemandingFormControl">
+          <span matTextSuffix>{{selectedCurrency}}</span>
+        </mat-form-field>
       </div>
     </mat-expansion-panel>
 

@@ -90,6 +90,7 @@ export class HomePageComponent implements AfterViewInit  {
 
   printers: Printer[];
   filaments: Filament[] = [];
+  currencies: string[] = ["€", "£", "$"]
 
   saleData = [
     { name: "Preparation", value: 21.4 },
@@ -111,11 +112,22 @@ export class HomePageComponent implements AfterViewInit  {
   quoteForm = new FormGroup({
     printerFormControl: new FormControl("", [Validators.required,]),
     filamentFormControl: new FormControl("", [Validators.required,]),
+    printWeightFormControl: new FormControl("", [Validators.required,]),
     nameFormControl: new FormControl("", []),
     dateFormControl: new FormControl("", []),
     descriptionFormControl: new FormControl("", []),
     printTimeHoursFormControl: new FormControl("", []),
-    printTimeMinutesFormControl: new FormControl("", [])
+    printTimeMinutesFormControl: new FormControl("", []),
+    modelPreparationFormControl: new FormControl("", []),
+    slicingFormControl: new FormControl("", []),
+    materialChangeFormControl: new FormControl("", []),
+    transferAndStartFormControl: new FormControl("", []),
+    consumablesFormControl: new FormControl("", []),
+    energyCostFormControl: new FormControl("", []),
+    laborCostFormControl: new FormControl("", []),
+    failureRateFormControl: new FormControl("", []),
+    currencyFormControl: new FormControl("", []),
+    clientDemandingFormControl: new FormControl("", []),
   });
 
 
@@ -127,6 +139,7 @@ export class HomePageComponent implements AfterViewInit  {
 
   ngAfterViewInit(): void {
     this.ref.detectChanges();
+    this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency)
   }
 
   get today() {
@@ -146,7 +159,8 @@ export class HomePageComponent implements AfterViewInit  {
     }
   }
 
-  onCurrencySelected() {
+  onCurrencySelected(value: string) {
+    this.selectedCurrency = value
     this.currencyService.setCurrency(this.selectedCurrency)
   }
 
@@ -162,4 +176,7 @@ export class HomePageComponent implements AfterViewInit  {
     }
 
   }
+
+  protected readonly parseInt = parseInt;
+  protected readonly String = String;
 }
