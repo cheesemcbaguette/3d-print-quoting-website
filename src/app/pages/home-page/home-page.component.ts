@@ -73,7 +73,7 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 @Component({
   selector: 'home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css'],
+  styleUrls: ['./home-page.component.scss'],
 
   // NOTE: For this example we are only providing current component, but probably
   // NOTE: you will want to provide your main App Module

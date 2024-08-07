@@ -1,20 +1,31 @@
 @use '@angular/material' as mat;
+@use 'sass:map';
+@import "../theme.scss";
 
 .main {
   min-height: 1000px;
 }
 
-.nav-link{
-  --bs-text-opacity:1;
-  color:rgba(var(--bs-white-rgb),var(--bs-text-opacity));
+.title-center {
+  margin: 0 auto;
+}
+
+mat-toolbar {
+  background-color: mat.get-theme-color($my-app-theme, primary, 30);
 }
 
 .header-nav .nav-link.active {
   --bs-text-opacity:1;
-  //color:rgba(var(--bs-secondary-rgb),var(--bs-text-opacity));
-  background: rgba(0,0,0,.2);
+  background-color: mat.get-theme-color($my-app-theme, primary, 35);
 }
 
-.title-center {
-  margin: 0 auto;
+.footer {
+  color: mat.get-theme-color($my-app-theme, primary, 100) !important;
+  background-color: transparent !important;
 }
+
+.footer .nav-link{
+  color: mat.get-theme-color($my-app-theme, primary, 100) !important;
+  background-color: transparent !important;
+}
+

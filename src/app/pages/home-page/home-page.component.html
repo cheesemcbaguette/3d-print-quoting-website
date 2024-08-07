@@ -1,31 +1,87 @@
 <form [formGroup]="quoteForm" class="row g-5">
-  <mat-accordion multi class="col-lg-6 col-md-12">
+  <mat-accordion multi class="col-lg-12">
     <mat-expansion-panel expanded>
       <mat-expansion-panel-header>
-        <mat-panel-title> Customer details </mat-panel-title>
+        <mat-panel-title> Customer and general print details </mat-panel-title>
         <mat-panel-description>
 
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div class="customer-general-print-details-height row">
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Customer</mat-label>
-          <input type="text" matInput formControlName="nameFormControl" maxlength="50">
-        </mat-form-field>
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <div class="row">
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Customer name</mat-label>
+              <input type="text" matInput formControlName="nameFormControl" maxlength="50">
+            </mat-form-field>
 
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="dateFormControl" maxlength="50">
-          <mat-hint>DD/MM/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker ></mat-datepicker>
-        </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Date</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="dateFormControl" maxlength="50">
+              <mat-hint>DD/MM/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker ></mat-datepicker>
+            </mat-form-field>
 
-        <mat-form-field class="col-12" floatLabel="always" appearance="fill">
-          <mat-label>Description</mat-label>
-          <textarea maxlength="150" formControlName="descriptionFormControl" matInput placeholder="Insert description"></textarea>
-        </mat-form-field>
+            <mat-form-field class="col-12" floatLabel="always" appearance="fill">
+              <mat-label>Description</mat-label>
+              <textarea maxlength="150" formControlName="descriptionFormControl" matInput placeholder="Insert description"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+          <div class="row">
+            <mat-form-field class="col-6">
+              <mat-label>Printer</mat-label>
+              <mat-select id="printerSelect" #printerSelect aria-label="Printer select"  (selectionChange)="onPrinterSelected(printerSelect.value)" formControlName="printerFormControl">
+                <ng-container *ngIf="printers && printers.length > 0">
+                  <mat-option *ngFor="let printer of printers; let i = index" [value]=[i]>
+                    {{printers[i].name}}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="col-6">
+              <mat-label>Filament</mat-label>
+              <mat-select id="filamentSelect" #filamentSelect aria-label="Filament select" formControlName="filamentFormControl">
+                <ng-container *ngIf="!selectedPrinter">
+                  <mat-option value="">Please select a printer first</mat-option>
+                </ng-container>
+                <ng-container *ngIf="filaments && filaments.length > 0">
+                  <mat-option *ngFor="let filament of filaments; let i = index" [value]="i">
+                    {{filaments[i].name}}
+                  </mat-option>
+                </ng-container>
+
+                <ng-container *ngIf="selectedPrinter && filaments && filaments.length == 0">
+                  <mat-option value="">No filament compatible for this printer</mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Weight</mat-label>
+              <input type="number" min="0" matInput placeholder="Insert the weight of the print" formControlName="printWeightFormControl">
+              <span matTextSuffix>g</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-3 pe-0" floatLabel="always">
+              <mat-label>Print time in hours</mat-label>
+              <input type="number" min="0" matInput placeholder="Hours" formControlName="printTimeHoursFormControl">
+              <span matTextSuffix>hh</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-3 ps-0" floatLabel="always">
+              <mat-label>Print time in minutes</mat-label>
+              <input type="number" min="0" max="59" matInput placeholder="Minutes" formControlName="printTimeMinutesFormControl">
+              <span matTextSuffix>mm</span>
+            </mat-form-field>
+          </div>
+        </div>
+
       </div>
 
     </mat-expansion-panel>
@@ -38,32 +94,82 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div class="preparation-miscellaneous-height row">
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Model preparation (Fixing, CAD…)</mat-label>
-          <input #modelPreparation type="number" min="0" matInput formControlName="modelPreparationFormControl">
-          <span matTextSuffix>min</span>
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Slicing (Supports, Parameters…)</mat-label>
-          <input #slicing type="number" min="0" matInput formControlName="slicingFormControl">
-          <span matTextSuffix>min</span>
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Material change</mat-label>
-          <input #materialChange type="number" min="0" matInput formControlName="materialChangeFormControl">
-          <span matTextSuffix>min</span>
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Transfer & Start</mat-label>
-          <input #transferAndStart type="number" min="0" matInput formControlName="transferAndStartFormControl">
-          <span matTextSuffix>min</span>
-        </mat-form-field>
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Sum</mat-label>
-          <input matInput disabled value="{{parseInt(String(+modelPreparation.value)) + parseInt(String(+slicing.value)) + parseInt(String(+materialChange.value)) + parseInt(String(+transferAndStart.value))}}">
-          <span matTextSuffix>min</span>
-        </mat-form-field>
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <div class="row">
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Model preparation (Fixing, CAD…)</mat-label>
+              <input #modelPreparation type="number" min="0" matInput formControlName="modelPreparationFormControl">
+              <span matTextSuffix>min</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Slicing (Supports, Parameters…)</mat-label>
+              <input #slicing type="number" min="0" matInput formControlName="slicingFormControl">
+              <span matTextSuffix>min</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Material change</mat-label>
+              <input #materialChange type="number" min="0" matInput formControlName="materialChangeFormControl">
+              <span matTextSuffix>min</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Transfer & Start</mat-label>
+              <input #transferAndStart type="number" min="0" matInput formControlName="transferAndStartFormControl">
+              <span matTextSuffix>min</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Sum</mat-label>
+              <input matInput disabled value="{{parseInt(String(+modelPreparation.value)) + parseInt(String(+slicing.value)) + parseInt(String(+materialChange.value)) + parseInt(String(+transferAndStart.value))}}">
+              <span matTextSuffix>min</span>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12">
+          <div class="row">
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Consumables</mat-label>
+              <input type="number" min="0" matInput formControlName="consumablesFormControl">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Energy cost</mat-label>
+              <input type="number" min="0" matInput formControlName="energyCostFormControl">
+              <span matTextSuffix>{{selectedCurrency + '/kWh'}}</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Labor Costs</mat-label>
+              <input type="number" min="0" matInput formControlName="laborCostFormControl">
+              <span matTextSuffix>{{selectedCurrency + '/h'}}</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Failure rate</mat-label>
+              <input type="number" min="0" matInput formControlName="failureRateFormControl">
+              <span matTextSuffix>%</span>
+            </mat-form-field>
+
+            <mat-form-field class="col-6">
+              <mat-label>Currency unit</mat-label>
+              <mat-select id="currencySelect" #currencySelect aria-label="Currency select" (selectionChange)="onCurrencySelected(currencySelect.value)" formControlName="currencyFormControl">
+                <ng-container *ngIf="currencies && currencies.length > 0">
+                  <mat-option *ngFor="let currency of currencies" [value]=currency>
+                    {{currency}}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Client is very demanding fee</mat-label>
+              <input type="number" min="0" matInput formControlName="clientDemandingFormControl">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+          </div>
+        </div>
+
       </div>
     </mat-expansion-panel>
 
@@ -75,244 +181,73 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
 
-      <div class="costs-quote-height">
-        <div class="row mb-2">
-          <label for="sum" class={{labelClass}}>Filament</label>
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <div class="row">
 
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" disabled class="form-control" id="filament" placeholder="0" data-form-type="filament">
-              <span class="input-group-text" id="basic-addon-filament" [innerText]="selectedCurrency"></span>
-            </div>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Filament</mat-label>
+              <input disabled type="number" matInput [value]="0">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Electricity</mat-label>
+              <input disabled type="number" matInput [value]="0">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Printer depreciation</mat-label>
+              <input disabled type="number" matInput [value]="0">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Preparation</mat-label>
+              <input disabled type="number" matInput [value]="0">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Post-processing</mat-label>
+              <input disabled type="number" matInput [value]="0">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Consumables</mat-label>
+              <input disabled type="number" matInput [value]="0">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Subtotal</mat-label>
+              <input disabled type="number" matInput [value]="0">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Including failures</mat-label>
+              <input disabled type="number" matInput [value]="0">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Markup</mat-label>
+              <input type="number" min="0" matInput [value]="0">
+              <span matTextSuffix>%</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Suggested price</mat-label>
+              <input type="number" matInput [value]="0">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Quoted price</mat-label>
+              <input type="number" matInput [value]="0">
+              <span matTextSuffix>{{selectedCurrency}}</span>
+            </mat-form-field>
           </div>
         </div>
-        <div class="row mb-2">
-          <label for="sum" class={{labelClass}}>Electricity</label>
 
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" disabled class="form-control" id="electricity" placeholder="0" data-form-type="electricity">
-              <span class="input-group-text" id="basic-addon-electricity" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="sum" class={{labelClass}}>Printer depreciation</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" disabled class="form-control" id="printerDepreciation" placeholder="0" data-form-type="printerDepreciation">
-              <span class="input-group-text" id="basic-addon-printerDepreciation" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="sum" class={{labelClass}}>Preparation</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" disabled class="form-control" id="preparationTotal" placeholder="0" data-form-type="preparationTotal">
-              <span class="input-group-text" id="basic-addon-preparationTotal" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="sum" class={{labelClass}}>Post-processing</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" disabled class="form-control" id="postProcessing" placeholder="0" data-form-type="postProcessing">
-              <span class="input-group-text" id="basic-addon-postProcessing" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="sum" class={{labelClass}}>Consumables</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" disabled class="form-control" id="consumablesTotal" placeholder="0" data-form-type="consumablesTotal">
-              <span class="input-group-text" id="basic-addon-consumablesTotal" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="sum" class={{labelClass}}>Subtotal</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" disabled class="form-control" id="subTotal" placeholder="0" data-form-type="subTotal">
-              <span class="input-group-text" id="basic-addon-subTotal" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="sum" class={{labelClass}}>Including failures</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" disabled class="form-control" id="failureTotal" placeholder="0" data-form-type="failureTotal">
-              <span class="input-group-text" id="basic-addon-failureTotal" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </mat-expansion-panel>
-  </mat-accordion>
-
-  <mat-accordion multi class="col-lg-6 col-md-12">
-    <mat-expansion-panel expanded>
-      <mat-expansion-panel-header>
-        <mat-panel-title> General print details </mat-panel-title>
-        <mat-panel-description>
-
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <div class="customer-general-print-details-height row">
-        <mat-form-field class="col-6">
-          <mat-label>Printer</mat-label>
-          <mat-select id="printerSelect" #printerSelect aria-label="Printer select"  (selectionChange)="onPrinterSelected(printerSelect.value)" formControlName="printerFormControl">
-            <ng-container *ngIf="printers && printers.length > 0">
-              <mat-option *ngFor="let printer of printers; let i = index" [value]=[i]>
-                {{printers[i].name}}
-              </mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="col-6">
-          <mat-label>Filament</mat-label>
-          <mat-select id="filamentSelect" #filamentSelect aria-label="Filament select" formControlName="filamentFormControl">
-            <ng-container *ngIf="!selectedPrinter">
-              <mat-option value="">Please select a printer first</mat-option>
-            </ng-container>
-            <ng-container *ngIf="filaments && filaments.length > 0">
-              <mat-option *ngFor="let filament of filaments; let i = index" [value]="i">
-                {{filaments[i].name}}
-              </mat-option>
-            </ng-container>
-
-            <ng-container *ngIf="selectedPrinter && filaments && filaments.length == 0">
-              <mat-option value="">No filament compatible for this printer</mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Weight</mat-label>
-          <input type="number" min="0" matInput placeholder="Insert the weight of the print" formControlName="printWeightFormControl">
-          <span matTextSuffix>g</span>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="col-3 pe-0" floatLabel="always">
-          <mat-label>Print time in hours</mat-label>
-          <input type="number" min="0" matInput placeholder="Hours" formControlName="printTimeHoursFormControl">
-          <span matTextSuffix>hh</span>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="col-3 ps-0" floatLabel="always">
-          <mat-label>Print time in minutes</mat-label>
-          <input type="number" min="0" max="59" matInput placeholder="Minutes" formControlName="printTimeMinutesFormControl">
-          <span matTextSuffix>mm</span>
-        </mat-form-field>
-      </div>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel expanded>
-      <mat-expansion-panel-header>
-        <mat-panel-title> Miscellaneous </mat-panel-title>
-        <mat-panel-description>
-
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <div class="preparation-miscellaneous-height row">
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Consumables</mat-label>
-          <input type="number" min="0" matInput formControlName="consumablesFormControl">
-          <span matTextSuffix>{{selectedCurrency}}</span>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Energy cost</mat-label>
-          <input type="number" min="0" matInput formControlName="energyCostFormControl">
-          <span matTextSuffix>{{selectedCurrency + '/kWh'}}</span>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Labor Costs</mat-label>
-          <input type="number" min="0" matInput formControlName="laborCostFormControl">
-          <span matTextSuffix>{{selectedCurrency + '/h'}}</span>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Failure rate</mat-label>
-          <input type="number" min="0" matInput formControlName="failureRateFormControl">
-          <span matTextSuffix>%</span>
-        </mat-form-field>
-
-        <mat-form-field class="col-6">
-          <mat-label>Currency unit</mat-label>
-          <mat-select id="currencySelect" #currencySelect aria-label="Currency select" (selectionChange)="onCurrencySelected(currencySelect.value)" formControlName="currencyFormControl">
-            <ng-container *ngIf="currencies && currencies.length > 0">
-              <mat-option *ngFor="let currency of currencies" [value]=currency>
-                {{currency}}
-              </mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-          <mat-label>Client is very demanding fee</mat-label>
-          <input type="number" min="0" matInput formControlName="clientDemandingFormControl">
-          <span matTextSuffix>{{selectedCurrency}}</span>
-        </mat-form-field>
-      </div>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel expanded>
-      <mat-expansion-panel-header>
-        <mat-panel-title> Quote </mat-panel-title>
-        <mat-panel-description>
-
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <div class="costs-quote-height">
-        <div class="row mb-2">
-          <label for="markup" class={{labelClass}}>Markup</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="markup" placeholder="0" data-form-type="markup">
-              <span class="input-group-text" id="basic-addon-markup">%</span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="suggestedPrice" class={{labelClass}}>Suggested prize</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" disabled class="form-control" id="suggestedPrice" placeholder="0" data-form-type="suggestedPrice">
-              <span class="input-group-text" id="basic-addon-suggestedPrice" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label for="quotedPrice" class={{labelClass}}>Quoted price</label>
-
-          <div class={{inputDivClass}}>
-            <div class="input-group">
-              <input type="number" class="form-control" id="quotedPrice" placeholder="0" data-form-type="quotedPrice">
-              <span class="input-group-text" id="basic-addon-quotedPrice" [innerText]="selectedCurrency"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row mb-2">
-          <label class="col-form-label">Part costs</label>
-          <div #containerRef id="containerRef">
+        <div class="col-lg-6 col-md-12">
+          <div #containerRef id="containerRef" class="dark">
             <ngx-charts-pie-chart
               [view]="[containerRef.offsetWidth, containerRef.offsetHeight]"
               [results]="saleData"
@@ -326,6 +261,5 @@
         </div>
       </div>
     </mat-expansion-panel>
-
   </mat-accordion>
 </form>
