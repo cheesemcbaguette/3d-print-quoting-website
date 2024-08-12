@@ -1,6 +1,7 @@
 @use '@angular/material' as mat;
 
 @include mat.core();
+@import "mat-icon-button-sizes/style.css";
 
 $my-app-theme: mat.define-theme((
   color: (
@@ -50,5 +51,21 @@ body {
 
 .border-tl-0 .mdc-text-field {
   border-top-left-radius: 0;
+}
+
+.edit {
+  color: mat.get-theme-color($my-app-theme, primary, 80) !important;
+}
+
+.delete {
+  color: mat.get-theme-color($my-app-theme, error, 40) !important;
+}
+
+mat-header-cell {
+  color: mat.get-theme-color($my-app-theme, primary, 80);
+}
+
+:root {
+  --mat-table-header-headline-color: #{mat.get-theme-color($my-app-theme, primary, 80)};
 }
 

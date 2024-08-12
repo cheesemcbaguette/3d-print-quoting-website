@@ -50,14 +50,14 @@
           </ng-container>
 
           <!-- Actions Column-->
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header="action"> Actions </th>
+          <ng-container matColumnDef="actions" >
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="action" > Actions </th>
             <td mat-cell *matCellDef="let row;  let i = index;">
               <button mat-icon-button mat-medium-icon-button (click)="openEditPrinterDialog(i)">
-                <mat-icon>edit</mat-icon>
+                <mat-icon class="edit">edit</mat-icon>
               </button>
               <button mat-icon-button mat-medium-icon-button (click)="openDeletePrinterDialog(i)">
-                <mat-icon color="warn">delete</mat-icon>
+                <mat-icon class="delete">delete</mat-icon>
               </button>
             </td>
           </ng-container>

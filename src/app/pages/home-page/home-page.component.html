@@ -42,6 +42,7 @@
                   </mat-option>
                 </ng-container>
               </mat-select>
+              <mat-error>Printer is <strong>required</strong></mat-error>
             </mat-form-field>
 
             <mat-form-field class="col-6">
@@ -60,18 +61,21 @@
                   <mat-option value="">No filament compatible for this printer</mat-option>
                 </ng-container>
               </mat-select>
+              <mat-error>Filament is <strong>required</strong></mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Weight</mat-label>
               <input type="number" min="0" matInput placeholder="Insert the weight of the print" formControlName="printWeightFormControl">
               <span matTextSuffix>g</span>
+              <mat-error>Print weight is <strong>required</strong></mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-3 pe-0 border-tr-0" floatLabel="always" >
               <mat-label>Print time in hours</mat-label>
               <input class="border-tr-0" type="number" min="0" matInput placeholder="Hours" formControlName="printTimeHoursFormControl">
               <span matTextSuffix>hh</span>
+              <mat-error>Print time is <strong>required</strong></mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-3 ps-0 border-tl-0" floatLabel="always">
