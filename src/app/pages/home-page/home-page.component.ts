@@ -128,6 +128,8 @@ export class HomePageComponent implements AfterViewInit  {
     failureRateFormControl: new FormControl("", []),
     currencyFormControl: new FormControl("", []),
     clientDemandingFormControl: new FormControl("", []),
+    preparationTimeTotalFormControl: new FormControl("0", []),
+    filamentCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
   });
 
 
@@ -139,7 +141,21 @@ export class HomePageComponent implements AfterViewInit  {
 
   ngAfterViewInit(): void {
     this.ref.detectChanges();
+
+    //set currency from cache
     this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency)
+
+    //calculate quote on value change if the form is valid
+    this.quoteForm.valueChanges.subscribe(value => {
+      if(this.quoteForm.valid) {
+        //calculate the cost of the filament
+        const filament: Filament = this.filaments[Number(this.quoteForm.controls['filamentFormControl'].value)]
+        const weight: number = Number(this.quoteForm.controls['printWeightFormControl']?.value);
+        //divide weight by 1000 because weight is in grams and filamentWeight is in kg
+        const filamentPrice: number = (weight / 1000) * (filament.spoolPrice / filament.filamentWeight);
+        this.quoteForm.controls['filamentCostSummaryFormControl'].setValue("" + filamentPrice);
+      }
+    })
   }
 
   get today() {

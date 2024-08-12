@@ -121,7 +121,7 @@
               <input #transferAndStart type="number" min="0" matInput formControlName="transferAndStartFormControl">
               <span matTextSuffix>min</span>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always" formControlName="preparationTimeTotalFormControl">
               <mat-label>Sum</mat-label>
               <input matInput disabled value="{{parseInt(String(+modelPreparation.value)) + parseInt(String(+slicing.value)) + parseInt(String(+materialChange.value)) + parseInt(String(+transferAndStart.value))}}">
               <span matTextSuffix>min</span>
@@ -191,7 +191,7 @@
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Filament</mat-label>
-              <input disabled type="number" matInput [value]="0">
+              <input matInput formControlName="filamentCostSummaryFormControl">
               <span matTextSuffix>{{selectedCurrency}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
