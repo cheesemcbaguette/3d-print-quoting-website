@@ -36,7 +36,7 @@
             <mat-form-field class="col-6">
               <mat-label>Printer</mat-label>
               <mat-select id="printerSelect" #printerSelect aria-label="Printer select"  (selectionChange)="onPrinterSelected(printerSelect.value)" formControlName="printerFormControl">
-                <ng-container *ngIf="printers && printers.length > 0">
+                <ng-container *ngIf="printers">
                   <mat-option *ngFor="let printer of printers; let i = index" [value]=[i]>
                     {{printers[i].name}}
                   </mat-option>
@@ -103,27 +103,32 @@
           <div class="row">
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Model preparation (Fixing, CAD…)</mat-label>
-              <input #modelPreparation type="number" min="0" matInput formControlName="modelPreparationFormControl">
+              <input type="number" min="0" matInput formControlName="modelPreparationFormControl">
               <span matTextSuffix>min</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Slicing (Supports, Parameters…)</mat-label>
-              <input #slicing type="number" min="0" matInput formControlName="slicingFormControl">
+              <input type="number" min="0" matInput formControlName="slicingFormControl">
               <span matTextSuffix>min</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Material change</mat-label>
-              <input #materialChange type="number" min="0" matInput formControlName="materialChangeFormControl">
+              <input type="number" min="0" matInput formControlName="materialChangeFormControl">
               <span matTextSuffix>min</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Transfer & Start</mat-label>
-              <input #transferAndStart type="number" min="0" matInput formControlName="transferAndStartFormControl">
+              <input type="number" min="0" matInput formControlName="transferAndStartFormControl">
               <span matTextSuffix>min</span>
             </mat-form-field>
-            <mat-form-field appearance="fill" class="col-6" floatLabel="always" formControlName="preparationTimeTotalFormControl">
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+              <mat-label>Additional work</mat-label>
+              <input type="number" min="0" matInput formControlName="additionalWorkFormControl">
+              <span matTextSuffix>min</span>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always" >
               <mat-label>Sum</mat-label>
-              <input matInput disabled value="{{parseInt(String(+modelPreparation.value)) + parseInt(String(+slicing.value)) + parseInt(String(+materialChange.value)) + parseInt(String(+transferAndStart.value))}}">
+              <input matInput formControlName="preparationTimeTotalFormControl">
               <span matTextSuffix>min</span>
             </mat-form-field>
           </div>
@@ -196,7 +201,7 @@
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Electricity</mat-label>
-              <input disabled type="number" matInput [value]="0">
+              <input formControlName="electricityCostSummaryFormControl" matInput>
               <span matTextSuffix>{{selectedCurrency}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
