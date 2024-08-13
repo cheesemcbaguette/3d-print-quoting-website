@@ -8,7 +8,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatTabsModule} from "@angular/material/tabs";
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import {MatGridListModule} from "@angular/material/grid-list";
-import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatError, MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
@@ -21,7 +21,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import {PrinterPageComponent} from "./pages/printer-page/printer-page.component";
 import {MatSidenavModule} from "@angular/material/sidenav";
-import {MatIconModule} from "@angular/material/icon";
+import {MatIcon, MatIconModule} from "@angular/material/icon";
 import {MatListModule} from "@angular/material/list";
 import {RouterLinkWithHref, RouterModule, RouterOutlet} from "@angular/router";
 import {MatMenuModule} from "@angular/material/menu";
@@ -90,6 +90,8 @@ import {MatIconButtonSizesModule} from "mat-icon-button-sizes";
     RouterModule.forRoot(routes),
     MatIconButtonSizesModule,
     MatTimepickerModule,
+    MatError,
+    MatIcon
   ],
   providers: [provideNativeDateTimeAdapter()],
   bootstrap: [AppComponent]

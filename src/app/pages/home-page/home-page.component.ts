@@ -1,11 +1,12 @@
-import {AfterViewInit, ChangeDetectorRef, Component, ElementRef, Injectable, ViewChild} from '@angular/core';
-import {NgbCalendar, NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
+import {AfterViewInit, Component, ElementRef, Injectable, ViewChild} from '@angular/core';
+import {NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 import {Printer} from "../../model/printer";
 import {PrintersService} from "../../service/printers.service";
 import {CurrencyService} from "../../service/currency.service";
 import {FilamentsService} from "../../service/filaments.service";
 import {Filament} from "../../model/filament";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators, ɵFormGroupRawValue} from "@angular/forms";
+import {LocalService} from "../../service/local.service";
 
 
 /**
@@ -116,8 +117,7 @@ export class HomePageComponent implements AfterViewInit  {
     nameFormControl: new FormControl("", []),
     dateFormControl: new FormControl("", []),
     descriptionFormControl: new FormControl("", []),
-    printTimeHoursFormControl: new FormControl("", []),
-    printTimeMinutesFormControl: new FormControl("", []),
+    printTimeHoursFormControl: new FormControl("", [Validators.required,]),
 
     modelPreparationFormControl: new FormControl("", []),
     slicingFormControl: new FormControl("", []),
@@ -127,7 +127,7 @@ export class HomePageComponent implements AfterViewInit  {
     preparationTimeTotalFormControl: new FormControl({value: "0", disabled: true}),
 
     consumablesFormControl: new FormControl("", []),
-    energyCostFormControl: new FormControl("", []),
+    energyCostFormControl: new FormControl("", [Validators.required,]),
     laborCostFormControl: new FormControl("", []),
     failureRateFormControl: new FormControl("", []),
     currencyFormControl: new FormControl("", []),
@@ -138,7 +138,7 @@ export class HomePageComponent implements AfterViewInit  {
   });
 
 
-  constructor(private printersService: PrintersService, private currencyService: CurrencyService, public filamentsService: FilamentsService,) {
+  constructor(private printersService: PrintersService, private currencyService: CurrencyService, public filamentsService: FilamentsService, public localService: LocalService) {
   }
 
   ngAfterViewInit(): void {
@@ -147,8 +147,18 @@ export class HomePageComponent implements AfterViewInit  {
     //set currency from cache
     this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency, {emitEvent: false})
 
+    //get form from cache
+    const localForm = this.localService.getItem("form");
+    if(localForm) {
+      this.quoteForm.patchValue(JSON.parse(localForm))
+      //TODO manually store and load form data from cache
+    }
+
     //calculate quote on value change if the form is valid
     this.quoteForm.valueChanges.subscribe(value => {
+      //save form to cache
+      this.localService.setItem("form", JSON.stringify(this.quoteForm.value))
+
       // calculate preparation time
       const modelPreparation: number = Number(this.quoteForm.controls['modelPreparationFormControl']?.value)
       const slicing: number = Number(this.quoteForm.controls['slicingFormControl']?.value)
@@ -171,13 +181,21 @@ export class HomePageComponent implements AfterViewInit  {
         //calculate electricity cost
         if(this.quoteForm.controls['energyCostFormControl'].value) {
           const energyCost: number = Number(this.quoteForm.controls['energyCostFormControl']?.value)
-          const hours: number = Number(this.quoteForm.controls['printTimeHoursFormControl']?.value)
-          const minutes: number = Number(this.quoteForm.controls['printTimeMinutesFormControl']?.value)
+          const time: number = Number(this.quoteForm.controls['printTimeHoursFormControl']?.value)
 
-          const electricityUsed: number = printer.energyConsumption * energyCost * (hours + minutes / 60);
+          const electricityUsed: number = printer.energyConsumption * energyCost * time;
 
           this.quoteForm.controls['electricityCostSummaryFormControl'].setValue("" + electricityUsed, {emitEvent: false});
         }
+      } else {
+        //if form isn't valid, parse through controls to display them as invalid
+        const controls = this.quoteForm.controls;
+        Object.keys(controls).forEach(key => {
+          const control = this.quoteForm.get(key);
+          if (control!.invalid) {
+            control!.markAllAsTouched()
+          }
+        });
       }
     })
   }
@@ -210,9 +228,9 @@ export class HomePageComponent implements AfterViewInit  {
       this.selectedPrinter = undefined;
       this.filaments = [];
     }
-
   }
 
-  protected readonly parseInt = parseInt;
-  protected readonly String = String;
+  resetForm() {
+    this.quoteForm.reset();
+  }
 }

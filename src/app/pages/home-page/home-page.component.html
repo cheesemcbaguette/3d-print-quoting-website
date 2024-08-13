@@ -1,5 +1,11 @@
-<form [formGroup]="quoteForm" class="row g-5">
-  <mat-accordion multi class="col-lg-12">
+<form [formGroup]="quoteForm" class="row g-3">
+  <div class="col-12">
+    <button type="reset" mat-fab extended>
+      <mat-icon class="delete">delete</mat-icon>
+      Reset Quote
+    </button>
+  </div>
+  <mat-accordion multi class="col-12">
     <mat-expansion-panel expanded>
       <mat-expansion-panel-header>
         <mat-panel-title> Customer and general print details </mat-panel-title>
@@ -71,17 +77,11 @@
               <mat-error>Print weight is <strong>required</strong></mat-error>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="col-3 pe-0 border-tr-0" floatLabel="always" >
+            <mat-form-field appearance="fill" class="col-6" floatLabel="always" >
               <mat-label>Print time in hours</mat-label>
               <input class="border-tr-0" type="number" min="0" matInput placeholder="Hours" formControlName="printTimeHoursFormControl">
               <span matTextSuffix>hh</span>
               <mat-error>Print time is <strong>required</strong></mat-error>
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="col-3 ps-0 border-tl-0" floatLabel="always">
-              <mat-label>Print time in minutes</mat-label>
-              <input type="number" min="0" max="59" matInput placeholder="Minutes" formControlName="printTimeMinutesFormControl">
-              <span matTextSuffix>mm</span>
             </mat-form-field>
           </div>
         </div>
@@ -146,6 +146,7 @@
               <mat-label>Energy cost</mat-label>
               <input type="number" min="0" matInput formControlName="energyCostFormControl">
               <span matTextSuffix>{{selectedCurrency + '/kWh'}}</span>
+              <mat-error>Energy cost is <strong>required</strong></mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
