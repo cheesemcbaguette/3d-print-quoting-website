@@ -1,8 +1,16 @@
 <form [formGroup]="quoteForm" class="row g-3">
   <div class="col-12">
-    <button type="reset" mat-fab extended>
+    <button type="reset" class="me-1" mat-fab extended>
       <mat-icon class="delete">delete</mat-icon>
       Reset Quote
+    </button>
+    <button type="button" class="mx-1" mat-fab extended>
+      <mat-icon class="delete">upload</mat-icon>
+      Import Quote
+    </button>
+    <button type="button" class="mx-1" mat-fab extended>
+      <mat-icon class="delete">download</mat-icon>
+      Download Quote
     </button>
   </div>
   <mat-accordion multi class="col-12">
@@ -18,7 +26,7 @@
         <div class="col-lg-6 col-md-12">
           <div class="row">
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-              <mat-label>Customer name</mat-label>
+              <mat-label>Customer symbol</mat-label>
               <input type="text" matInput formControlName="nameFormControl" maxlength="50">
             </mat-form-field>
 
@@ -139,20 +147,20 @@
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Consumables</mat-label>
               <input type="number" min="0" matInput formControlName="consumablesFormControl">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Energy cost</mat-label>
               <input type="number" min="0" matInput formControlName="energyCostFormControl">
-              <span matTextSuffix>{{selectedCurrency + '/kWh'}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol + '/kWh'}}</span>
               <mat-error>Energy cost is <strong>required</strong></mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Labor Costs</mat-label>
               <input type="number" min="0" matInput formControlName="laborCostFormControl">
-              <span matTextSuffix>{{selectedCurrency + '/h'}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol + '/h'}}</span>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
@@ -165,8 +173,8 @@
               <mat-label>Currency unit</mat-label>
               <mat-select id="currencySelect" #currencySelect aria-label="Currency select" (selectionChange)="onCurrencySelected(currencySelect.value)" formControlName="currencyFormControl">
                 <ng-container *ngIf="currencies && currencies.length > 0">
-                  <mat-option *ngFor="let currency of currencies" [value]=currency>
-                    {{currency}}
+                  <mat-option *ngFor="let currency of currencies" [value]=currency.code>
+                    {{currency.symbol}}
                   </mat-option>
                 </ng-container>
               </mat-select>
@@ -175,7 +183,7 @@
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Client is very demanding fee</mat-label>
               <input type="number" min="0" matInput formControlName="clientDemandingFormControl">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
           </div>
         </div>
@@ -198,42 +206,42 @@
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Filament</mat-label>
               <input matInput formControlName="filamentCostSummaryFormControl">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Electricity</mat-label>
               <input formControlName="electricityCostSummaryFormControl" matInput>
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Printer depreciation</mat-label>
               <input disabled type="number" matInput [value]="0">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Preparation</mat-label>
               <input disabled type="number" matInput [value]="0">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Post-processing</mat-label>
               <input disabled type="number" matInput [value]="0">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Consumables</mat-label>
               <input disabled type="number" matInput [value]="0">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Subtotal</mat-label>
               <input disabled type="number" matInput [value]="0">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Including failures</mat-label>
               <input disabled type="number" matInput [value]="0">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
@@ -245,13 +253,13 @@
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Suggested price</mat-label>
               <input type="number" matInput [value]="0">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Quoted price</mat-label>
               <input type="number" matInput [value]="0">
-              <span matTextSuffix>{{selectedCurrency}}</span>
+              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
           </div>
         </div>

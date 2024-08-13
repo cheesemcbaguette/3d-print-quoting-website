@@ -7,6 +7,7 @@ import {AddPrinterDialogComponent} from "../../components/dialogs/add-printer-di
 import {DeletePrinterDialogComponent} from "../../components/dialogs/delete-printer-dialog/delete-printer-dialog.component";
 import {PrintersService} from "../../service/printers.service";
 import {CurrencyService} from "../../service/currency.service";
+import {Currency} from "../../model/currency";
 
 @Component({
   selector: 'printer-page',
@@ -17,7 +18,7 @@ export class PrinterPageComponent implements AfterViewInit {
   dataSource!: MatTableDataSource<Printer>;
   displayedColumns: string[] = ['name', 'materialDiameter', 'price', 'depreciationTime', 'serviceCostPerLife', 'energyConsumption', 'depreciation', 'actions'];
 
-  selectedCurrency: string;
+  selectedCurrency: Currency;
 
   @Output() printerAddedEvent = new EventEmitter<Printer[]>();
 

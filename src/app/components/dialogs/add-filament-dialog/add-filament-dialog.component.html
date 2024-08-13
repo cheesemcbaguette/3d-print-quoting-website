@@ -28,7 +28,7 @@
     <mat-form-field appearance="fill" class="mat-form-field-full-width" floatLabel="always">
       <mat-label>Spool Price</mat-label>
       <input type="number" matInput [formControl]="addFilamentForm.controls.priceFormControl" [errorStateMatcher]="matcher" required maxlength="10" min="0">
-      <span matSuffix>{{selectedCurrency}}</span>
+      <span matSuffix>{{selectedCurrency.symbol}}</span>
       <mat-error *ngIf="addFilamentForm.controls.priceFormControl.hasError('required')">
         Spool Price is <strong>required</strong>
       </mat-error>

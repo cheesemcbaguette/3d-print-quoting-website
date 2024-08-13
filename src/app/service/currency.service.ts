@@ -1,28 +1,33 @@
-import { Injectable } from '@angular/core';
-import {Printer} from "../model/printer";
+import {Injectable} from '@angular/core';
 import {LocalService} from "./local.service";
+import {Currency} from "../model/currency";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CurrencyService {
-  private currency = "€";
+  private currency: Currency = {symbol: "€", code: "EUR"};
   private localStorageKey = "currency"
   constructor(private localService: LocalService) {
-    const currency = this.localService.getItem(this.localStorageKey)
+    try {
+      this.currency = JSON.parse(<string>this.localService.getItem(this.localStorageKey));
+    } catch (e) {
 
-    if(currency != null) {
-      this.currency = currency;
     }
   }
 
-  getCurrency(): string {
+  getCurrency(): Currency {
     return this.currency
   }
 
-  setCurrency(currency: string): void {
+  setCurrency(currency: Currency): void {
     this.currency = currency;
     // Store the object into storage
-    this.localService.setItem(this.localStorageKey, this.currency);
+    try {
+      this.localService.setItem(this.localStorageKey, JSON.stringify(this.currency));
+    } catch (e) {
+
+    }
+
   }
 }

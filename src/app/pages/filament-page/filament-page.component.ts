@@ -8,6 +8,7 @@ import {CurrencyService} from "../../service/currency.service";
 import {AddFilamentDialogComponent} from "../../components/dialogs/add-filament-dialog/add-filament-dialog.component";
 import {FilamentsService} from "../../service/filaments.service";
 import {DeleteFilamentDialogComponent} from "../../components/dialogs/delete-filament-dialog/delete-filament-dialog.component";
+import {Currency} from "../../model/currency";
 
 @Component({
   selector: 'filament-page',
@@ -18,7 +19,7 @@ export class FilamentPageComponent implements AfterViewInit {
   dataSource!: MatTableDataSource<Filament>;
   displayedColumns: string[] = ['manufacturer', 'materialDiameter', 'spoolPrice', 'spoolSize', 'density', 'nozzleTemp', 'bedTemp', 'actions'];
 
-  selectedCurrency: string;
+  selectedCurrency: Currency;
 
   @Output() filamentAddedEvent = new EventEmitter<Filament[]>();
 

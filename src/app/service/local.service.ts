@@ -7,17 +7,17 @@ export class LocalService {
 
   constructor() { }
 
-  // Set a value in local storage
+  // Set a code in local storage
   setItem(key: string, value: string): void {
     localStorage.setItem(key, value);
   }
 
-  // Get a value from local storage
+  // Get a code from local storage
   getItem(key: string): string | null {
     return localStorage.getItem(key);
   }
 
-  // Remove a value from local storage
+  // Remove a code from local storage
   removeItem(key: string): void {
     localStorage.removeItem(key);
   }

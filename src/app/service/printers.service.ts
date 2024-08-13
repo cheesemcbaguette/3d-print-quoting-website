@@ -15,7 +15,7 @@ export class PrintersService{
 
 
     if(json != null) {
-      const localPrinters: Printer[] = JSON.parse(<string>this.localService.getItem(this.localStorageKey));
+      const localPrinters: Printer[] = JSON.parse(<string>json);
       if(localPrinters.length > 0) {
         this.printers = localPrinters;
       } else {

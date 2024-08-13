@@ -4,6 +4,7 @@ import {MyErrorStateMatcher} from "../../../utils/MyErrorStateMatcher";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Filament} from "../../../model/filament";
 import {CurrencyService} from "../../../service/currency.service";
+import {Currency} from "../../../model/currency";
 
 @Component({
   selector: 'app-add-filament-dialog',
@@ -24,7 +25,7 @@ export class AddFilamentDialogComponent implements OnInit {
   });
 
   matcher = new MyErrorStateMatcher();
-  selectedCurrency: string;
+  selectedCurrency: Currency;
 
   constructor(public dialogRef: MatDialogRef<AddFilamentDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: {filament : Filament, title: string}, private currencyService: CurrencyService) {
     this.selectedCurrency = currencyService.getCurrency();

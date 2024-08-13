@@ -28,7 +28,7 @@
     <mat-form-field appearance="fill" class="mat-form-field-full-width" floatLabel="always">
       <mat-label>Price</mat-label>
       <input type="number" matInput [formControl]="addPrinterForm.controls.priceFormControl" [errorStateMatcher]="matcher" required maxlength="10" min="0">
-      <span matSuffix>{{selectedCurrency}}</span>
+      <span matSuffix>{{selectedCurrency.symbol}}</span>
       <mat-error *ngIf="addPrinterForm.controls.priceFormControl.hasError('required')">
         Price is <strong>required</strong>
       </mat-error>
@@ -51,7 +51,7 @@
     <mat-form-field appearance="fill" class="mat-form-field-full-width" floatLabel="always">
       <mat-label>Service cost per life</mat-label>
       <input type="number" matInput [formControl]="addPrinterForm.controls.serviceCostPerLifeFormControl" [errorStateMatcher]="matcher" required maxlength="10">
-      <span matSuffix>{{selectedCurrency}}</span>
+      <span matSuffix>{{selectedCurrency.symbol}}</span>
       <mat-hint> How much it would cost to fix the printer (spare parts and labor, 10-25% of the printer price is a good estimation) </mat-hint>
       <mat-error *ngIf="addPrinterForm.controls.serviceCostPerLifeFormControl.hasError('required')">
         Service cost per life is <strong>required</strong>

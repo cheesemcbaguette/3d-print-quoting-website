@@ -4,6 +4,7 @@ import {MyErrorStateMatcher} from "../../../utils/MyErrorStateMatcher";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Printer} from "../../../model/printer";
 import {CurrencyService} from "../../../service/currency.service";
+import {Currency} from "../../../model/currency";
 
 @Component({
   selector: 'app-edit-printer-dialog',
@@ -23,7 +24,7 @@ export class EditPrinterDialogComponent {
   });
 
   matcher = new MyErrorStateMatcher();
-  selectedCurrency: string;
+  selectedCurrency: Currency;
 
   constructor(public dialogRef: MatDialogRef<EditPrinterDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: {printer : Printer}, private currencyService: CurrencyService) {
     this.selectedCurrency = currencyService.getCurrency();

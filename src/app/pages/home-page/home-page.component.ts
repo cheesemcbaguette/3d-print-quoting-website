@@ -7,6 +7,8 @@ import {FilamentsService} from "../../service/filaments.service";
 import {Filament} from "../../model/filament";
 import {FormControl, FormGroup, Validators, ɵFormGroupRawValue} from "@angular/forms";
 import {LocalService} from "../../service/local.service";
+import {Currency} from "../../model/currency";
+import {CURRENCIES} from "../../../assets/currencies-data";
 
 
 /**
@@ -90,8 +92,8 @@ export class HomePageComponent implements AfterViewInit  {
   @ViewChild('filamentSelect') filamentSelect!: ElementRef;
 
   printers: Printer[] | undefined;
-  filaments: Filament[]| undefined;
-  currencies: string[] = ["€", "£", "$"]
+  filaments: Filament[] | undefined;
+  currencies: Currency[] = CURRENCIES;
 
   saleData = [
     { name: "Preparation", value: 21.4 },
@@ -103,7 +105,7 @@ export class HomePageComponent implements AfterViewInit  {
 
   model: string | undefined;
 
-  selectedCurrency : string | undefined;
+  selectedCurrency : Currency | undefined;
   selectedPrinter: Printer | undefined;
 
   labelClass = "col-sm-6 col-form-label"
@@ -145,7 +147,7 @@ export class HomePageComponent implements AfterViewInit  {
     this.printers = this.printersService.getPrinters();
     this.selectedCurrency = this.currencyService.getCurrency();
     //set currency from cache
-    this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency, {emitEvent: false})
+    this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency.code, {emitEvent: false})
 
     //get form from cache
     const localForm = this.localService.getItem("form");
@@ -154,7 +156,7 @@ export class HomePageComponent implements AfterViewInit  {
       //TODO manually store and load form data from cache
     }
 
-    //calculate quote on value change if the form is valid
+    //calculate quote on code change if the form is valid
     this.quoteForm.valueChanges.subscribe(value => {
       //save form to cache
       this.localService.setItem("form", JSON.stringify(this.quoteForm.value))
@@ -200,7 +202,7 @@ export class HomePageComponent implements AfterViewInit  {
     })
   }
 
-  labelFormatting(name: string) { // this name will contain the name you defined in chartData[]
+  labelFormatting(name: string) { // this symbol will contain the symbol you defined in chartData[]
     let self: any = this; // this "this" will refer to the chart component (pun intented :))
 
     let data = self.series.filter((x: { name: string; }) => x.name == name); // chartData will be present in
@@ -214,8 +216,17 @@ export class HomePageComponent implements AfterViewInit  {
   }
 
   onCurrencySelected(value: string) {
-    this.selectedCurrency = value
-    this.currencyService.setCurrency(this.selectedCurrency)
+    if(this.currencies) {
+      for(const currency of this.currencies) {
+        if(currency.code === value) {
+          this.selectedCurrency = currency;
+          break;
+        }
+      }
+      if (this.selectedCurrency) {
+        this.currencyService.setCurrency(this.selectedCurrency)
+      }
+    }
   }
 
   onPrinterSelected(value: string) {
