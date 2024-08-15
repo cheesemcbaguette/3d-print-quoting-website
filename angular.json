@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "printing-quoting-sheet": {
+    "3d-print-quoting-website": {
       "projectType": "application",
       "schematics":{
         "@schematics/angular:component": {
@@ -16,7 +16,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/printing-quoting-sheet",
+            "outputPath": "dist/3d-print-quoting-website",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "printing-quoting-sheet:build:production"
+              "browserTarget": "3d-print-quoting-website:build:production"
             },
             "development": {
-              "browserTarget": "printing-quoting-sheet:build:development"
+              "browserTarget": "3d-print-quoting-website:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "printing-quoting-sheet:build"
+            "browserTarget": "3d-print-quoting-website:build"
           }
         },
         "test": {

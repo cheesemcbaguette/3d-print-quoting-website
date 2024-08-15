@@ -16,16 +16,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'printing-quoting-sheet'`, () => {
+  it(`should have as title '3d-print-quoting-website'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('printing-quoting-sheet');
+    expect(app.title).toEqual('3d-print-quoting-website');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('printing-quoting-sheet app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('3d-print-quoting-website app is running!');
   });
 });
