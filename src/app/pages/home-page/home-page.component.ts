@@ -137,6 +137,7 @@ export class HomePageComponent implements AfterViewInit  {
 
     filamentCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
     electricityCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
+    preparationCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
   });
 
 
@@ -148,13 +149,6 @@ export class HomePageComponent implements AfterViewInit  {
     this.selectedCurrency = this.currencyService.getCurrency();
     //set currency from cache
     this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency.code, {emitEvent: false})
-
-    //get form from cache
-    const localForm = this.localService.getItem("form");
-    if(localForm) {
-      this.quoteForm.patchValue(JSON.parse(localForm))
-      //TODO manually store and load form data from cache
-    }
 
     //calculate quote on code change if the form is valid
     this.quoteForm.valueChanges.subscribe(value => {
@@ -178,7 +172,7 @@ export class HomePageComponent implements AfterViewInit  {
         const weight: number = Number(this.quoteForm.controls['printWeightFormControl']?.value);
         //divide weight by 1000 because weight is in grams and filamentWeight is in kg
         const filamentPrice: number = (weight / 1000) * (filament.spoolPrice / filament.filamentWeight);
-        this.quoteForm.controls['filamentCostSummaryFormControl'].setValue("" + filamentPrice, {emitEvent: false});
+        this.quoteForm.controls['filamentCostSummaryFormControl'].setValue("" + filamentPrice.toFixed(2), {emitEvent: false});
 
         //calculate electricity cost
         if(this.quoteForm.controls['energyCostFormControl'].value) {
@@ -187,7 +181,16 @@ export class HomePageComponent implements AfterViewInit  {
 
           const electricityUsed: number = printer.energyConsumption * energyCost * time;
 
-          this.quoteForm.controls['electricityCostSummaryFormControl'].setValue("" + electricityUsed, {emitEvent: false});
+          this.quoteForm.controls['electricityCostSummaryFormControl'].setValue("" + electricityUsed.toFixed(2), {emitEvent: false});
+        }
+
+        if(this.quoteForm.controls['preparationTimeTotalFormControl'].value && this.quoteForm.controls['laborCostFormControl'].value ) {
+          const prepTime: number = Number(this.quoteForm.controls['preparationTimeTotalFormControl']?.value)
+          const laborCost: number = Number(this.quoteForm.controls['laborCostFormControl']?.value)
+
+          const prepCost: number = prepTime / 60 * laborCost;
+
+          this.quoteForm.controls['preparationCostSummaryFormControl'].setValue("" + prepCost.toFixed(2), {emitEvent: false});
         }
       } else {
         //if form isn't valid, parse through controls to display them as invalid
@@ -200,6 +203,21 @@ export class HomePageComponent implements AfterViewInit  {
         });
       }
     })
+
+    //get form from cache
+    const localForm = this.localService.getItem("form");
+    if(localForm) {
+      this.quoteForm.patchValue(JSON.parse(localForm), {emitEvent: true})
+
+      if (this.quoteForm.controls.printerFormControl.value != null) {
+        this.selectedPrinter = this.printers?.[Number(this.quoteForm.controls.printerFormControl.value)];
+      }
+
+      this.filaments = this.filamentsService.getCompatibleFilamentsForAPrinter(<Printer>this.selectedPrinter)
+
+      //called to trigger form value change event
+      this.quoteForm.updateValueAndValidity()
+    }
   }
 
   labelFormatting(name: string) { // this symbol will contain the symbol you defined in chartData[]
@@ -229,9 +247,9 @@ export class HomePageComponent implements AfterViewInit  {
     }
   }
 
-  onPrinterSelected(value: string) {
-    if(value && this.printers) {
-      this.selectedPrinter = this.printers[parseInt(value)];
+  onPrinterSelected(value: number) {
+    if(value != null  && this.printers) {
+      this.selectedPrinter = this.printers[value];
 
       this.filaments = this.filamentsService.getCompatibleFilamentsForAPrinter(this.selectedPrinter)
     } else {
@@ -242,6 +260,16 @@ export class HomePageComponent implements AfterViewInit  {
   }
 
   resetForm() {
-    this.quoteForm.reset();
+    //specify default value for disabled fields
+    this.quoteForm.reset({
+      preparationTimeTotalFormControl: "0",
+      filamentCostSummaryFormControl: "0",
+      electricityCostSummaryFormControl: "0",
+      preparationCostSummaryFormControl: "0",
+    });
+    this.localService.removeItem("form")
+    this.selectedCurrency = this.currencyService.getDefaultCurrency();
+    //set currency from cache
+    this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency.code, {emitEvent: false})
   }
 }

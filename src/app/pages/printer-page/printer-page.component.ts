@@ -20,8 +20,6 @@ export class PrinterPageComponent implements AfterViewInit {
 
   selectedCurrency: Currency;
 
-  @Output() printerAddedEvent = new EventEmitter<Printer[]>();
-
   @ViewChild(MatSort) sort = new MatSort ;
 
   constructor(private dialog: MatDialog, private printersService: PrintersService, private currencyService: CurrencyService){

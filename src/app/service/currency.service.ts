@@ -20,6 +20,10 @@ export class CurrencyService {
     return this.currency
   }
 
+  getDefaultCurrency(): Currency {
+    return {symbol: "€", code: "EUR"};
+  }
+
   setCurrency(currency: Currency): void {
     this.currency = currency;
     // Store the object into storage
@@ -28,6 +32,5 @@ export class CurrencyService {
     } catch (e) {
 
     }
-
   }
 }

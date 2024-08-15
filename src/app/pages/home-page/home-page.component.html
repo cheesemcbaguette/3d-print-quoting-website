@@ -1,6 +1,6 @@
 <form [formGroup]="quoteForm" class="row g-3">
   <div class="col-12">
-    <button type="reset" class="me-1" mat-fab extended>
+    <button type="button" class="me-1" mat-fab extended (click)="resetForm()">
       <mat-icon class="delete">delete</mat-icon>
       Reset Quote
     </button>
@@ -51,7 +51,7 @@
               <mat-label>Printer</mat-label>
               <mat-select id="printerSelect" #printerSelect aria-label="Printer select"  (selectionChange)="onPrinterSelected(printerSelect.value)" formControlName="printerFormControl">
                 <ng-container *ngIf="printers">
-                  <mat-option *ngFor="let printer of printers; let i = index" [value]=[i]>
+                  <mat-option *ngFor="let printer of printers; let i = index" [value]=i>
                     {{printers[i].name}}
                   </mat-option>
                 </ng-container>
@@ -80,7 +80,7 @@
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Weight</mat-label>
-              <input type="number" min="0" matInput placeholder="Insert the weight of the print" formControlName="printWeightFormControl">
+              <input type="number" min="0" matInput placeholder="Weight of the print" formControlName="printWeightFormControl">
               <span matTextSuffix>g</span>
               <mat-error>Print weight is <strong>required</strong></mat-error>
             </mat-form-field>
@@ -153,14 +153,14 @@
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Energy cost</mat-label>
               <input type="number" min="0" matInput formControlName="energyCostFormControl">
-              <span matTextSuffix>{{selectedCurrency?.symbol + '/kWh'}}</span>
+              <span matTextSuffix matTooltip="Energy cost is required to calculate electricity cost">{{selectedCurrency?.symbol + '/kWh'}}</span>
               <mat-error>Energy cost is <strong>required</strong></mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Labor Costs</mat-label>
               <input type="number" min="0" matInput formControlName="laborCostFormControl">
-              <span matTextSuffix>{{selectedCurrency?.symbol + '/h'}}</span>
+              <span matTextSuffix matTooltip="Labor cost is required to calculate the preparation cost">{{selectedCurrency?.symbol + '/h'}}</span>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
@@ -205,7 +205,7 @@
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Filament</mat-label>
-              <input matInput formControlName="filamentCostSummaryFormControl">
+              <input matInput formControlName="filamentCostSummaryFormControl" step=".01">
               <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
@@ -220,12 +220,7 @@
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Preparation</mat-label>
-              <input disabled type="number" matInput [value]="0">
-              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
-            </mat-form-field>
-            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-              <mat-label>Post-processing</mat-label>
-              <input disabled type="number" matInput [value]="0">
+              <input matInput formControlName="preparationCostSummaryFormControl">
               <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">

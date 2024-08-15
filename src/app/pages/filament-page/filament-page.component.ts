@@ -21,8 +21,6 @@ export class FilamentPageComponent implements AfterViewInit {
 
   selectedCurrency: Currency;
 
-  @Output() filamentAddedEvent = new EventEmitter<Filament[]>();
-
   @ViewChild(MatSort) sort = new MatSort ;
 
   constructor(private dialog: MatDialog, private currencyService: CurrencyService, private filamentsService: FilamentsService) {
