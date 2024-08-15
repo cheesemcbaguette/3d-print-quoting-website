@@ -10,7 +10,11 @@ export class CurrencyService {
   private localStorageKey = "currency"
   constructor(private localService: LocalService) {
     try {
-      this.currency = JSON.parse(<string>this.localService.getItem(this.localStorageKey));
+      const json = this.localService.getItem(this.localStorageKey)
+
+      if(json != null) {
+        this.currency = JSON.parse(json);
+      }
     } catch (e) {
 
     }
