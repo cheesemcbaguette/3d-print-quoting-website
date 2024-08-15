@@ -5,7 +5,7 @@ import {PrintersService} from "../../service/printers.service";
 import {CurrencyService} from "../../service/currency.service";
 import {FilamentsService} from "../../service/filaments.service";
 import {Filament} from "../../model/filament";
-import {FormControl, FormGroup, Validators, ɵFormGroupRawValue} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {LocalService} from "../../service/local.service";
 import {Currency} from "../../model/currency";
 import {CURRENCIES} from "../../../assets/currencies-data";
@@ -96,11 +96,10 @@ export class HomePageComponent implements AfterViewInit  {
   currencies: Currency[] = CURRENCIES;
 
   saleData = [
-    { name: "Preparation", value: 21.4 },
-    { name: "Filament", value: 34.5 },
-    { name: "Electricity", value: 2.3 },
-    { name: "Printer depreciation", value: 23.8 },
-    { name: "Post processing", value: 17.9 }
+    { name: "Preparation", value: 25 },
+    { name: "Filament", value: 25 },
+    { name: "Electricity", value: 25 },
+    { name: "Printer depreciation", value: 25 },
   ];
 
   model: string | undefined;
@@ -112,7 +111,7 @@ export class HomePageComponent implements AfterViewInit  {
   inputDivClass = "col-sm-6"
 
   /*Form validations*/
-  quoteForm = new FormGroup({
+  public quoteForm = new FormGroup({
     printerFormControl: new FormControl("", [Validators.required,]),
     filamentFormControl: new FormControl("", [Validators.required,]),
     printWeightFormControl: new FormControl("", [Validators.required,]),
@@ -133,11 +132,16 @@ export class HomePageComponent implements AfterViewInit  {
     laborCostFormControl: new FormControl("", []),
     failureRateFormControl: new FormControl("", []),
     currencyFormControl: new FormControl("", []),
-    clientDemandingFormControl: new FormControl("", []),
 
     filamentCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
     electricityCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
+    printerDeprecationCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
     preparationCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
+    consumablesCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
+    subtotalCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
+    subtotalWithFailuresCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
+    markupCostSummaryFormControl: new FormControl("100", []),
+    suggestedPriceCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
   });
 
 
@@ -173,17 +177,22 @@ export class HomePageComponent implements AfterViewInit  {
         //divide weight by 1000 because weight is in grams and filamentWeight is in kg
         const filamentPrice: number = (weight / 1000) * (filament.spoolPrice / filament.filamentWeight);
         this.quoteForm.controls['filamentCostSummaryFormControl'].setValue("" + filamentPrice.toFixed(2), {emitEvent: false});
+        const time: number = Number(this.quoteForm.controls['printTimeHoursFormControl']?.value)
 
         //calculate electricity cost
         if(this.quoteForm.controls['energyCostFormControl'].value) {
           const energyCost: number = Number(this.quoteForm.controls['energyCostFormControl']?.value)
-          const time: number = Number(this.quoteForm.controls['printTimeHoursFormControl']?.value)
 
           const electricityUsed: number = printer.energyConsumption * energyCost * time;
 
           this.quoteForm.controls['electricityCostSummaryFormControl'].setValue("" + electricityUsed.toFixed(2), {emitEvent: false});
         }
 
+        // calculate deprecation cost
+        const deprecationCost: number = printer.depreciation * time
+        this.quoteForm.controls['printerDeprecationCostSummaryFormControl'].setValue("" + deprecationCost.toFixed(2), {emitEvent: false});
+
+        //calculate preparation cost
         if(this.quoteForm.controls['preparationTimeTotalFormControl'].value && this.quoteForm.controls['laborCostFormControl'].value ) {
           const prepTime: number = Number(this.quoteForm.controls['preparationTimeTotalFormControl']?.value)
           const laborCost: number = Number(this.quoteForm.controls['laborCostFormControl']?.value)
@@ -192,6 +201,49 @@ export class HomePageComponent implements AfterViewInit  {
 
           this.quoteForm.controls['preparationCostSummaryFormControl'].setValue("" + prepCost.toFixed(2), {emitEvent: false});
         }
+
+        // calculate consumables cost
+        if(this.quoteForm.controls['consumablesFormControl'].value) {
+          this.quoteForm.controls['consumablesCostSummaryFormControl'].setValue(this.quoteForm.controls['consumablesFormControl'].value, {emitEvent: false})
+        } else {
+          this.quoteForm.controls['consumablesCostSummaryFormControl'].setValue("0", {emitEvent: false})
+        }
+
+        // calculate subtotal
+        const subtotal = filamentPrice + Number(this.quoteForm.controls['electricityCostSummaryFormControl'].value)
+          + deprecationCost + Number(this.quoteForm.controls['preparationCostSummaryFormControl'].value) + Number(this.quoteForm.controls['consumablesCostSummaryFormControl'].value)
+        this.quoteForm.controls['subtotalCostSummaryFormControl'].setValue(subtotal.toFixed(2), {emitEvent: false})
+
+        // calculate subtotal + failure rate % cost
+        if(this.quoteForm.controls['failureRateFormControl'].value) {
+          const subtotalWithFailures = subtotal * (Number(this.quoteForm.controls['failureRateFormControl'].value) / 100 + 1)
+          this.quoteForm.controls['subtotalWithFailuresCostSummaryFormControl'].setValue(subtotalWithFailures.toFixed(2), {emitEvent: false})
+        } else {
+          this.quoteForm.controls['subtotalWithFailuresCostSummaryFormControl'].setValue(subtotal.toFixed(2), {emitEvent: false})
+        }
+
+        // calculate suggested price with markup
+        if(this.quoteForm.controls['markupCostSummaryFormControl'].value && this.quoteForm.controls['markupCostSummaryFormControl'].value != "0") {
+          const suggestedPrice = Number(this.quoteForm.controls['subtotalWithFailuresCostSummaryFormControl'].value) * (Number(this.quoteForm.controls['markupCostSummaryFormControl'].value) / 100);
+          this.quoteForm.controls['suggestedPriceCostSummaryFormControl'].setValue(suggestedPrice.toFixed(2), {emitEvent: false})
+        } else {
+          this.quoteForm.controls['suggestedPriceCostSummaryFormControl'].setValue(this.quoteForm.controls['subtotalWithFailuresCostSummaryFormControl'].value, {emitEvent: false})
+        }
+
+        const filamentPercentage: number = (filamentPrice * 100) / subtotal;
+        const electricityPercentageNumber: number = (Number(this.quoteForm.controls['electricityCostSummaryFormControl'].value) * 100) / subtotal;
+        const preparationPercentageNumber: number = (Number(this.quoteForm.controls['preparationCostSummaryFormControl'].value) * 100) / subtotal;
+        const consumablesPercentageNumber: number = (Number(this.quoteForm.controls['consumablesCostSummaryFormControl'].value) * 100) / subtotal;
+        const depreciationPercentageNumber: number = (Number(this.quoteForm.controls['consumablesCostSummaryFormControl'].value) * 100) / subtotal;
+
+        //display data to graph
+        this.saleData = [
+          { name: "Filament", value: Number(filamentPercentage.toFixed(2)) },
+          { name: "Electricity", value: Number(electricityPercentageNumber.toFixed(2)) },
+          { name: "Preparation", value: Number(preparationPercentageNumber.toFixed(2)) },
+          { name: "Consumables", value: Number(consumablesPercentageNumber.toFixed(2)) },
+          { name: "Printer depreciation", value: Number(depreciationPercentageNumber.toFixed(2)) },
+        ];
       } else {
         //if form isn't valid, parse through controls to display them as invalid
         const controls = this.quoteForm.controls;
@@ -266,6 +318,12 @@ export class HomePageComponent implements AfterViewInit  {
       filamentCostSummaryFormControl: "0",
       electricityCostSummaryFormControl: "0",
       preparationCostSummaryFormControl: "0",
+      printerDeprecationCostSummaryFormControl: "0",
+      consumablesCostSummaryFormControl: "0",
+      subtotalCostSummaryFormControl: "0",
+      subtotalWithFailuresCostSummaryFormControl: "0",
+      suggestedPriceCostSummaryFormControl: "0",
+      markupCostSummaryFormControl: "100",
     });
     this.localService.removeItem("form")
     this.selectedCurrency = this.currencyService.getDefaultCurrency();

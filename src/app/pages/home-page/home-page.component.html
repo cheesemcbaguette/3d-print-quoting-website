@@ -179,12 +179,6 @@
                 </ng-container>
               </mat-select>
             </mat-form-field>
-
-            <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-              <mat-label>Client is very demanding fee</mat-label>
-              <input type="number" min="0" matInput formControlName="clientDemandingFormControl">
-              <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
-            </mat-form-field>
           </div>
         </div>
 
@@ -214,8 +208,8 @@
               <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
-              <mat-label>Printer depreciation</mat-label>
-              <input disabled type="number" matInput [value]="0">
+              <mat-label>Printer deprecation</mat-label>
+              <input matInput formControlName="printerDeprecationCostSummaryFormControl">
               <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
@@ -225,29 +219,29 @@
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Consumables</mat-label>
-              <input disabled type="number" matInput [value]="0">
+              <input type="number" matInput formControlName="consumablesCostSummaryFormControl">
               <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Subtotal</mat-label>
-              <input disabled type="number" matInput [value]="0">
+              <input type="number" matInput formControlName="subtotalCostSummaryFormControl">
               <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Including failures</mat-label>
-              <input disabled type="number" matInput [value]="0">
+              <input type="number" matInput formControlName="subtotalWithFailuresCostSummaryFormControl">
               <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Markup</mat-label>
-              <input type="number" min="0" matInput [value]="0">
+              <input type="number" min="0" matInput formControlName="markupCostSummaryFormControl">
               <span matTextSuffix>%</span>
             </mat-form-field>
 
             <mat-form-field appearance="fill" class="col-6" floatLabel="always">
               <mat-label>Suggested price</mat-label>
-              <input type="number" matInput [value]="0">
+              <input type="number" matInput formControlName="suggestedPriceCostSummaryFormControl">
               <span matTextSuffix>{{selectedCurrency?.symbol}}</span>
             </mat-form-field>
 
