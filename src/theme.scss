@@ -69,3 +69,9 @@ mat-header-cell {
   --mat-table-header-headline-color: #{mat.get-theme-color($my-app-theme, primary, 80)};
 }
 
+//fix for mat form field suffix padding inside dialogs
+.mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+  padding-right: 16px !important;
+}
+
+

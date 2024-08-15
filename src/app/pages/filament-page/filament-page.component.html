@@ -21,7 +21,7 @@
 
         <!-- Spool Price Column -->
         <ng-container matColumnDef="spoolPrice">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="price"> Spool Price [{{selectedCurrency}}] </th>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header="price"> Spool Price [{{selectedCurrency.symbol}}] </th>
           <td mat-cell *matCellDef="let row"> {{row.spoolPrice}} </td>
         </ng-container>
 

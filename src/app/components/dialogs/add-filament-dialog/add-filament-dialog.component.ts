@@ -20,8 +20,8 @@ export class AddFilamentDialogComponent implements OnInit {
     priceFormControl: new FormControl(this.data.filament ? this.data.filament.spoolPrice : "", [Validators.required,]),
     filamentWeightFormControl: new FormControl(this.data.filament ? this.data.filament.filamentWeight : "", [Validators.required,]),
     densityFormControl: new FormControl(this.data.filament ? this.data.filament.density : "", [Validators.required,]),
-    nozzleTempFormControl: new FormControl(this.data.filament ? this.data.filament.nozzleTemp : "", []),
-    bedTempFormControl: new FormControl(this.data.filament ? this.data.filament.bedTemp : "", []),
+    nozzleTempFormControl: new FormControl(this.data.filament ? this.data.filament.nozzleTemp : "0", []),
+    bedTempFormControl: new FormControl(this.data.filament ? this.data.filament.bedTemp : "0", []),
   });
 
   matcher = new MyErrorStateMatcher();

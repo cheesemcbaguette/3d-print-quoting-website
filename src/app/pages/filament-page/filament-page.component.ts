@@ -37,7 +37,7 @@ export class FilamentPageComponent implements AfterViewInit {
 
   openAddFilamentDialog() {
     let dialog = this.dialog.open(AddFilamentDialogComponent, {
-
+      width: '600px',
       data: { title: "Add new filament" },
     });
     dialog.afterClosed()
