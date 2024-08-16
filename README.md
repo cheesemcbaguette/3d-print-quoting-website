@@ -9,3 +9,5 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 ## To build the project for a production environment
 
 `ng build --configuration production --output-path docs --base-href https://cheesemcbaguette.github.io/3d-print-quoting-website/`
+
+Don't forget to duplicate `/docs/index.html` into `/docs/404.html` if you host it on github pages
