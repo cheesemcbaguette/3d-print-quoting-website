@@ -23,3 +23,10 @@
 .time-error-width {
   width: 300px;
 }
+
+//fix accordion titles for screen width below 1000px
+@media screen and (max-width: 1000px) {
+  .mat-expansion-panel-header-title {
+    flex-basis: auto;
+  }
+}

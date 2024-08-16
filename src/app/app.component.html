@@ -1,8 +1,10 @@
-<header class="pb-3">
+<header class="pb-3 w-100">
   <mat-toolbar>
+      <button mat-icon-button class="mobile-menu" aria-label="Mobile menu button" [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
       <h1 class="px-3">3d Print Quoting Website</h1>
       <ul ngbNav class="header-nav nav">
-
         <li [ngbNavItem]="1">
           <a mat-button ngbNavLink routerLink="/home" routerLinkActive="active">Home</a>
           <ng-template ngbNavContent>
@@ -28,6 +30,22 @@
           </ng-template>
         </li>
       </ul>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/home" routerLinkActive="active">
+        <mat-icon>home</mat-icon>
+        <span>Home</span>
+      </button>
+      <button mat-menu-item routerLink="/printers" routerLinkActive="active">
+        <span>Printers</span>
+      </button>
+      <button mat-menu-item routerLink="/material" routerLinkActive="active">
+        <span>Material</span>
+      </button>
+      <button mat-menu-item routerLink="/about" routerLinkActive="active">
+        <span>About</span>
+      </button>
+    </mat-menu>
 
   </mat-toolbar>
 </header>
