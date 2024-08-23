@@ -65,5 +65,5 @@
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close (click)="dialogRef.close()">Cancel</button>
 
-  <button type="submit" mat-raised-button color="primary" [disabled]="!addFilamentForm.valid">{{data.title}}</button>
+  <button type="submit" mat-raised-button color="primary" (click)="addFilament()" [disabled]="!addFilamentForm.valid">{{data.title}}</button>
 </mat-dialog-actions>
