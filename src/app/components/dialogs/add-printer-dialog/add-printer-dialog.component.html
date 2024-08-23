@@ -64,7 +64,7 @@
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close (click)="dialogRef.close()">Cancel</button>
 
-  <button type="submit" mat-raised-button color="primary" [disabled]="!addPrinterForm.valid">{{ data.title }}</button>
+  <button type="submit" mat-raised-button (click)="addPrinter()" color="primary" [disabled]="!addPrinterForm.valid">{{ data.title }}</button>
 </mat-dialog-actions>
 
 

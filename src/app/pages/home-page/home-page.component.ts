@@ -234,7 +234,7 @@ export class HomePageComponent implements AfterViewInit  {
         const electricityPercentageNumber: number = (Number(this.quoteForm.controls['electricityCostSummaryFormControl'].value) * 100) / subtotal;
         const preparationPercentageNumber: number = (Number(this.quoteForm.controls['preparationCostSummaryFormControl'].value) * 100) / subtotal;
         const consumablesPercentageNumber: number = (Number(this.quoteForm.controls['consumablesCostSummaryFormControl'].value) * 100) / subtotal;
-        const depreciationPercentageNumber: number = (Number(this.quoteForm.controls['consumablesCostSummaryFormControl'].value) * 100) / subtotal;
+        const depreciationPercentageNumber: number = (Number(this.quoteForm.controls['printerDeprecationCostSummaryFormControl'].value) * 100) / subtotal;
 
         //display data to graph
         this.saleData = [
