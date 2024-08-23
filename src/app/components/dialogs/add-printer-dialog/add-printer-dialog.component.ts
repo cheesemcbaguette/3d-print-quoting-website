@@ -9,7 +9,7 @@ import {Currency} from "../../../model/currency";
 @Component({
   selector: 'app-add-printer-dialog',
   templateUrl: './add-printer-dialog.component.html',
-  styleUrls: ['./add-printer-dialog.component.css']
+  styleUrls: ['./add-printer-dialog.component.scss']
 })
 export class AddPrinterDialogComponent implements OnInit {
 
