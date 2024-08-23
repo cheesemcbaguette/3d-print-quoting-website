@@ -74,4 +74,9 @@ mat-header-cell {
   padding-right: 16px !important;
 }
 
+//to only have the table overflowing and not the entire page on mobile
+.div-table {
+  width: 100%;
+  overflow-x: auto;
+}
 
