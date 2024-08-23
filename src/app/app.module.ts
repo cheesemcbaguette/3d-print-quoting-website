@@ -28,7 +28,6 @@ import {MatMenuModule} from "@angular/material/menu";
 import { AddPrinterDialogComponent } from './components/dialogs/add-printer-dialog/add-printer-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
-import { EditPrinterDialogComponent } from './components/dialogs/edit-printer-dialog/edit-printer-dialog.component';
 import { DeletePrinterDialogComponent } from './components/dialogs/delete-printer-dialog/delete-printer-dialog.component';
 import { AddFilamentDialogComponent } from './components/dialogs/add-filament-dialog/add-filament-dialog.component';
 import {MatTimepickerModule, provideNativeDateTimeAdapter} from "@dhutaryan/ngx-mat-timepicker";
@@ -51,7 +50,6 @@ import {MatTooltip} from "@angular/material/tooltip";
     PrinterPageComponent,
     FilamentPageComponent,
     AddPrinterDialogComponent,
-    EditPrinterDialogComponent,
     DeletePrinterDialogComponent,
     AddFilamentDialogComponent,
   ],
