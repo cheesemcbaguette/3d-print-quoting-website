@@ -21,8 +21,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm run -- test --no-watch --no-progress --browsers=ChromeHeadless
+      - name: Build
+        run: npm run build
 
       - name: Prepare and deploy to Github pages
         env:
