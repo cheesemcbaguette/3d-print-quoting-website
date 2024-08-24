@@ -26,4 +26,4 @@ jobs:
       - name: Prepare and deploy to Github pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run ng -- deploy --dir=dist/3d-print-quoting-website --repo="https://github.com/cheesemcbaguette/3d-print-quoting-website.git" --base-href 3d-print-quoting-website --name cheesemcbaguette --email "29225021+cheesemcbaguette@users.noreply.github.com"
+        run: npm run ng -- deploy --dir=dist/3d-print-quoting-website --repo="https://github.com/cheesemcbaguette/3d-print-quoting-website.git" --name cheesemcbaguette --email "29225021+cheesemcbaguette@users.noreply.github.com"
