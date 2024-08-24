@@ -4,11 +4,12 @@
       <mat-icon class="delete">delete</mat-icon>
       Reset Quote
     </button>
-    <button type="button" class="mx-1" mat-fab extended>
+    <button type="button" class="mx-1" mat-fab extended (click)="fileInput.click()">
+      <input #fileInput type="file" accept="application/json" hidden (change)="importForm($event)">
       <mat-icon class="delete">upload</mat-icon>
       Import Quote
     </button>
-    <button type="button" class="mx-1" mat-fab extended>
+    <button type="button" class="mx-1" mat-fab extended (click)="exportForm()">
       <mat-icon class="delete">download</mat-icon>
       Download Quote
     </button>

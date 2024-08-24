@@ -91,6 +91,8 @@ export class HomePageComponent implements AfterViewInit  {
 
   @ViewChild('filamentSelect') filamentSelect!: ElementRef;
 
+  @ViewChild('fileInput') fileInput!: ElementRef;
+
   printers: Printer[] | undefined;
   filaments: Filament[] | undefined;
   currencies: Currency[] = CURRENCIES;
@@ -157,7 +159,8 @@ export class HomePageComponent implements AfterViewInit  {
     //calculate quote on code change if the form is valid
     this.quoteForm.valueChanges.subscribe(value => {
       //save form to cache
-      this.localService.setItem("form", JSON.stringify(this.quoteForm.value))
+      const jsonFormValue = JSON.stringify(this.quoteForm.value)
+      this.localService.setItem("form", jsonFormValue)
 
       // calculate preparation time
       const modelPreparation: number = Number(this.quoteForm.controls['modelPreparationFormControl']?.value)
@@ -329,5 +332,50 @@ export class HomePageComponent implements AfterViewInit  {
     this.selectedCurrency = this.currencyService.getDefaultCurrency();
     //set currency from cache
     this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency.code, {emitEvent: false})
+  }
+
+  exportForm() {
+    const jsonString = JSON.stringify(this.quoteForm.value, null, 2); // Convert JSON object to string
+    const blob = new Blob([jsonString], { type: 'application/json' }); // Create a Blob from the JSON string
+    const url = URL.createObjectURL(blob); // Create a URL for the Blob
+
+    // Create a temporary <a> element to trigger the download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'quote.json'; // Set the file name with .json extension
+    a.click(); // Programmatically trigger the download
+
+    // Cleanup: Remove the <a> element and release the object URL
+    URL.revokeObjectURL(url);
+  }
+
+  importForm(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const resultAsJson = reader.result as string
+          const result = JSON.parse(resultAsJson)
+          this.quoteForm.patchValue(result, {emitEvent: true})
+
+          if (this.quoteForm.controls.printerFormControl.value != null) {
+            this.selectedPrinter = this.printers?.[Number(this.quoteForm.controls.printerFormControl.value)];
+          }
+
+          this.filaments = this.filamentsService.getCompatibleFilamentsForAPrinter(<Printer>this.selectedPrinter)
+
+          //called to trigger form value change event
+          this.quoteForm.updateValueAndValidity()
+
+          console.log('Quote imported'); // JSON data is now stored in the jsonData variable
+        } catch (e) {
+          console.error('Error parsing JSON', e);
+        }
+      };
+      reader.readAsText(file);
+    }
   }
 }
