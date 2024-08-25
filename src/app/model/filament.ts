@@ -3,7 +3,6 @@ export interface Filament {
   materialDiameter: number;
   spoolPrice: number;
   filamentWeight: number;
-  density: number
   nozzleTemp: number;
   bedTemp: number;
 }

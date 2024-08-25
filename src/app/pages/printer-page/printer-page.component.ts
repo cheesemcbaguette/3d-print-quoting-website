@@ -8,6 +8,7 @@ import {DeletePrinterDialogComponent} from "../../components/dialogs/delete-prin
 import {PrintersService} from "../../service/printers.service";
 import {CurrencyService} from "../../service/currency.service";
 import {Currency} from "../../model/currency";
+import {PRINTERS} from "../../../assets/printers-data";
 
 @Component({
   selector: 'printer-page',
@@ -89,9 +90,10 @@ export class PrinterPageComponent implements AfterViewInit {
       });
   }
 
-
   resetPrinterList() {
+    this.dataSource.data = PRINTERS
 
+    this.printersService.editPrinters(this.dataSource.data)
   }
 
   importPrinterList(event: Event) {

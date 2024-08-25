@@ -19,7 +19,6 @@ export class AddFilamentDialogComponent implements OnInit {
     filamentDiameterFormControl: new FormControl(this.data.filament ? this.data.filament.materialDiameter : "", [Validators.required,]),
     priceFormControl: new FormControl(this.data.filament ? this.data.filament.spoolPrice : "", [Validators.required,]),
     filamentWeightFormControl: new FormControl(this.data.filament ? this.data.filament.filamentWeight : "", [Validators.required,]),
-    densityFormControl: new FormControl(this.data.filament ? this.data.filament.density : "", [Validators.required,]),
     nozzleTempFormControl: new FormControl(this.data.filament ? this.data.filament.nozzleTemp : "0", []),
     bedTempFormControl: new FormControl(this.data.filament ? this.data.filament.bedTemp : "0", []),
   });
@@ -39,11 +38,10 @@ export class AddFilamentDialogComponent implements OnInit {
     const filamentDiameter = Number(this.addFilamentForm.get('filamentDiameterFormControl')?.value);
     const price = Number(this.addFilamentForm.get('priceFormControl')?.value);
     const filamentWeight = Number(this.addFilamentForm.get('filamentWeightFormControl')?.value);
-    const density = Number(this.addFilamentForm.get('densityFormControl')?.value);
     const nozzleTemp = Number(this.addFilamentForm.get('nozzleTempFormControl')?.value);
     const bedTemp = Number(this.addFilamentForm.get('bedTempFormControl')?.value);
 
-    let newFilament : Filament = {name: name, materialDiameter: filamentDiameter, spoolPrice: price, filamentWeight: filamentWeight, density: density, nozzleTemp: nozzleTemp, bedTemp: bedTemp};
+    let newFilament : Filament = {name: name, materialDiameter: filamentDiameter, spoolPrice: price, filamentWeight: filamentWeight, nozzleTemp: nozzleTemp, bedTemp: bedTemp};
 
     this.dialogRef.close(newFilament);
   }

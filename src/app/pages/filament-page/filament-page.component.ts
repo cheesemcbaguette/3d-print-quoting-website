@@ -9,6 +9,8 @@ import {AddFilamentDialogComponent} from "../../components/dialogs/add-filament-
 import {FilamentsService} from "../../service/filaments.service";
 import {DeleteFilamentDialogComponent} from "../../components/dialogs/delete-filament-dialog/delete-filament-dialog.component";
 import {Currency} from "../../model/currency";
+import {PRINTERS} from "../../../assets/printers-data";
+import {FILAMENTS} from "../../../assets/filaments-data";
 
 @Component({
   selector: 'filament-page',
@@ -90,7 +92,9 @@ export class FilamentPageComponent implements AfterViewInit {
   }
 
   resetFilamentList() {
+    this.dataSource.data = FILAMENTS
 
+    this.filamentsService.editFilaments(this.dataSource.data)
   }
 
   importFilamentList(event: Event) {

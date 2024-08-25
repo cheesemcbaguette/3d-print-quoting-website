@@ -39,15 +39,6 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="col-12" floatLabel="always">
-      <mat-label>Density </mat-label>
-      <input type="number" matInput [formControl]="addFilamentForm.controls.densityFormControl">
-      <span matSuffix>[g/cm³]</span>
-      <mat-error>
-        Density is <strong>required</strong>
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="col-12" floatLabel="always">
       <mat-label>Nozzle Temp</mat-label>
       <input type="number" matInput [formControl]="addFilamentForm.controls.nozzleTempFormControl">
       <span matSuffix>°C</span>
