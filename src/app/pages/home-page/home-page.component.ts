@@ -9,6 +9,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {LocalService} from "../../service/local.service";
 import {Currency} from "../../model/currency";
 import {CURRENCIES} from "../../../assets/currencies-data";
+import {FileUtils} from "../../utils/FileUtils";
 
 
 /**
@@ -336,17 +337,7 @@ export class HomePageComponent implements AfterViewInit  {
 
   exportForm() {
     const jsonString = JSON.stringify(this.quoteForm.value, null, 2); // Convert JSON object to string
-    const blob = new Blob([jsonString], { type: 'application/json' }); // Create a Blob from the JSON string
-    const url = URL.createObjectURL(blob); // Create a URL for the Blob
-
-    // Create a temporary <a> element to trigger the download
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'quote.json'; // Set the file name with .json extension
-    a.click(); // Programmatically trigger the download
-
-    // Cleanup: Remove the <a> element and release the object URL
-    URL.revokeObjectURL(url);
+    FileUtils.createAndDownloadFile(jsonString, "quote.json")
   }
 
   importForm(event: Event) {
@@ -355,6 +346,7 @@ export class HomePageComponent implements AfterViewInit  {
 
     if (file) {
       const reader = new FileReader();
+      reader.readAsText(file);
       reader.onload = () => {
         try {
           const resultAsJson = reader.result as string
@@ -375,7 +367,6 @@ export class HomePageComponent implements AfterViewInit  {
           console.error('Error parsing JSON', e);
         }
       };
-      reader.readAsText(file);
     }
   }
 }

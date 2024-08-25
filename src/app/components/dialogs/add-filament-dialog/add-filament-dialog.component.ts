@@ -1,6 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {MyErrorStateMatcher} from "../../../utils/MyErrorStateMatcher";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Filament} from "../../../model/filament";
 import {CurrencyService} from "../../../service/currency.service";
@@ -23,7 +22,6 @@ export class AddFilamentDialogComponent implements OnInit {
     bedTempFormControl: new FormControl(this.data.filament ? this.data.filament.bedTemp : "0", []),
   });
 
-  matcher = new MyErrorStateMatcher();
   selectedCurrency: Currency;
 
   constructor(public dialogRef: MatDialogRef<AddFilamentDialogComponent>, @Inject(MAT_DIALOG_DATA) public data: {filament : Filament, title: string}, private currencyService: CurrencyService) {

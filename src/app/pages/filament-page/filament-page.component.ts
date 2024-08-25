@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 
 import {Filament} from "../../model/filament";
 import {MatTableDataSource} from "@angular/material/table";
@@ -7,10 +7,12 @@ import {MatDialog} from "@angular/material/dialog";
 import {CurrencyService} from "../../service/currency.service";
 import {AddFilamentDialogComponent} from "../../components/dialogs/add-filament-dialog/add-filament-dialog.component";
 import {FilamentsService} from "../../service/filaments.service";
-import {DeleteFilamentDialogComponent} from "../../components/dialogs/delete-filament-dialog/delete-filament-dialog.component";
+import {
+  DeleteFilamentDialogComponent
+} from "../../components/dialogs/delete-filament-dialog/delete-filament-dialog.component";
 import {Currency} from "../../model/currency";
-import {PRINTERS} from "../../../assets/printers-data";
 import {FILAMENTS} from "../../../assets/filaments-data";
+import {FileUtils} from "../../utils/FileUtils";
 
 @Component({
   selector: 'filament-page',
@@ -19,11 +21,13 @@ import {FILAMENTS} from "../../../assets/filaments-data";
 })
 export class FilamentPageComponent implements AfterViewInit {
   dataSource!: MatTableDataSource<Filament>;
-  displayedColumns: string[] = ['manufacturer', 'materialDiameter', 'spoolPrice', 'spoolSize', 'density', 'nozzleTemp', 'bedTemp', 'actions'];
+  displayedColumns: string[] = ['manufacturer', 'materialDiameter', 'spoolPrice', 'spoolSize', 'nozzleTemp', 'bedTemp', 'actions'];
 
   selectedCurrency: Currency;
 
   @ViewChild(MatSort) sort = new MatSort ;
+
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   constructor(private dialog: MatDialog, private currencyService: CurrencyService, private filamentsService: FilamentsService) {
     // Assign the data to the data source for the table to render
@@ -98,10 +102,29 @@ export class FilamentPageComponent implements AfterViewInit {
   }
 
   importFilamentList(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
 
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = () => {
+        try {
+          const resultAsJson = reader.result as string
+          this.dataSource.data = JSON.parse(resultAsJson)
+
+          this.filamentsService.editFilaments(this.dataSource.data)
+
+          console.log('Filaments imported'); // JSON data is now stored in the jsonData variable
+        } catch (e) {
+          console.error('Error parsing JSON', e);
+        }
+      };
+    }
   }
 
   exportFilamentList() {
-
+    const jsonString = JSON.stringify(this.dataSource.data, null, 2); // Convert JSON object to string
+    FileUtils.createAndDownloadFile(jsonString, "filaments.json")
   }
 }

@@ -47,12 +47,6 @@
         <td mat-cell *matCellDef="let row"> {{row.filamentWeight}} </td>
       </ng-container>
 
-      <!-- Density Column -->
-      <ng-container matColumnDef="density">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header="density"> Density [g/cm³] </th>
-        <td mat-cell *matCellDef="let row"> {{row.density}} </td>
-      </ng-container>
-
       <!-- Nozzle Temp Column -->
       <ng-container matColumnDef="nozzleTemp">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="nozzleTemp"> Nozzle Temp [°C] </th>

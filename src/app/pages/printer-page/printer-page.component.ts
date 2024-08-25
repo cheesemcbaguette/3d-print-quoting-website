@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, EventEmitter, Output, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild} from '@angular/core';
 import {Printer} from "../../model/printer";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
@@ -9,6 +9,7 @@ import {PrintersService} from "../../service/printers.service";
 import {CurrencyService} from "../../service/currency.service";
 import {Currency} from "../../model/currency";
 import {PRINTERS} from "../../../assets/printers-data";
+import {FileUtils} from "../../utils/FileUtils";
 
 @Component({
   selector: 'printer-page',
@@ -22,6 +23,8 @@ export class PrinterPageComponent implements AfterViewInit {
   selectedCurrency: Currency;
 
   @ViewChild(MatSort) sort = new MatSort ;
+
+  @ViewChild('fileInput') fileInput!: ElementRef;
 
   constructor(private dialog: MatDialog, private printersService: PrintersService, private currencyService: CurrencyService){
     // Assign the data to the data source for the table to render
@@ -97,10 +100,33 @@ export class PrinterPageComponent implements AfterViewInit {
   }
 
   importPrinterList(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
 
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = () => {
+        try {
+          const resultAsJson = reader.result as string
+          this.dataSource.data = JSON.parse(resultAsJson)
+
+          this.printersService.editPrinters(this.dataSource.data)
+
+          console.log('Printers imported'); // JSON data is now stored in the jsonData variable
+
+          // Clear the input
+          this.fileInput.nativeElement.value = null;
+        } catch (e) {
+          console.error('Error parsing JSON', e);
+        }
+      };
+
+    }
   }
 
   exportPrinterList() {
-
+    const jsonString = JSON.stringify(this.dataSource.data, null, 2); // Convert JSON object to string
+    FileUtils.createAndDownloadFile(jsonString, "printers.json")
   }
 }
