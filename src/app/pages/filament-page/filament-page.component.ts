@@ -88,4 +88,16 @@ export class FilamentPageComponent implements AfterViewInit {
         }
       });
   }
+
+  resetFilamentList() {
+
+  }
+
+  importFilamentList(event: Event) {
+
+  }
+
+  exportFilamentList() {
+
+  }
 }

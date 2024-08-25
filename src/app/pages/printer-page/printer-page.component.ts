@@ -88,4 +88,17 @@ export class PrinterPageComponent implements AfterViewInit {
         }
       });
   }
+
+
+  resetPrinterList() {
+
+  }
+
+  importPrinterList(event: Event) {
+
+  }
+
+  exportPrinterList() {
+
+  }
 }

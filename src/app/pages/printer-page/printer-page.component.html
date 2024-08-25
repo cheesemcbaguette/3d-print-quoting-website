@@ -1,9 +1,26 @@
-<div class="col-12">
-  <button mat-raised-button color="primary" class="demo-button mb-2 col-md-2" (click)="openAddPrinterDialog()">
-    Add printer
-  </button>
+<div class="row g-3">
+  <div class="col-12 px-0">
 
-  <div class="mat-elevation-z8 div-table" *ngIf="dataSource">
+    <button type="button" class="mx-1" mat-fab extended (click)="openAddPrinterDialog()">
+      <mat-icon class="add">add</mat-icon>
+      Add printer
+    </button>
+    <button type="button" class="mx-1" mat-fab extended (click)="resetPrinterList()">
+      <mat-icon class="delete">delete</mat-icon>
+      Reset printer list
+    </button>
+    <button type="button" class="mx-1" mat-fab extended (click)="fileInput.click()">
+      <input #fileInput type="file" accept="application/json" hidden (change)="importPrinterList($event)">
+      <mat-icon class="delete">upload</mat-icon>
+      Import printer list
+    </button>
+    <button type="button" class="mx-1" mat-fab extended (click)="exportPrinterList()">
+      <mat-icon class="delete">download</mat-icon>
+      Download printer list
+    </button>
+  </div>
+
+  <div class="col-12 px-0 mat-elevation-z8 div-table" *ngIf="dataSource">
     <table mat-table [dataSource]="dataSource" matSort>
 
       <!-- Name Column -->

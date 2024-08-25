@@ -86,7 +86,7 @@ import {MatTooltip} from "@angular/material/tooltip";
         MatExpansionPanelHeader,
         AboutPageComponent,
         RouterOutlet,
-        RouterModule.forRoot(routes, { useHash: true }),
+        RouterModule.forRoot(routes),
         MatIconButtonSizesModule,
         MatTimepickerModule,
         MatError,

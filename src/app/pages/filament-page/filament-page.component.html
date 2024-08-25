@@ -1,9 +1,26 @@
-<div class="col-12">
-  <button mat-raised-button color="primary" class="demo-button mb-2 col-md-2" (click)="openAddFilamentDialog()">
-    Add filament
-  </button>
+<div class="row g-3">
+  <div class="col-12 px-0">
 
-  <div class="mat-elevation-z8 div-table" *ngIf="dataSource">
+    <button type="button" class="mx-1" mat-fab extended (click)="openAddFilamentDialog()">
+      <mat-icon class="add">add</mat-icon>
+      Add filament
+    </button>
+    <button type="button" class="mx-1" mat-fab extended (click)="resetFilamentList()">
+      <mat-icon class="delete">delete</mat-icon>
+      Reset filament list
+    </button>
+    <button type="button" class="mx-1" mat-fab extended (click)="fileInput.click()">
+      <input #fileInput type="file" accept="application/json" hidden (change)="importFilamentList($event)">
+      <mat-icon class="delete">upload</mat-icon>
+      Import filament list
+    </button>
+    <button type="button" class="mx-1" mat-fab extended (click)="exportFilamentList()">
+      <mat-icon class="delete">download</mat-icon>
+      Download filament list
+    </button>
+  </div>
+
+  <div class="col-12 px-0 mat-elevation-z8 div-table" *ngIf="dataSource">
     <table mat-table [dataSource]="dataSource" matSort>
 
       <!-- Manufacturer Column -->
