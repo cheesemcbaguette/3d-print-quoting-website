@@ -10,6 +10,8 @@ import {LocalService} from "../../service/local.service";
 import {Currency} from "../../model/currency";
 import {CURRENCIES} from "../../../assets/currencies-data";
 import {FileUtils} from "../../utils/FileUtils";
+import {QuoteRequest} from "../../model/quote-request";
+import {QuoteService} from "../../service/quote.service";
 
 
 /**
@@ -143,12 +145,12 @@ export class HomePageComponent implements AfterViewInit  {
     consumablesCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
     subtotalCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
     subtotalWithFailuresCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
-    markupCostSummaryFormControl: new FormControl("100", []),
+    markupCostSummaryFormControl: new FormControl("120", []),
     suggestedPriceCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
   });
 
 
-  constructor(private printersService: PrintersService, private currencyService: CurrencyService, public filamentsService: FilamentsService, public localService: LocalService) {
+  constructor(private printersService: PrintersService, private currencyService: CurrencyService, public filamentsService: FilamentsService, public localService: LocalService, public quoteService: QuoteService) {
   }
 
   ngAfterViewInit(): void {
@@ -163,91 +165,8 @@ export class HomePageComponent implements AfterViewInit  {
       const jsonFormValue = JSON.stringify(this.quoteForm.value)
       this.localService.setItem("form", jsonFormValue)
 
-      // calculate preparation time
-      const modelPreparation: number = Number(this.quoteForm.controls['modelPreparationFormControl']?.value)
-      const slicing: number = Number(this.quoteForm.controls['slicingFormControl']?.value)
-      const materialChange: number = Number(this.quoteForm.controls['materialChangeFormControl']?.value)
-      const transferAndStart: number = Number(this.quoteForm.controls['transferAndStartFormControl']?.value)
-      const additionalWork: number = Number(this.quoteForm.controls['additionalWorkFormControl']?.value)
-
-      const preparationTime = modelPreparation + slicing + materialChange + transferAndStart + additionalWork;
-      this.quoteForm.controls['preparationTimeTotalFormControl'].setValue("" + preparationTime, {emitEvent: false});
-
       if(this.quoteForm.valid && this.filaments && this.printers) {
-        //calculate the cost of the filament
-        const filament: Filament = this.filaments[Number(this.quoteForm.controls['filamentFormControl'].value)]
-        const printer: Printer = this.printers[Number(this.quoteForm.controls['printerFormControl'].value)]
-        const weight: number = Number(this.quoteForm.controls['printWeightFormControl']?.value);
-        //divide weight by 1000 because weight is in grams and filamentWeight is in kg
-        const filamentPrice: number = (weight / 1000) * (filament.spoolPrice / filament.filamentWeight);
-        this.quoteForm.controls['filamentCostSummaryFormControl'].setValue("" + filamentPrice.toFixed(2), {emitEvent: false});
-        const time: number = Number(this.quoteForm.controls['printTimeHoursFormControl']?.value)
-
-        //calculate electricity cost
-        if(this.quoteForm.controls['energyCostFormControl'].value) {
-          const energyCost: number = Number(this.quoteForm.controls['energyCostFormControl']?.value)
-
-          const electricityUsed: number = printer.energyConsumption * energyCost * time;
-
-          this.quoteForm.controls['electricityCostSummaryFormControl'].setValue("" + electricityUsed.toFixed(2), {emitEvent: false});
-        }
-
-        // calculate deprecation cost
-        const deprecationCost: number = printer.depreciation * time
-        this.quoteForm.controls['printerDeprecationCostSummaryFormControl'].setValue("" + deprecationCost.toFixed(2), {emitEvent: false});
-
-        //calculate preparation cost
-        if(this.quoteForm.controls['preparationTimeTotalFormControl'].value && this.quoteForm.controls['laborCostFormControl'].value ) {
-          const prepTime: number = Number(this.quoteForm.controls['preparationTimeTotalFormControl']?.value)
-          const laborCost: number = Number(this.quoteForm.controls['laborCostFormControl']?.value)
-
-          const prepCost: number = prepTime / 60 * laborCost;
-
-          this.quoteForm.controls['preparationCostSummaryFormControl'].setValue("" + prepCost.toFixed(2), {emitEvent: false});
-        }
-
-        // calculate consumables cost
-        if(this.quoteForm.controls['consumablesFormControl'].value) {
-          this.quoteForm.controls['consumablesCostSummaryFormControl'].setValue(this.quoteForm.controls['consumablesFormControl'].value, {emitEvent: false})
-        } else {
-          this.quoteForm.controls['consumablesCostSummaryFormControl'].setValue("0", {emitEvent: false})
-        }
-
-        // calculate subtotal
-        const subtotal = filamentPrice + Number(this.quoteForm.controls['electricityCostSummaryFormControl'].value)
-          + deprecationCost + Number(this.quoteForm.controls['preparationCostSummaryFormControl'].value) + Number(this.quoteForm.controls['consumablesCostSummaryFormControl'].value)
-        this.quoteForm.controls['subtotalCostSummaryFormControl'].setValue(subtotal.toFixed(2), {emitEvent: false})
-
-        // calculate subtotal + failure rate % cost
-        if(this.quoteForm.controls['failureRateFormControl'].value) {
-          const subtotalWithFailures = subtotal * (Number(this.quoteForm.controls['failureRateFormControl'].value) / 100 + 1)
-          this.quoteForm.controls['subtotalWithFailuresCostSummaryFormControl'].setValue(subtotalWithFailures.toFixed(2), {emitEvent: false})
-        } else {
-          this.quoteForm.controls['subtotalWithFailuresCostSummaryFormControl'].setValue(subtotal.toFixed(2), {emitEvent: false})
-        }
-
-        // calculate suggested price with markup
-        if(this.quoteForm.controls['markupCostSummaryFormControl'].value && this.quoteForm.controls['markupCostSummaryFormControl'].value != "0") {
-          const suggestedPrice = Number(this.quoteForm.controls['subtotalWithFailuresCostSummaryFormControl'].value) * (Number(this.quoteForm.controls['markupCostSummaryFormControl'].value) / 100);
-          this.quoteForm.controls['suggestedPriceCostSummaryFormControl'].setValue(suggestedPrice.toFixed(2), {emitEvent: false})
-        } else {
-          this.quoteForm.controls['suggestedPriceCostSummaryFormControl'].setValue(this.quoteForm.controls['subtotalWithFailuresCostSummaryFormControl'].value, {emitEvent: false})
-        }
-
-        const filamentPercentage: number = (filamentPrice * 100) / subtotal;
-        const electricityPercentageNumber: number = (Number(this.quoteForm.controls['electricityCostSummaryFormControl'].value) * 100) / subtotal;
-        const preparationPercentageNumber: number = (Number(this.quoteForm.controls['preparationCostSummaryFormControl'].value) * 100) / subtotal;
-        const consumablesPercentageNumber: number = (Number(this.quoteForm.controls['consumablesCostSummaryFormControl'].value) * 100) / subtotal;
-        const depreciationPercentageNumber: number = (Number(this.quoteForm.controls['printerDeprecationCostSummaryFormControl'].value) * 100) / subtotal;
-
-        //display data to graph
-        this.saleData = [
-          { name: "Filament", value: Number(filamentPercentage.toFixed(2)) },
-          { name: "Electricity", value: Number(electricityPercentageNumber.toFixed(2)) },
-          { name: "Preparation", value: Number(preparationPercentageNumber.toFixed(2)) },
-          { name: "Consumables", value: Number(consumablesPercentageNumber.toFixed(2)) },
-          { name: "Printer depreciation", value: Number(depreciationPercentageNumber.toFixed(2)) },
-        ];
+        this.calculateQuote(this.filaments[Number(this.quoteForm.controls['filamentFormControl'].value)], this.printers[Number(this.quoteForm.controls['printerFormControl'].value)]);
       } else {
         //if form isn't valid, parse through controls to display them as invalid
         const controls = this.quoteForm.controls;
@@ -274,6 +193,59 @@ export class HomePageComponent implements AfterViewInit  {
       //called to trigger form value change event
       this.quoteForm.updateValueAndValidity()
     }
+  }
+
+  calculateQuote(filament: Filament, printer: Printer) {
+    // calculate preparation time
+    const modelPreparation: number = Number(this.quoteForm.controls['modelPreparationFormControl']?.value)
+    const slicing: number = Number(this.quoteForm.controls['slicingFormControl']?.value)
+    const materialChange: number = Number(this.quoteForm.controls['materialChangeFormControl']?.value)
+    const transferAndStart: number = Number(this.quoteForm.controls['transferAndStartFormControl']?.value)
+    const additionalWork: number = Number(this.quoteForm.controls['additionalWorkFormControl']?.value)
+
+    const preparationTime = modelPreparation + slicing + materialChange + transferAndStart + additionalWork;
+    this.quoteForm.controls['preparationTimeTotalFormControl'].setValue("" + preparationTime, {emitEvent: false});
+
+    const weight: number = Number(this.quoteForm.controls['printWeightFormControl']?.value);
+    const time: number = Number(this.quoteForm.controls['printTimeHoursFormControl']?.value)
+
+    const quoteRequest= new QuoteRequest(filament, printer);
+    quoteRequest.preparationTime = preparationTime;
+    quoteRequest.filamentWeight = weight;
+    quoteRequest.printingTime = time;
+    quoteRequest.energyCost = Number(this.quoteForm.controls['energyCostFormControl']?.value);
+    quoteRequest.laborCost = Number(this.quoteForm.controls['laborCostFormControl']?.value)
+    quoteRequest.consumablesCost = Number(this.quoteForm.controls['consumablesFormControl'].value)
+    quoteRequest.markupPercentage = Number(this.quoteForm.controls['markupCostSummaryFormControl'].value);
+
+    //call quoting service
+    const quoteResponse = this.quoteService.calculateQuote(quoteRequest);
+
+    //display data in form
+    this.quoteForm.controls['filamentCostSummaryFormControl'].setValue("" + quoteResponse.filamentPrice.toFixed(2), {emitEvent: false});
+    this.quoteForm.controls['electricityCostSummaryFormControl'].setValue("" + quoteResponse.electricityCost.toFixed(2), {emitEvent: false});
+    this.quoteForm.controls['printerDeprecationCostSummaryFormControl'].setValue("" + quoteResponse.deprecationCost.toFixed(2), {emitEvent: false});
+    this.quoteForm.controls['preparationCostSummaryFormControl'].setValue("" + quoteResponse.preparationCost.toFixed(2), {emitEvent: false});
+    this.quoteForm.controls['subtotalCostSummaryFormControl'].setValue(quoteResponse.subTotal.toFixed(2), {emitEvent: false})
+    this.quoteForm.controls['subtotalWithFailuresCostSummaryFormControl'].setValue(quoteResponse.subTotalWithFailures.toFixed(2), {emitEvent: false})
+    this.quoteForm.controls['consumablesCostSummaryFormControl'].setValue(quoteRequest.consumablesCost.toFixed(2), {emitEvent: false})
+    this.quoteForm.controls['suggestedPriceCostSummaryFormControl'].setValue(quoteResponse.suggestedPrice.toFixed(2), {emitEvent: false})
+
+    // calculate cost percentage to display in graph
+    const filamentPercentage: number = (quoteResponse.filamentPrice * 100) / quoteResponse.subTotal;
+    const electricityPercentageNumber: number = (Number(this.quoteForm.controls['electricityCostSummaryFormControl'].value) * 100) / quoteResponse.subTotal;
+    const preparationPercentageNumber: number = (Number(this.quoteForm.controls['preparationCostSummaryFormControl'].value) * 100) / quoteResponse.subTotal;
+    const consumablesPercentageNumber: number = (Number(this.quoteForm.controls['consumablesCostSummaryFormControl'].value) * 100) / quoteResponse.subTotal;
+    const depreciationPercentageNumber: number = (Number(this.quoteForm.controls['printerDeprecationCostSummaryFormControl'].value) * 100) / quoteResponse.subTotal;
+
+    //display data to graph
+    this.saleData = [
+      { name: "Filament", value: Number(filamentPercentage.toFixed(2)) },
+      { name: "Electricity", value: Number(electricityPercentageNumber.toFixed(2)) },
+      { name: "Preparation", value: Number(preparationPercentageNumber.toFixed(2)) },
+      { name: "Consumables", value: Number(consumablesPercentageNumber.toFixed(2)) },
+      { name: "Printer depreciation", value: Number(depreciationPercentageNumber.toFixed(2)) },
+    ];
   }
 
   labelFormatting(name: string) { // this symbol will contain the symbol you defined in chartData[]
