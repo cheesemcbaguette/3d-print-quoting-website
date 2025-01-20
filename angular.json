@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "3d-print-quoting-website:build:production"
+              "buildTarget": "3d-print-quoting-website:build:production"
             },
             "development": {
-              "browserTarget": "3d-print-quoting-website:build:development"
+              "buildTarget": "3d-print-quoting-website:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -79,7 +79,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "3d-print-quoting-website:build"
+            "buildTarget": "3d-print-quoting-website:build"
           }
         },
         "test": {
