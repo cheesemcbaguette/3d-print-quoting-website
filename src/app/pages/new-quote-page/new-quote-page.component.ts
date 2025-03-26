@@ -15,6 +15,7 @@ import {QuoteService} from "../../service/quote.service";
 import {debounceTime, distinctUntilChanged, filter, Observable, of, switchMap} from "rxjs";
 import {FindCustomerService} from "../../service/find-customer.service";
 import {map} from "rxjs/operators";
+import {Customer} from "../../model/customer";
 
 
 /**
@@ -93,7 +94,8 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 })
 export class NewQuotePageComponent implements AfterViewInit  {
 
-  customers$: Observable<string[]>;
+  customers$: Observable<Customer[]>;
+  selectedCustomer: Customer | null = null;
 
   @ViewChild('currencySelect') currencySelect!: ElementRef;
 
@@ -157,9 +159,19 @@ export class NewQuotePageComponent implements AfterViewInit  {
               public quoteService: QuoteService, private findCustomerService: FindCustomerService) {
 
     this.customers$ = this.quoteForm.controls.nameFormControl.valueChanges.pipe(
-      map(value => value?.trim() || ''), // Supprime les espaces vides et empêche null
-      distinctUntilChanged(), // Évite les requêtes inutiles si la valeur est identique
-      switchMap(value => value.length ? this.findCustomerService.search(value) : of([])) // Si vide, renvoie un tableau vide
+      // Prevents duplicate consecutive values from being emitted
+      distinctUntilChanged(),
+      // Handle both string and Customer object values
+      map((value: string | Customer | null) => {
+        if (typeof value === 'string') {
+          return value.trim();
+        }
+        return value?.name || '';
+      }),
+      // Only performs search if we have input text, otherwise returns empty array
+      switchMap(value => value.length > 0 ? this.findCustomerService.search(value) : of([])),
+      // Ensures we always have an array, even if the service returns null/undefined
+      map(customers => customers || [])
     );
   }
 
@@ -318,6 +330,29 @@ export class NewQuotePageComponent implements AfterViewInit  {
   }
 
   createNewCustomer(value: string | null) {
+    if (!value) return;
+    const trimmedValue = value.trim();
+    if (!trimmedValue) return;
+    
+    this.findCustomerService.createCustomer(trimmedValue).subscribe(customer => {
+      this.selectedCustomer = customer;
+      this.quoteForm.patchValue({
+        nameFormControl: customer.name
+      });
+    });
+  }
 
+  onCustomerSelected(customer: Customer) {
+    this.selectedCustomer = customer;
+    this.quoteForm.patchValue({
+      nameFormControl: customer.name
+    });
+  }
+
+  displayCustomerFn(customer: Customer | string): string {
+    if (typeof customer === 'string') {
+      return customer;
+    }
+    return customer?.name || '';
   }
 }
