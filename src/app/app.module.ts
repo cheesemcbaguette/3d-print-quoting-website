@@ -14,7 +14,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule, MatOptionModule} from '@angular/material/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { HomePageComponent } from './pages/home-page/home-page.component';
+import { NewQuotePageComponent } from './pages/new-quote-page/new-quote-page.component';
 import {FilamentPageComponent} from './pages/filament-page/filament-page.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from "@angular/material/table";
@@ -42,57 +42,63 @@ import {
 import {AboutPageComponent} from "./pages/about-page/about-page.component";
 import {MatIconButtonSizesModule} from "mat-icon-button-sizes";
 import {MatTooltip} from "@angular/material/tooltip";
+import {MyQuotesPageComponent} from "./pages/my-quotes-page/my-quotes-page.component";
+import {CustomersComponent} from "./pages/customers/customers.component";
+import {SettingsComponent} from "./pages/settings/settings.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomePageComponent,
+    NewQuotePageComponent,
     PrinterPageComponent,
     FilamentPageComponent,
     AddPrinterDialogComponent,
     DeletePrinterDialogComponent,
     AddFilamentDialogComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatTabsModule,
-        NgxChartsModule,
-        MatGridListModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        NgbModule,
-        FormsModule,
-        MatPaginatorModule,
-        MatTableModule,
-        MatSortModule,
-        MatSidenavModule,
-        MatIconModule,
-        MatListModule,
-        RouterLinkWithHref,
-        MatMenuModule,
-        MatDialogModule,
-        ReactiveFormsModule,
-        MatOptionModule,
-        MatSelectModule,
-        MatAccordion,
-        MatExpansionPanel,
-        MatExpansionPanelTitle,
-        MatExpansionPanelDescription,
-        MatExpansionPanelHeader,
-        AboutPageComponent,
-        RouterOutlet,
-        RouterModule.forRoot(routes),
-        MatIconButtonSizesModule,
-        MatTimepickerModule,
-        MatError,
-        MatIcon,
-        MatTooltip
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatTabsModule,
+    NgxChartsModule,
+    MatGridListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgbModule,
+    FormsModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    RouterLinkWithHref,
+    MatMenuModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription,
+    MatExpansionPanelHeader,
+    AboutPageComponent,
+    RouterOutlet,
+    RouterModule.forRoot(routes),
+    MatIconButtonSizesModule,
+    MatTimepickerModule,
+    MatError,
+    MatIcon,
+    MatTooltip,
+    MyQuotesPageComponent,
+    CustomersComponent,
+    SettingsComponent
+  ],
   providers: [provideNativeDateTimeAdapter()],
   bootstrap: [AppComponent]
 })

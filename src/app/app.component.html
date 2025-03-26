@@ -1,46 +1,69 @@
 <header class="pb-3 w-100">
   <mat-toolbar>
-      <button mat-icon-button class="mobile-menu" aria-label="Mobile menu button" [matMenuTriggerFor]="menu">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <h1 class="px-3">3d Print Quoting Website</h1>
-      <ul ngbNav class="header-nav nav">
-        <li [ngbNavItem]="1">
-          <a mat-button ngbNavLink routerLink="/home" routerLinkActive="active">Home</a>
-          <ng-template ngbNavContent>
-            <home-page></home-page>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="2">
-          <a mat-button ngbNavLink routerLink="/printers" routerLinkActive="active">Printers</a>
-          <ng-template ngbNavContent>
-            <printer-page class="row g-3"></printer-page>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="3">
-          <a mat-button ngbNavLink routerLink="/material" routerLinkActive="active">Material</a>
-          <ng-template ngbNavContent>
-            <filament-page class="row g-3"></filament-page>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="4">
-          <a mat-button ngbNavLink routerLink="/about" routerLinkActive="active">About</a>
-          <ng-template ngbNavContent>
-            <about-page></about-page>
-          </ng-template>
-        </li>
-      </ul>
+    <button mat-icon-button class="mobile-menu" aria-label="Mobile menu button" [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="container">
+      <div class="row">
+        <h1 class="px-3 col-3">3d Print Quoting Website</h1>
+        <ul ngbNav class="header-nav nav col-9">
+          <li [ngbNavItem]="1">
+            <a mat-button ngbNavLink routerLink="/my-quotes" routerLinkActive="active">Quotes</a>
+            <ng-template ngbNavContent>
+              <my-quotes></my-quotes>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a mat-button ngbNavLink routerLink="/customer" routerLinkActive="active">Customers</a>
+            <ng-template ngbNavContent>
+              <customers></customers>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="3">
+            <a mat-button ngbNavLink routerLink="/printers" routerLinkActive="active">Printers</a>
+            <ng-template ngbNavContent>
+              <printer-page class="row g-3"></printer-page>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="4">
+            <a mat-button ngbNavLink routerLink="/filaments" routerLinkActive="active">Filaments</a>
+            <ng-template ngbNavContent>
+              <filament-page class="row g-3"></filament-page>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="5">
+            <a mat-button ngbNavLink routerLink="/settings" routerLinkActive="active">Settings</a>
+            <ng-template ngbNavContent>
+              <settings class="row g-3"></settings>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="6">
+            <a mat-button ngbNavLink routerLink="/about" routerLinkActive="active">About</a>
+            <ng-template ngbNavContent>
+              <about-page></about-page>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+    </div>
 
     <mat-menu #menu="matMenu">
-      <button mat-menu-item routerLink="/home" routerLinkActive="active">
+      <button mat-menu-item routerLink="/my-quotes" routerLinkActive="active">
         <mat-icon>home</mat-icon>
-        <span>Home</span>
+        <span>Quotes</span>
+      </button>
+      <button mat-menu-item routerLink="/customers" routerLinkActive="active">
+        <mat-icon>home</mat-icon>
+        <span>Customers</span>
       </button>
       <button mat-menu-item routerLink="/printers" routerLinkActive="active">
         <span>Printers</span>
       </button>
-      <button mat-menu-item routerLink="/material" routerLinkActive="active">
-        <span>Material</span>
+      <button mat-menu-item routerLink="/filaments" routerLinkActive="active">
+        <span>Filaments</span>
+      </button>
+      <button mat-menu-item routerLink="/settings" routerLinkActive="active">
+        <span>Settings</span>
       </button>
       <button mat-menu-item routerLink="/about" routerLinkActive="active">
         <span>About</span>
@@ -55,21 +78,27 @@
 </div>
 
 <div class="container">
-  <footer class="py-3 my-4 text-white">
+  <footer class="py-3 text-white">
     <ul class="footer-nav nav justify-content-center border-bottom pb-1 mb-1">
       <li>
-        <a class="nav-link px-2 text-white" routerLink="/home" routerLinkActive="active">Home</a>
+        <a class="nav-link px-2 text-white" routerLink="/my-quotes" routerLinkActive="active">Quotes</a>
+      </li>
+      <li>
+        <a class="nav-link px-2 text-white" routerLink="/customers" routerLinkActive="active">Customers</a>
       </li>
       <li>
         <a class="nav-link px-2 text-white" routerLink="/printers" routerLinkActive="active">Printers</a>
       </li>
       <li>
-        <a class="nav-link px-2 text-white" routerLink="/material" routerLinkActive="active">Material</a>
+        <a class="nav-link px-2 text-white" routerLink="/filaments" routerLinkActive="active">Filaments</a>
+      </li>
+      <li>
+        <a class="nav-link px-2 text-white" routerLink="/settings" routerLinkActive="active">Settings</a>
       </li>
       <li>
         <a class="nav-link px-2 text-white" routerLink="/about" routerLinkActive="active">About</a>
       </li>
     </ul>
-    <p class="text-center text-white">© 2024 CheeseMcBaguette, Inc</p>
+    <p class="text-center text-white">© 2025 CheeseMcBaguette, Inc</p>
   </footer>
 </div>

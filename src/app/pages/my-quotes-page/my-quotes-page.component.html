@@ -1,0 +1,58 @@
+<div class="row g-3">
+  <div class="col-12 px-0">
+    <button type="button" mat-raised-button routerLink="/new-quote">
+      <mat-icon class="add">add</mat-icon>
+      New quote
+    </button>
+  </div>
+
+  <div class="col-12 px-0 mat-elevation-z8 div-table" *ngIf="dataSource">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <!-- Customer Name Column -->
+      <ng-container matColumnDef="customerName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="customerName"> Customer Name </th>
+        <td mat-cell *matCellDef="let row"> {{row.customerName}} </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="date"> Date </th>
+        <td mat-cell *matCellDef="let row"> {{row.date}} </td>
+      </ng-container>
+
+      <!-- Cost Column -->
+      <ng-container matColumnDef="cost">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="cost"> Cost </th>
+        <td mat-cell *matCellDef="let row"> {{row.cost}} </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="status"> Status </th>
+        <td mat-cell *matCellDef="let row"> {{row.status}} </td>
+      </ng-container>
+
+      <!-- Actions Column-->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header="actions"> Actions </th>
+        <td mat-cell *matCellDef="let row;  let i = index;">
+          <button mat-icon-button mat-medium-icon-button>
+            <mat-icon class="edit">edit</mat-icon>
+          </button>
+          <button mat-icon-button mat-medium-icon-button>
+            <mat-icon class="delete">delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <!-- Row shown when there is no matching data. -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">No data</td>
+      </tr>
+    </table>
+  </div>
+</div>

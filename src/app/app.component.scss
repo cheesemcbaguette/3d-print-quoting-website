@@ -3,7 +3,7 @@
 @import "../theme.scss";
 
 .main {
-  min-height: 1000px;
+  flex: 1; /* Prend toute la place disponible */
 }
 
 .title-center {

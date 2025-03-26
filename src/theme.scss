@@ -16,8 +16,19 @@ $my-app-theme: mat.define-theme((
 
 html {
   @include mat.all-component-themes($my-app-theme);
-  height: 100%;
+}
 
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 100% de la hauteur de l'écran */
 }
 
 body {
