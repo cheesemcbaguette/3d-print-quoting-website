@@ -12,6 +12,9 @@ import {CURRENCIES} from "../../../assets/currencies-data";
 import {FileUtils} from "../../utils/FileUtils";
 import {QuoteRequest} from "../../model/quote-request";
 import {QuoteService} from "../../service/quote.service";
+import {debounceTime, distinctUntilChanged, filter, Observable, of, switchMap} from "rxjs";
+import {FindCustomerService} from "../../service/find-customer.service";
+import {map} from "rxjs/operators";
 
 
 /**
@@ -90,11 +93,11 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 })
 export class NewQuotePageComponent implements AfterViewInit  {
 
+  customers$: Observable<string[]>;
+
   @ViewChild('currencySelect') currencySelect!: ElementRef;
 
   @ViewChild('filamentSelect') filamentSelect!: ElementRef;
-
-  @ViewChild('fileInput') fileInput!: ElementRef;
 
   printers: Printer[] | undefined;
   filaments: Filament[] | undefined;
@@ -149,8 +152,15 @@ export class NewQuotePageComponent implements AfterViewInit  {
     suggestedPriceCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
   });
 
+  constructor(private printersService: PrintersService, private currencyService: CurrencyService,
+              public filamentsService: FilamentsService, public localService: LocalService,
+              public quoteService: QuoteService, private findCustomerService: FindCustomerService) {
 
-  constructor(private printersService: PrintersService, private currencyService: CurrencyService, public filamentsService: FilamentsService, public localService: LocalService, public quoteService: QuoteService) {
+    this.customers$ = this.quoteForm.controls.nameFormControl.valueChanges.pipe(
+      map(value => value?.trim() || ''), // Supprime les espaces vides et empêche null
+      distinctUntilChanged(), // Évite les requêtes inutiles si la valeur est identique
+      switchMap(value => value.length ? this.findCustomerService.search(value) : of([])) // Si vide, renvoie un tableau vide
+    );
   }
 
   ngAfterViewInit(): void {
@@ -307,38 +317,7 @@ export class NewQuotePageComponent implements AfterViewInit  {
     this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency.code, {emitEvent: false})
   }
 
-  exportForm() {
-    const jsonString = JSON.stringify(this.quoteForm.value, null, 2); // Convert JSON object to string
-    FileUtils.createAndDownloadFile(jsonString, "quote.json")
-  }
+  createNewCustomer(value: string | null) {
 
-  importForm(event: Event) {
-    const input = event.target as HTMLInputElement;
-    const file = input.files?.[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsText(file);
-      reader.onload = () => {
-        try {
-          const resultAsJson = reader.result as string
-          const result = JSON.parse(resultAsJson)
-          this.quoteForm.patchValue(result, {emitEvent: true})
-
-          if (this.quoteForm.controls.printerFormControl.value != null) {
-            this.selectedPrinter = this.printers?.[Number(this.quoteForm.controls.printerFormControl.value)];
-          }
-
-          this.filaments = this.filamentsService.getCompatibleFilamentsForAPrinter(<Printer>this.selectedPrinter)
-
-          //called to trigger form value change event
-          this.quoteForm.updateValueAndValidity()
-
-          console.log('Quote imported'); // JSON data is now stored in the jsonData variable
-        } catch (e) {
-          console.error('Error parsing JSON', e);
-        }
-      };
-    }
   }
 }

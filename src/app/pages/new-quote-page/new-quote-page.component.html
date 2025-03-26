@@ -1,23 +1,29 @@
 <form [formGroup]="quoteForm" class="row g-3">
-  <div class="col-12">
-    <button type="button" class="me-1" mat-fab extended (click)="resetForm()">
-      <mat-icon class="delete">delete</mat-icon>
-      Reset Quote
-    </button>
-    <button type="button" class="mx-1" mat-fab extended (click)="fileInput.click()">
-      <input #fileInput type="file" accept="application/json" hidden (change)="importForm($event)">
-      <mat-icon class="delete">upload</mat-icon>
-      Import Quote
-    </button>
-    <button type="button" class="mx-1" mat-fab extended (click)="exportForm()">
-      <mat-icon class="delete">download</mat-icon>
-      Download Quote Data
-    </button>
-    <button type="button" class="mx-1" mat-fab extended>
-      <mat-icon class="delete">download</mat-icon>
-      Export to PDF
-    </button>
-  </div>
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>Customer Details</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="mt-3">
+      <mat-form-field appearance="fill" class="col-12" floatLabel="always">
+        <mat-label>Which customer ?</mat-label>
+        <input matInput type="search" maxlength="50" [formControl]="quoteForm.controls.nameFormControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <ng-container *ngIf="(customers$ | async)?.length; else noOptions">
+            <mat-option *ngFor="let customer of customers$ | async" [value]="customer">
+              {{ customer }}
+            </mat-option>
+          </ng-container>
+          <ng-template #noOptions>
+            <mat-option *ngIf="quoteForm.controls.nameFormControl.value?.trim()?.length" (click)="createNewCustomer(quoteForm.controls.nameFormControl.value)">
+              Create customer "{{ quoteForm.controls.nameFormControl.value }}"
+            </mat-option>
+          </ng-template>
+        </mat-autocomplete>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+
   <mat-accordion multi class="col-12">
     <mat-expansion-panel expanded>
       <mat-expansion-panel-header>

@@ -45,6 +45,8 @@ import {MatTooltip} from "@angular/material/tooltip";
 import {MyQuotesPageComponent} from "./pages/my-quotes-page/my-quotes-page.component";
 import {CustomersComponent} from "./pages/customers/customers.component";
 import {SettingsComponent} from "./pages/settings/settings.component";
+import {MatAutocomplete, MatAutocompleteTrigger} from "@angular/material/autocomplete";
+import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from "@angular/material/card";
 
 @NgModule({
   declarations: [
@@ -97,7 +99,14 @@ import {SettingsComponent} from "./pages/settings/settings.component";
     MatTooltip,
     MyQuotesPageComponent,
     CustomersComponent,
-    SettingsComponent
+    SettingsComponent,
+    MatAutocomplete,
+    MatAutocompleteTrigger,
+    MatCard,
+    MatCardTitle,
+    MatCardHeader,
+    MatCardActions,
+    MatCardContent
   ],
   providers: [provideNativeDateTimeAdapter()],
   bootstrap: [AppComponent]
