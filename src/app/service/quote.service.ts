@@ -28,7 +28,7 @@ export class QuoteService {
       + quoteResponse.deprecationCost + quoteResponse.preparationCost + quoteRequest.consumablesCost
 
     // calculate subtotal + failure rate % cost
-    if(quoteRequest.failureRate) {
+    if(quoteRequest.failureRate && quoteRequest.failureRate != 0) {
       quoteResponse.subTotalWithFailures = quoteResponse.subTotal * (quoteRequest.failureRate / 100 + 1);
     } else {
       quoteResponse.subTotalWithFailures = quoteResponse.subTotal;
@@ -36,7 +36,7 @@ export class QuoteService {
 
     // calculate suggested price with markup
     if(quoteRequest.markupPercentage && quoteRequest.markupPercentage != 0) {
-      quoteResponse.suggestedPrice = quoteResponse.subTotalWithFailures * (quoteRequest.markupPercentage / 100);
+      quoteResponse.suggestedPrice = quoteResponse.subTotalWithFailures * (quoteRequest.markupPercentage / 100 + 1);
     } else {
       quoteResponse.suggestedPrice = quoteResponse.subTotalWithFailures;
     }

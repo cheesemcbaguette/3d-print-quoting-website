@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Injectable, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Injectable, TemplateRef, ViewChild} from '@angular/core';
 import {NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 import {Printer} from "../../model/printer";
 import {PrintersService} from "../../service/printers.service";
@@ -9,97 +9,27 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {LocalService} from "../../service/local.service";
 import {Currency} from "../../model/currency";
 import {CURRENCIES} from "../../../assets/currencies-data";
-import {FileUtils} from "../../utils/FileUtils";
 import {QuoteRequest} from "../../model/quote-request";
 import {QuoteService} from "../../service/quote.service";
-import {debounceTime, distinctUntilChanged, filter, Observable, of, switchMap} from "rxjs";
+import {distinctUntilChanged, Observable, of, switchMap} from "rxjs";
 import {FindCustomerService} from "../../service/find-customer.service";
 import {map} from "rxjs/operators";
 import {Customer} from "../../model/customer";
+import {MatDialog} from "@angular/material/dialog";
 
-
-/**
- * This Service handles how the date is represented in scripts i.e. ngModel.
- */
-@Injectable()
-export class CustomAdapter extends NgbDateAdapter<string> {
-
-  readonly DELIMITER = '-';
-
-  fromModel(value: string | null): NgbDateStruct | null {
-    if (value) {
-      const date = value.split(this.DELIMITER);
-      return {
-        day : parseInt(date[0], 10),
-        month : parseInt(date[1], 10),
-        year : parseInt(date[2], 10)
-      };
-    }
-    return null;
-  }
-
-  toModel(date: NgbDateStruct | null): string | null {
-    return date ? date.day + this.DELIMITER + date.month + this.DELIMITER + date.year : null;
-  }
-}
-
-/**
- * This Service handles how the date is rendered and parsed from keyboard i.e. in the bound input field.
- */
-@Injectable()
-export class CustomDateParserFormatter extends NgbDateParserFormatter {
-
-  readonly DELIMITER = '/';
-
-
-  parse(value: string): NgbDateStruct | null {
-    if (value) {
-      const date = value.split(this.DELIMITER);
-      return {
-        day : parseInt(date[0], 10),
-        month : parseInt(date[1], 10),
-        year : parseInt(date[2], 10)
-      };
-    }
-    return null;
-  }
-
-  format(date: NgbDateStruct | null): string {
-    let formattedValue = ''
-    if(date) {
-      formattedValue = date.day + this.DELIMITER;
-      if(date.month < 10) {
-        formattedValue = formattedValue + "0" + date.month + this.DELIMITER + date.year;
-      } else {
-        formattedValue = formattedValue + date.month + this.DELIMITER + date.year;
-      }
-
-    }
-
-    return formattedValue;
-  }
-}
 
 @Component({
   selector: 'new-quote-page',
   templateUrl: './new-quote-page.component.html',
   styleUrls: ['./new-quote-page.component.scss'],
-
-  // NOTE: For this example we are only providing current component, but probably
-  // NOTE: you will want to provide your main App Module
-  providers: [
-    {provide: NgbDateAdapter, useClass: CustomAdapter},
-    {provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter}
-  ]
 })
 export class NewQuotePageComponent implements AfterViewInit  {
 
   customers$: Observable<Customer[]>;
   selectedCustomer: Customer | null = null;
 
-  @ViewChild('currencySelect') currencySelect!: ElementRef;
-
   @ViewChild('filamentSelect') filamentSelect!: ElementRef;
+  @ViewChild('costBreakdownDialog') costBreakdownDialog!: TemplateRef<any>;
 
   printers: Printer[] | undefined;
   filaments: Filament[] | undefined;
@@ -135,13 +65,9 @@ export class NewQuotePageComponent implements AfterViewInit  {
     materialChangeFormControl: new FormControl("", []),
     transferAndStartFormControl: new FormControl("", []),
     additionalWorkFormControl: new FormControl("", []),
-    preparationTimeTotalFormControl: new FormControl({value: "0", disabled: true}),
 
     consumablesFormControl: new FormControl("", []),
-    energyCostFormControl: new FormControl("", [Validators.required,]),
-    laborCostFormControl: new FormControl("", []),
     failureRateFormControl: new FormControl("", []),
-    currencyFormControl: new FormControl("", []),
 
     filamentCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
     electricityCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
@@ -150,13 +76,14 @@ export class NewQuotePageComponent implements AfterViewInit  {
     consumablesCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
     subtotalCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
     subtotalWithFailuresCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
-    markupCostSummaryFormControl: new FormControl("120", []),
+    markupCostSummaryFormControl: new FormControl("0", []),
     suggestedPriceCostSummaryFormControl: new FormControl({value: "0", disabled: true}),
   });
 
   constructor(private printersService: PrintersService, private currencyService: CurrencyService,
               public filamentsService: FilamentsService, public localService: LocalService,
-              public quoteService: QuoteService, private findCustomerService: FindCustomerService) {
+              public quoteService: QuoteService, private findCustomerService: FindCustomerService,
+              private dialog: MatDialog) {
 
     this.customers$ = this.quoteForm.controls.nameFormControl.valueChanges.pipe(
       // Prevents duplicate consecutive values from being emitted
@@ -178,8 +105,6 @@ export class NewQuotePageComponent implements AfterViewInit  {
   ngAfterViewInit(): void {
     this.printers = this.printersService.getPrinters();
     this.selectedCurrency = this.currencyService.getCurrency();
-    //set currency from cache
-    this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency.code, {emitEvent: false})
 
     //calculate quote on code change if the form is valid
     this.quoteForm.valueChanges.subscribe(value => {
@@ -226,7 +151,6 @@ export class NewQuotePageComponent implements AfterViewInit  {
     const additionalWork: number = Number(this.quoteForm.controls['additionalWorkFormControl']?.value)
 
     const preparationTime = modelPreparation + slicing + materialChange + transferAndStart + additionalWork;
-    this.quoteForm.controls['preparationTimeTotalFormControl'].setValue("" + preparationTime, {emitEvent: false});
 
     const weight: number = Number(this.quoteForm.controls['printWeightFormControl']?.value);
     const time: number = Number(this.quoteForm.controls['printTimeHoursFormControl']?.value)
@@ -235,9 +159,10 @@ export class NewQuotePageComponent implements AfterViewInit  {
     quoteRequest.preparationTime = preparationTime;
     quoteRequest.filamentWeight = weight;
     quoteRequest.printingTime = time;
-    quoteRequest.energyCost = Number(this.quoteForm.controls['energyCostFormControl']?.value);
-    quoteRequest.laborCost = Number(this.quoteForm.controls['laborCostFormControl']?.value)
-    quoteRequest.consumablesCost = Number(this.quoteForm.controls['consumablesFormControl'].value)
+    quoteRequest.energyCost = 0.20;
+    quoteRequest.laborCost = 25;
+    quoteRequest.failureRate = Number(this.quoteForm.controls['failureRateFormControl'].value)
+    quoteRequest.consumablesCost = Number(this.quoteForm.controls['consumablesFormControl'].value);
     quoteRequest.markupPercentage = Number(this.quoteForm.controls['markupCostSummaryFormControl'].value);
 
     //call quoting service
@@ -309,26 +234,6 @@ export class NewQuotePageComponent implements AfterViewInit  {
     }
   }
 
-  resetForm() {
-    //specify default value for disabled fields
-    this.quoteForm.reset({
-      preparationTimeTotalFormControl: "0",
-      filamentCostSummaryFormControl: "0",
-      electricityCostSummaryFormControl: "0",
-      preparationCostSummaryFormControl: "0",
-      printerDeprecationCostSummaryFormControl: "0",
-      consumablesCostSummaryFormControl: "0",
-      subtotalCostSummaryFormControl: "0",
-      subtotalWithFailuresCostSummaryFormControl: "0",
-      suggestedPriceCostSummaryFormControl: "0",
-      markupCostSummaryFormControl: "100",
-    });
-    this.localService.removeItem("form")
-    this.selectedCurrency = this.currencyService.getDefaultCurrency();
-    //set currency from cache
-    this.quoteForm.get("currencyFormControl")?.setValue(this.selectedCurrency.code, {emitEvent: false})
-  }
-
   createNewCustomer(value: string | null) {
     if (!value) return;
     const trimmedValue = value.trim();
@@ -344,9 +249,6 @@ export class NewQuotePageComponent implements AfterViewInit  {
 
   onCustomerSelected(customer: Customer) {
     this.selectedCustomer = customer;
-    // this.quoteForm.patchValue({
-    //   nameFormControl: customer.name
-    // });
   }
 
   displayCustomerFn(customer: Customer | string): string {
@@ -354,5 +256,16 @@ export class NewQuotePageComponent implements AfterViewInit  {
       return customer;
     }
     return customer?.name || '';
+  }
+
+  openCostBreakdownDialog() {
+    this.dialog.open(this.costBreakdownDialog, {
+      width: '1500px',
+      height: '550px'
+    });
+  }
+
+  createQuote() {
+    // This method is intentionally left empty as per requirements
   }
 }
