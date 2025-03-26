@@ -16,6 +16,8 @@
               </div>
             </mat-option>
           </ng-container>
+
+          <!--          Display option to create a new customer-->
           <ng-template #noOptions>
             <mat-option *ngIf="quoteForm.controls.nameFormControl.value?.trim()?.length" (click)="createNewCustomer(quoteForm.controls.nameFormControl.value)">
               <div class="d-flex align-items-center">
@@ -26,6 +28,17 @@
           </ng-template>
         </mat-autocomplete>
       </mat-form-field>
+
+      <!--      Display selected customer details-->
+      <div *ngIf="selectedCustomer" class="mt-2">
+        <div class="d-flex align-items-center">
+          <mat-icon class="me-2">person</mat-icon>
+          <div>
+            <div class="fw-bold">{{selectedCustomer.name}}</div>
+            <div class="text-muted small" *ngIf="selectedCustomer.email">{{selectedCustomer.email}}</div>
+          </div>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
 

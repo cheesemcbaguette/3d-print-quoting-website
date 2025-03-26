@@ -333,7 +333,7 @@ export class NewQuotePageComponent implements AfterViewInit  {
     if (!value) return;
     const trimmedValue = value.trim();
     if (!trimmedValue) return;
-    
+
     this.findCustomerService.createCustomer(trimmedValue).subscribe(customer => {
       this.selectedCustomer = customer;
       this.quoteForm.patchValue({
@@ -344,9 +344,9 @@ export class NewQuotePageComponent implements AfterViewInit  {
 
   onCustomerSelected(customer: Customer) {
     this.selectedCustomer = customer;
-    this.quoteForm.patchValue({
-      nameFormControl: customer.name
-    });
+    // this.quoteForm.patchValue({
+    //   nameFormControl: customer.name
+    // });
   }
 
   displayCustomerFn(customer: Customer | string): string {
