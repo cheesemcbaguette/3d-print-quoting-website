@@ -59,6 +59,7 @@ export class NewQuotePageComponent implements AfterViewInit  {
     dateFormControl: new FormControl("", []),
     descriptionFormControl: new FormControl("", []),
     printTimeHoursFormControl: new FormControl("", [Validators.required,]),
+    quantityFormControl: new FormControl("1", []),
 
     modelPreparationFormControl: new FormControl("", []),
     slicingFormControl: new FormControl("", []),
@@ -164,6 +165,7 @@ export class NewQuotePageComponent implements AfterViewInit  {
     quoteRequest.failureRate = Number(this.quoteForm.controls['failureRateFormControl'].value)
     quoteRequest.consumablesCost = Number(this.quoteForm.controls['consumablesFormControl'].value);
     quoteRequest.markupPercentage = Number(this.quoteForm.controls['markupCostSummaryFormControl'].value);
+    quoteRequest.quantity = Number(this.quoteForm.controls['quantityFormControl'].value);
 
     //call quoting service
     const quoteResponse = this.quoteService.calculateQuote(quoteRequest);

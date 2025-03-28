@@ -10,6 +10,7 @@ export class QuoteRequest {
   consumablesCost: number = 0;
   failureRate: number = 0;
   markupPercentage: number = 0;
+  quantity: number = 0;
 
   filament: Filament;
   printer: Printer;

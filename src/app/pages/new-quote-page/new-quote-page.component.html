@@ -47,14 +47,22 @@
       <mat-card-title>General Print Details</mat-card-title>
     </mat-card-header>
     <mat-card-content class="mt-3">
-      <!--      Quote issued date form field-->
-      <mat-form-field appearance="fill" class="col-3" floatLabel="always">
-        <mat-label>Date issued DD/MM/YYYY</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="dateFormControl" maxlength="50">
+      <div class="row">
+        <!--      Quote issued date form field-->
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Date issued DD/MM/YYYY</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dateFormControl" maxlength="50">
 
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker ></mat-datepicker>
-      </mat-form-field>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker ></mat-datepicker>
+        </mat-form-field>
+
+        <!--      Print quantity-->
+        <mat-form-field appearance="fill" class="col-6" floatLabel="always">
+          <mat-label>Quantity</mat-label>
+          <input type="number" min="1" matInput placeholder="Number of prints to quote" formControlName="quantityFormControl">
+        </mat-form-field>
+      </div>
 
       <!--      Print description-->
       <mat-form-field class="col-12" floatLabel="always" appearance="fill">
@@ -182,7 +190,7 @@
     </mat-card-content>
   </mat-card>
 
-<!--  Cost Summary Card-->
+  <!--  Cost Summary Card-->
   <mat-card appearance="outlined">
     <mat-card-header>
       <mat-card-title>Cost Summary</mat-card-title>
